@@ -543,9 +543,9 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
         first.style.setProperty('--dx','0px'); first.style.setProperty('--dy','0px');
         second.style.setProperty('--dx','0px'); second.style.setProperty('--dy','0px');
         E.swap(state.board,a.r,a.c,b.r,b.c);
-        setTimeout(function(){renderBoard(); state.busy=false;},200);
+        setTimeout(function(){renderBoard(); state.busy=false;},120);
       }
-    },200);
+    },120);
   }
 
   function cascadeStep(){
@@ -562,9 +562,9 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
       state.board = E.collapseAndRefill(state.board);
       saveProgress();
       renderBoard(distances);
-      if (state.collected >= level().count){ setTimeout(finishLevel, 240); return; }
-      setTimeout(cascadeStep, 250);
-    }, 240);
+      if (state.collected >= level().count){ setTimeout(finishLevel, 150); return; }
+      setTimeout(cascadeStep, 100);
+    }, 150);
   }
 
   function finishTurn(){
