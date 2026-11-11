@@ -536,6 +536,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
     first.classList.add('swap-motion'); second.classList.add('swap-motion');
     E.swap(state.board, a.r,a.c,b.r,b.c);
     const valid = E.hasMatch(state.board);
+    (window.__log = window.__log || []).push('swap:'+valid);
     if (valid){ saveProgress(); }
     setTimeout(function(){
       if(valid){ renderBoard(); cascadeStep(); }
@@ -550,6 +551,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
 
   function cascadeStep(){
     const m = E.findMatches(state.board);
+    (window.__log = window.__log || []).push('cs:m'+m.length);
     if (m.length === 0){ finishTurn(); return; }
     let cleared = 0;
     m.forEach(function(cell){ if (state.board[cell[0]][cell[1]] === level().target) cleared++; });
@@ -562,12 +564,14 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
       state.board = E.collapseAndRefill(state.board);
       saveProgress();
       renderBoard(distances);
+      (window.__log = window.__log || []).push('collapsed');
       if (state.collected >= level().count){ setTimeout(finishLevel, 150); return; }
       setTimeout(cascadeStep, 100);
     }, 150);
   }
 
   function finishTurn(){
+    (window.__log = window.__log || []).push('ft');
     if (!E.findMove(state.board)){
       state.board = E.shuffleBoard(level().target);
       renderBoard();
