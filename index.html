@@ -453,7 +453,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
 
   // ---- progress ----
   function saveProgress(){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ levelIndex:state.levelIndex, collected:state.collected })); }catch(e){}
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ levelIndex:state.levelIndex, collected:state.collected, board:state.board })); }catch(e){}
   }
   function loadProgress(){
     try{
@@ -465,7 +465,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
   function clearProgress(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
   function hasProgress(){
     const p = loadProgress();
-    return !!(p && (p.levelIndex > 0 || p.collected > 0));
+    return !!(p && (p.levelIndex > 0 || p.collected > 0 || p.board));
   }
   function refreshStartButton(){
     el('btn-start').textContent = hasProgress() ? 'ממשיכים' : 'מתחילים';
@@ -699,10 +699,11 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
   // ---- wiring ----
   el('btn-start').addEventListener('click', function(){
     const p = loadProgress();
-    if (p && (p.levelIndex > 0 || p.collected > 0)){
+    if (p && (p.levelIndex > 0 || p.collected > 0 || p.board)){
       state.levelIndex = p.levelIndex;
       state.collected = p.collected;
-      state.board = null; state.pending = false;
+      const validBoard = Array.isArray(p.board) && p.board.length === E.ROWS && p.board.every(function(row){ return Array.isArray(row) && row.length === E.COLS && row.every(function(t){ return E.TYPES.includes(t); }); });
+      state.board = validBoard && (!E.hasMatch(p.board) && E.findMove(p.board)) ? p.board : null;
       showIntro();
     } else {
       clearProgress();
