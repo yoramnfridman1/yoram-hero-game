@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <!-- Original fruit artwork. All symbols use the same 64 × 64 coordinate space. -->
+    <radialGradient id="fruit-grad-red" cx="32%" cy="23%" r="76%"><stop stop-color="#ffaba1"/><stop offset=".34" stop-color="#ed4548"/><stop offset=".76" stop-color="#bf172d"/><stop offset="1" stop-color="#781329"/></radialGradient>
+    <radialGradient id="fruit-grad-orange" cx="31%" cy="22%" r="78%"><stop stop-color="#fff1a2"/><stop offset=".32" stop-color="#ffbc39"/><stop offset=".76" stop-color="#ee7b14"/><stop offset="1" stop-color="#ad4010"/></radialGradient>
+    <radialGradient id="fruit-grad-purple" cx="30%" cy="20%" r="80%"><stop stop-color="#e7b4ed"/><stop offset=".34" stop-color="#a850b5"/><stop offset=".8" stop-color="#6b2583"/><stop offset="1" stop-color="#421350"/></radialGradient>
+    <radialGradient id="fruit-grad-peach" cx="27%" cy="19%" r="79%"><stop stop-color="#fff1bb"/><stop offset=".36" stop-color="#ffbd82"/><stop offset=".72" stop-color="#f17c74"/><stop offset="1" stop-color="#c24953"/></radialGradient>
+    <radialGradient id="fruit-grad-yellow" cx="30%" cy="18%" r="86%"><stop stop-color="#fff5b1"/><stop offset=".42" stop-color="#f8cf4c"/><stop offset=".8" stop-color="#d99623"/><stop offset="1" stop-color="#9a5e16"/></radialGradient>
+    <radialGradient id="fruit-grad-kiwi" cx="35%" cy="25%" r="74%"><stop stop-color="#edf3af"/><stop offset=".43" stop-color="#a5d359"/><stop offset=".8" stop-color="#6da73d"/><stop offset="1" stop-color="#3c6f2e"/></radialGradient>
+    <linearGradient id="fruit-grad-leaf" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a5cf68"/><stop offset=".48" stop-color="#4d963f"/><stop offset="1" stop-color="#25602d"/></linearGradient>
+    <linearGradient id="fruit-grad-rind" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#78b64b"/><stop offset="1" stop-color="#276338"/></linearGradient>
+
+    <symbol id="fruit-apple" viewBox="0 0 64 64">
+      <path d="M32 17 C20 9 8 17 9 30 C10 41 16 54 24 56 C27 57 30 55 32 55 C35 55 38 57 41 56 C49 54 55 41 55 30 C55 17 44 10 32 17Z" fill="url(#fruit-grad-red)" stroke="#872333" stroke-width="1.5"/>
+      <path d="M32 18 Q31 11 34 7" fill="none" stroke="#593b25" stroke-width="3" stroke-linecap="round"/>
+      <path d="M33 13 Q36 3 47 6 Q44 15 33 15Z" fill="url(#fruit-grad-leaf)" stroke="#346b32" stroke-width="1"/>
+      <path d="M15 27 Q16 21 21 20" fill="none" stroke="#fff5e9" stroke-opacity=".7" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M16 43 Q22 53 29 52" fill="none" stroke="#ffb1a5" stroke-opacity=".3" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="fruit-grape" viewBox="0 0 64 64">
+      <path d="M31 16 Q30 9 34 6" fill="none" stroke="#5a422c" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M32 14 Q34 5 45 7 Q44 14 34 16Z" fill="url(#fruit-grad-leaf)" stroke="#346b32" stroke-width="1"/>
+      <g fill="url(#fruit-grad-purple)" stroke="#612573" stroke-width=".8"><circle cx="22" cy="23" r="8"/><circle cx="33" cy="22" r="8"/><circle cx="43" cy="24" r="8"/><circle cx="18" cy="33" r="7.5"/><circle cx="29" cy="33" r="8"/><circle cx="40" cy="34" r="8"/><circle cx="24" cy="43" r="7"/><circle cx="35" cy="44" r="7.5"/><circle cx="30" cy="52" r="6"/></g>
+      <path d="M18 21q1-3 4-3 M27 31q1-3 4-3 M33 42q1-3 4-3" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="fruit-orange" viewBox="0 0 64 64">
+      <circle cx="32" cy="34" r="22" fill="url(#fruit-grad-orange)" stroke="#b45a15" stroke-width="1.5"/>
+      <path d="M31 13 Q31 9 33 7" fill="none" stroke="#6a4c2b" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M32 14 Q35 5 45 7 Q44 14 33 16Z" fill="url(#fruit-grad-leaf)" stroke="#346b32" stroke-width="1"/>
+      <path d="M16 28q2-7 8-9" fill="none" stroke="#fff7d1" stroke-opacity=".7" stroke-width="2.5" stroke-linecap="round"/>
+      <g fill="#a84e0c" opacity=".24"><circle cx="28" cy="25" r=".8"/><circle cx="37" cy="22" r=".7"/><circle cx="42" cy="30" r=".8"/><circle cx="25" cy="35" r=".7"/><circle cx="35" cy="39" r=".8"/><circle cx="44" cy="40" r=".7"/><circle cx="23" cy="44" r=".7"/></g>
+    </symbol>
+    <symbol id="fruit-strawberry" viewBox="0 0 64 64">
+      <path d="M32 18 C20 12 11 18 12 29 C13 41 23 53 32 57 C41 53 51 41 52 29 C53 18 44 12 32 18Z" fill="url(#fruit-grad-red)" stroke="#9e2933" stroke-width="1.5"/>
+      <path d="M32 19 Q24 12 16 15 L22 22 L17 25 Q26 25 32 21 Q38 25 47 25 L42 21 L48 15 Q39 12 32 19Z" fill="url(#fruit-grad-leaf)" stroke="#397437" stroke-width="1"/>
+      <path d="M32 18v-6" stroke="#47713a" stroke-width="2" stroke-linecap="round"/>
+      <g fill="#ffdf92" opacity=".9"><ellipse cx="21" cy="29" rx="1" ry="1.7" transform="rotate(-25 21 29)"/><ellipse cx="30" cy="28" rx="1" ry="1.7"/><ellipse cx="40" cy="29" rx="1" ry="1.7" transform="rotate(25 40 29)"/><ellipse cx="25" cy="37" rx="1" ry="1.7"/><ellipse cx="35" cy="37" rx="1" ry="1.7"/><ellipse cx="42" cy="37" rx="1" ry="1.7"/><ellipse cx="30" cy="45" rx="1" ry="1.7"/><ellipse cx="37" cy="45" rx="1" ry="1.7"/></g>
+      <path d="M17 29q0-4 3-6" fill="none" stroke="#fff6e9" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="fruit-peach" viewBox="0 0 64 64">
+      <path d="M32 18 C25 10 11 15 9 28 C7 43 18 55 32 57 C46 55 57 43 55 28 C53 15 39 10 32 18Z" fill="url(#fruit-grad-peach)" stroke="#be675e" stroke-width="1.4"/>
+      <path d="M32 18 Q30 31 33 45 Q34 50 32 55" fill="none" stroke="#bf6260" stroke-opacity=".48" stroke-width="1.8"/>
+      <path d="M32 18 Q30 12 32 8" fill="none" stroke="#74512d" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M32 15 Q36 6 46 8 Q44 16 33 17Z" fill="url(#fruit-grad-leaf)" stroke="#397437" stroke-width="1"/>
+      <path d="M15 29q2-7 8-9" fill="none" stroke="#fff8e9" stroke-opacity=".72" stroke-width="2.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="fruit-pineapple" viewBox="0 0 64 64">
+      <path d="M30 20 Q22 14 21 5 Q29 8 32 16 Q34 6 40 3 Q40 12 37 18 Q43 11 49 11 Q46 19 39 23Z" fill="url(#fruit-grad-leaf)" stroke="#3f7834" stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="M32 19 C20 19 14 27 15 39 C16 51 22 58 32 58 C42 58 48 51 49 39 C50 27 44 19 32 19Z" fill="url(#fruit-grad-yellow)" stroke="#a96c1c" stroke-width="1.5"/>
+      <path d="M19 28l22 24 M16 36l16 19 M25 21l21 24 M44 27L22 52 M48 35L32 55 M38 21L17 44" fill="none" stroke="#9b641b" stroke-opacity=".48" stroke-width="1.3"/>
+      <path d="M20 30q1-4 4-6" fill="none" stroke="#fff6c9" stroke-opacity=".8" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="fruit-banana" viewBox="0 0 64 64">
+      <path d="M12 13 C13 29 20 41 33 42 C42 43 49 37 54 28 L57 30 C55 45 45 55 32 55 C17 55 7 44 8 26 L8 17Z" fill="url(#fruit-grad-yellow)" stroke="#a56e1e" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M9 16l1-5 4-1 1 5-3 3Z M54 28l2-4 3 1-1 5Z" fill="#6f522d"/>
+      <path d="M12 23 C14 40 23 50 35 50" fill="none" stroke="#fff1a0" stroke-opacity=".72" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M15 34 C20 46 28 50 36 50" fill="none" stroke="#bb8328" stroke-opacity=".45" stroke-width="1"/>
+    </symbol>
+    <symbol id="fruit-cherry" viewBox="0 0 64 64">
+      <path d="M22 33 Q22 17 36 8 Q41 19 44 33" fill="none" stroke="#5b7136" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M35 11 Q40 3 50 6 Q48 13 37 14Z" fill="url(#fruit-grad-leaf)" stroke="#346b32" stroke-width="1"/>
+      <circle cx="20" cy="43" r="12" fill="url(#fruit-grad-red)" stroke="#8b2333" stroke-width="1.4"/>
+      <circle cx="44" cy="43" r="12" fill="url(#fruit-grad-red)" stroke="#8b2333" stroke-width="1.4"/>
+      <path d="M13 40q1-4 4-5 M37 40q1-4 4-5" fill="none" stroke="#fff2e5" stroke-opacity=".75" stroke-width="2.3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="fruit-kiwi" viewBox="0 0 64 64">
+      <ellipse cx="32" cy="33" rx="23" ry="25" fill="#88592e" stroke="#604020" stroke-width="1.4"/>
+      <ellipse cx="32" cy="32" rx="20" ry="22" fill="url(#fruit-grad-kiwi)" stroke="#d4db88" stroke-width="1.5"/>
+      <ellipse cx="32" cy="32" rx="6" ry="7" fill="#f5efbb"/>
+      <g stroke="#e2eb9c" stroke-opacity=".6" stroke-width="1"><path d="M32 12v13 M45 17l-8 10 M51 32H39 M45 48l-8-10 M32 53V39 M19 48l8-10 M13 32h12 M19 17l8 10"/></g>
+      <g fill="#292c1d"><ellipse cx="32" cy="20" rx="1" ry="1.8"/><ellipse cx="40" cy="23" rx="1" ry="1.8" transform="rotate(45 40 23)"/><ellipse cx="44" cy="32" rx="1.8" ry="1"/><ellipse cx="40" cy="41" rx="1" ry="1.8" transform="rotate(-45 40 41)"/><ellipse cx="32" cy="44" rx="1" ry="1.8"/><ellipse cx="24" cy="41" rx="1" ry="1.8" transform="rotate(45 24 41)"/><ellipse cx="20" cy="32" rx="1.8" ry="1"/><ellipse cx="24" cy="23" rx="1" ry="1.8" transform="rotate(-45 24 23)"/></g>
+      <path d="M19 22q3-5 7-6" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="fruit-watermelon" viewBox="0 0 64 64">
+      <path d="M6 24 Q32 20 58 24 Q56 46 32 57 Q8 46 6 24Z" fill="url(#fruit-grad-rind)" stroke="#285e34" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M9 24 Q32 21 55 24 Q53 43 32 53 Q11 43 9 24Z" fill="#eef0ba"/>
+      <path d="M11 25 Q32 22 53 25 Q51 41 32 50 Q13 41 11 25Z" fill="url(#fruit-grad-red)"/>
+      <g fill="#5a2730"><path d="M20 28q3 2 2 5q-3 1-3-2Z"/><path d="M32 28q2 2 1 5q-3 1-3-2Z"/><path d="M43 28q2 2 1 5q-3 1-3-2Z"/><path d="M26 36q2 2 1 5q-3 0-3-2Z"/><path d="M38 36q2 2 1 5q-3 0-3-2Z"/></g>
+      <path d="M13 26q7-1 13-1" fill="none" stroke="#fff3e9" stroke-opacity=".7" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
