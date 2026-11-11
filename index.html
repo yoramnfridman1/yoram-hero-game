@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff7ec">
+<title>יורם הגיבור — המסע של יורם פרידמן</title>
+<style>
+:root{
+  --bg1:#fff7ec; --bg2:#ffe7d0;
+  --ink:#4a2c17; --muted:#7a5a3f;
+  --card:#ffffff;
+  --accent:#d84a2b; --accent-dark:#b83a20;
+  --red:#d81e2b;
+  --gold:#e8a33d;
+  --border:#f3ddc4;
+  --shadow:0 8px 24px rgba(122,80,40,.14);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Heebo','Assistant',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  background:linear-gradient(180deg,var(--bg1),var(--bg2));
+  background-attachment:fixed;
+  color:var(--ink);
+  min-height:100vh;
+  font-size:18px; line-height:1.55;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-text-size-adjust:100%;
+}
+#app{min-height:100vh; display:flex; flex-direction:column; align-items:center;}
+.screen{display:none; width:100%; max-width:560px; padding:24px 16px 32px; flex:1; flex-direction:column; align-items:center; text-align:center;}
+.screen.active{display:flex;}
+
+h1{font-size:2.3rem; line-height:1.15; margin:14px 0 2px; font-weight:800;}
+h2{font-size:1.8rem; line-height:1.2; margin:8px 0 4px; font-weight:800;}
+.subtitle{font-size:1.3rem; color:var(--muted); margin:0 0 22px; font-weight:600;}
+.accent-red{color:var(--red);}
+
+.card{background:var(--card); border-radius:26px; box-shadow:var(--shadow); padding:24px 20px; width:100%;}
+
+/* Buttons */
+.btn{
+  font-family:inherit; font-size:1.3rem; font-weight:800;
+  border:none; border-radius:999px; cursor:pointer;
+  padding:16px 34px; min-height:58px; min-width:220px;
+  color:#fff; background:linear-gradient(180deg,#ef6a3a,var(--accent));
+  box-shadow:0 7px 18px rgba(216,74,43,.32);
+  transition:transform .12s ease;
+}
+.btn:active{transform:translateY(2px) scale(.99);}
+.btn-big{font-size:1.6rem; padding:22px 48px; min-height:68px;}
+.btn-ghost{background:var(--card); color:var(--ink); box-shadow:var(--shadow); border:2px solid var(--border);}
+.btn:focus-visible{outline:3px solid var(--accent); outline-offset:3px;}
+
+/* Home */
+.hero-figure{position:relative; margin:4px 0 6px;}
+.hero-figure img{width:min(68vw,250px); max-height:42vh; object-fit:contain; border-radius:24px; display:block; margin:0 auto;}
+.figure-fallback{
+  display:none; width:min(68vw,250px); height:min(68vw,250px); margin:0 auto;
+  border-radius:50%; background:linear-gradient(160deg,#ffe3c2,#ffd0a0);
+  align-items:center; justify-content:center; flex-direction:column; gap:2px;
+  box-shadow:var(--shadow); border:5px solid #fff;
+}
+.figure-fallback .big{font-size:4.4rem; line-height:1;}
+.figure-fallback .lbl{font-size:1.25rem; font-weight:800; color:var(--accent-dark);}
+
+/* Level intro */
+.intro-badge{font-size:3.2rem; line-height:1; margin-bottom:4px;}
+.intro-line{font-size:1.25rem; font-weight:700; color:var(--accent-dark); margin:8px 0 18px;}
+
+/* Board */
+.board-frame{
+  background:var(--card); border-radius:26px; padding:14px;
+  box-shadow:var(--shadow); border:3px solid var(--border);
+  width:100%; max-width:430px;
+}
+.board-frame.red{border-color:var(--red); box-shadow:0 8px 24px rgba(216,30,43,.22);}
+.level-label{font-size:1.05rem; color:var(--muted); font-weight:700; margin:0 0 2px;}
+.board-name{font-size:1.5rem; font-weight:800; margin:0 0 6px;}
+.counter{font-size:1.35rem; font-weight:800; margin:4px 0 12px;}
+.counter b{color:var(--accent); font-size:1.55rem;}
+.counter .tgt{font-size:1.6rem;}
+.board{display:grid; grid-template-columns:repeat(6,1fr); gap:6px;}
+.cell{
+  aspect-ratio:1; min-height:52px; border:none; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:2rem; cursor:pointer; position:relative;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.09), 0 2px 4px rgba(0,0,0,.06);
+  transition:transform .18s ease, box-shadow .18s ease, opacity .22s ease;
+  -webkit-user-select:none; user-select:none; -webkit-touch-callout:none;
+}
+.cell[data-type="fruit"]{background:#cbeccf;}
+.cell[data-type="ball"]{background:#ffd9b8;}
+.cell[data-type="shield"]{background:#d6e5ff;}
+.cell[data-type="plane"]{background:#d4efff;}
+.cell[data-type="heart"]{background:#ffd6e0;}
+.cell[data-type="faith"]{background:#ffeec4;}
+.cell.selected{box-shadow:0 0 0 3px var(--ink), inset 0 0 0 3px #fff; transform:scale(1.05); z-index:2;}
+.cell.hint{animation:hintpulse .6s ease-in-out 2;}
+.cell.pop{animation:pop .24s ease forwards;}
+.cell.fall-in{animation:fallin .24s ease;}
+.cell.shake{animation:shake .26s ease;}
+.cell.swap-flash{animation:swapflash .2s ease;}
+@keyframes hintpulse{0%,100%{box-shadow:0 0 0 0 var(--gold);}50%{box-shadow:0 0 0 5px var(--gold);}}
+@keyframes pop{0%{transform:scale(1); opacity:1;}60%{transform:scale(1.25); opacity:1;}100%{transform:scale(0); opacity:0;}}
+@keyframes fallin{0%{transform:translateY(-20px); opacity:0;}100%{transform:translateY(0); opacity:1;}}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+@keyframes swapflash{0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
+.board-actions{margin-top:16px; display:flex; flex-direction:column; gap:10px; width:100%; align-items:center;}
+
+/* Hero card / finale */
+.portrait{position:relative;}
+.portrait img{width:min(52vw,190px); height:min(52vw,190px); object-fit:cover; border-radius:50%; border:5px solid #fff; box-shadow:var(--shadow); display:block; margin:0 auto;}
+.portrait-fallback{
+  display:none; width:min(52vw,190px); height:min(52vw,190px); margin:0 auto;
+  border-radius:50%; background:linear-gradient(160deg,#ffe3c2,#ffd0a0);
+  align-items:center; justify-content:center; flex-direction:column; gap:2px;
+  box-shadow:var(--shadow); border:5px solid #fff;
+}
+.portrait-fallback .big{font-size:3.6rem; line-height:1;}
+.portrait-fallback .lbl{font-size:1.15rem; font-weight:800; color:var(--accent-dark);}
+.card-title{font-size:1.5rem; font-weight:800; margin:14px 0 2px;}
+.card-text{font-size:1.35rem; font-weight:600; line-height:1.5; margin:8px 0 20px;}
+.finale-text{font-size:1.4rem; font-weight:700; line-height:1.55; margin:12px 0 22px;}
+
+/* Home (small) button */
+.btn-home{
+  position:absolute; top:14px; inset-inline-start:14px;
+  width:52px; height:52px; border-radius:50%; border:2px solid var(--border);
+  background:var(--card); font-size:1.4rem; cursor:pointer; box-shadow:var(--shadow);
+  display:flex; align-items:center; justify-content:center; color:var(--ink);
+}
+.screen{position:relative;}
+
+/* Confetti */
+#confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:50;}
+.confetti-bit{position:absolute; top:-6%; animation:fall linear forwards;}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg); opacity:.2;}}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important; transition:none !important;}
+  .cell.hint{outline:4px solid #3f210f;outline-offset:-4px;box-shadow:inset 0 0 0 7px #fff6c6;z-index:2}
+}
+
+/* A warm confectionery world, with large, distinct playing pieces. */
+body{background:radial-gradient(ellipse at 50% 0,#fffdf1 0,#f9e8ce 55%,#f2d6b5 100%);color:#573321}
+.screen{padding:20px 12px 28px}
+#screen-home,#screen-intro,#screen-card,#screen-finale{justify-content:center}
+h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
+.subtitle{color:#75503c}
+.hero-figure{background:radial-gradient(circle,#fff9eb 40%,#f3cc98 100%);border:8px solid #fff8e8;border-radius:48% 48% 42% 42%;box-shadow:0 9px 0 #dbb084,0 18px 35px #a16c3e35;padding:8px 18px 0}
+.hero-figure img{border-radius:40% 40% 35% 35%}
+.btn{background:linear-gradient(#e7644b,#bf302c);box-shadow:inset 0 2px #ffad8d,0 5px 0 #932c26,0 10px 18px #8e432f35}
+.btn-ghost{background:#fff8e7;color:#6a3927;box-shadow:0 4px 0 #d1ad87}
+.card{background:#fff8e9;border:3px solid #e5bf8a;box-shadow:0 8px 0 #c99467,0 16px 30px #8e5f3d24}
+#screen-board{padding-top:12px}
+#screen-board .btn-home{top:10px;inset-inline-start:10px}
+.level-label{font-size:18px;color:#79503a}
+.board-name{font-size:26px;line-height:1.2;max-width:72%;min-height:31px}
+.counter{background:#fff9eb;border:2px solid #e8c89b;border-radius:18px;padding:4px 16px;margin:6px 0 10px;box-shadow:0 3px 0 #d6af83}
+.counter .tgt{display:inline-flex;vertical-align:middle;width:42px;height:42px}
+.board-frame{background:linear-gradient(145deg,#bd7b4a,#925831);border:4px solid #f2d2a4;box-shadow:0 7px 0 #7c4c2d,0 14px 24px #67462b40;padding:8px;border-radius:24px;max-width:430px}
+.board{gap:3px;direction:ltr;background:#8e593a;border-radius:14px;padding:3px}
+.cell{min-width:0;min-height:52px;border-radius:13px;padding:2px;background:#f1cca1!important;box-shadow:inset 0 2px 6px #75432155,inset 0 -1px 1px #fff6df66;overflow:visible;touch-action:manipulation}
+.candy-art{display:block;width:100%;height:100%;max-width:55px;filter:drop-shadow(0 3px 1px #5c2b2355);pointer-events:none}
+.cell.selected{outline:3px solid #fff8bd;outline-offset:-3px;box-shadow:0 0 0 3px #8b392a,inset 0 0 0 2px #fff;transform:scale(1.05);z-index:3}
+.cell.swap-motion{transition:transform .2s ease;transform:translate(var(--dx),var(--dy));z-index:4}
+.cell.fall-in{animation:fallin .24s cubic-bezier(.2,.7,.25,1)}
+@keyframes candy-drop{from{transform:translateY(var(--fall-distance))}75%{transform:translateY(3px)}to{transform:translateY(0)}}
+.cell.fall-in{animation:candy-drop .25s cubic-bezier(.2,.7,.25,1)}
+.board-avatar{position:absolute;top:10px;inset-inline-end:12px;width:52px;height:52px;object-fit:cover;border-radius:50%;border:3px solid #fff8e9;box-shadow:0 0 0 2px #c59a69}
+.cell:focus-visible{outline:3px solid #fff;outline-offset:-3px}
+.board-actions{margin-top:12px}
+#btn-hint{min-width:180px}
+.intro-badge{display:flex;justify-content:center;height:92px}.intro-badge .candy-art{max-width:92px}
+.candy-symbols{position:absolute;width:0;height:0;overflow:hidden}
+.guide{font-size:18px;font-weight:700;line-height:1.3;color:#704b35;margin:7px 0 2px}
+.portrait img{border:7px solid #fff9e8;box-shadow:0 0 0 4px #d2a66c,0 12px 28px #724b3038}
+.confetti-bit{width:9px;height:16px;border-radius:3px}
+@media(max-width:370px){.screen{padding-inline:6px}.board{gap:2px}.board-frame{padding:5px}.cell{min-height:52px}.board-name{font-size:24px}}
+
+</style>
+</head>
+<body>
+<svg class="candy-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<radialGradient id="ruby" cx="30%" cy="20%"><stop stop-color="#ffb6a6"/><stop offset=".42" stop-color="#ef4e50"/><stop offset="1" stop-color="#a51d36"/></radialGradient>
+<radialGradient id="orange" cx="30%" cy="20%"><stop stop-color="#fff2a7"/><stop offset=".45" stop-color="#ffbd35"/><stop offset="1" stop-color="#d66b0b"/></radialGradient>
+<radialGradient id="blue" cx="30%" cy="20%"><stop stop-color="#bdf4ff"/><stop offset=".48" stop-color="#51b9d7"/><stop offset="1" stop-color="#247092"/></radialGradient>
+<radialGradient id="green" cx="30%" cy="20%"><stop stop-color="#e0ffa6"/><stop offset=".48" stop-color="#87c75a"/><stop offset="1" stop-color="#408b46"/></radialGradient>
+<radialGradient id="purple" cx="30%" cy="20%"><stop stop-color="#f6d4ff"/><stop offset=".48" stop-color="#ba80cb"/><stop offset="1" stop-color="#79508d"/></radialGradient>
+<radialGradient id="gold" cx="30%" cy="20%"><stop stop-color="#fff5af"/><stop offset=".5" stop-color="#eebd45"/><stop offset="1" stop-color="#b87920"/></radialGradient>
+<symbol id="candy-heart" viewBox="0 0 64 64"><path d="M32 55 C24 48 7 37 7 23 C7 10 22 7 32 19 C42 7 57 10 57 23 C57 37 40 48 32 55Z" fill="url(#ruby)" stroke="#9b3341" stroke-width="2"/><path d="M14 22 Q16 14 24 17" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="candy-fruit" viewBox="0 0 64 64"><circle cx="32" cy="35" r="23" fill="url(#orange)" stroke="#ae6522" stroke-width="2"/><path d="M32 13 Q31 5 41 5 Q41 13 32 15" fill="#4c9b51" stroke="#41814c" stroke-width="2"/><path d="M15 28 Q18 20 24 19" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="3" stroke-linecap="round"/><path d="M33 18v31 M20 25q12 8 24 0 M20 42q12-8 24 0" fill="none" stroke="#fff1b5" stroke-opacity=".45" stroke-width="1.6"/></symbol>
+<symbol id="candy-ball" viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="#fffaf1" stroke="#342c27" stroke-width="2.5"/><path d="M32 20l10 7-4 12H26l-4-12z" fill="#342c27" stroke="#342c27" stroke-width="1.5" stroke-linejoin="round"/><path d="M32 20v-9 M42 27l11-3 M38 39l6 10 M26 39l-6 10 M22 27l-11-3" fill="none" stroke="#342c27" stroke-width="2.5" stroke-linecap="round"/><path d="M17 22q3-6 8-7" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></symbol>
+<symbol id="candy-shield" viewBox="0 0 64 64"><path d="M32 7 L53 15 L51 34 Q48 47 32 56 Q16 47 13 34 L11 15Z" fill="url(#blue)" stroke="#397b91" stroke-width="2"/><path d="M32 15l4 10 11 1-9 7 3 11-9-6-9 6 3-11-9-7 11-1z" fill="#fff4ce"/><path d="M17 18l8-3" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="candy-plane" viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="16" fill="url(#green)" stroke="#4f8d50" stroke-width="2"/><path d="M14 36l15-5 7-16q2-4 5-2l-3 17 11 6q3 2 1 4l-14-3-5 10 4 4-2 2-8-5-6 1-2-3 6-4 3-9-11 5z" fill="#fff9e6" stroke="#fff9e6" stroke-linejoin="round"/></symbol>
+<symbol id="candy-faith" viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="url(#gold)" stroke="#b28139" stroke-width="2"/><path d="M32 13 Q23 23 29 28 Q32 31 35 28 Q41 23 32 13Z" fill="#fff8d2"/><path d="M25 31h14v14H25z M22 46h20" fill="#fff7df" stroke="#fff7df" stroke-width="2" stroke-linecap="round"/><path d="M15 24Q18 17 24 16" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div id="app">
+
+  <!-- HOME -->
+  <section id="screen-home" class="screen active">
+    <div class="hero-figure">
+      <img src="assets/yoram-full-body.png" alt="יורם" onerror="this.style.display='none';document.getElementById('home-fallback').style.display='flex';">
+      <div class="figure-fallback" id="home-fallback"><span class="big">👑</span><span class="lbl">יורם הגיבור</span></div>
+    </div>
+    <h1>יורם <span class="accent-red">הגיבור</span></h1>
+    <p class="subtitle">המסע של יורם פרידמן</p>
+    <button id="btn-start" class="btn btn-big" type="button">מתחילים</button>
+  </section>
+
+  <!-- LEVEL_INTRO -->
+  <section id="screen-intro" class="screen">
+    <div class="card">
+      <div class="intro-badge" id="intro-badge">⭐</div>
+      <h2 id="intro-name"></h2>
+      <p class="intro-line" id="intro-line"></p>
+      <button id="btn-play" class="btn" type="button">שחק</button>
+    </div>
+    <button class="btn-home" type="button" aria-label="בית">⌂</button>
+  </section>
+
+  <!-- BOARD -->
+  <section id="screen-board" class="screen">
+    <button class="btn-home" type="button" aria-label="בית">⌂</button>
+    <img class="board-avatar" src="assets/yoram-portrait.png" alt="יורם">
+    <p class="level-label" id="level-label"></p>
+    <h2 class="board-name" id="board-name"></h2>
+    <p class="counter" id="counter" aria-live="polite"></p>
+    <p class="guide">נוגעים בשני סמלים שכנים כדי להחליף ביניהם</p>
+    <div class="board-frame" id="board-frame">
+      <div class="board" id="grid"></div>
+    </div>
+    <div class="board-actions">
+      <button id="btn-hint" class="btn btn-ghost" type="button">רמז</button>
+    </div>
+  </section>
+
+  <!-- HERO_CARD -->
+  <section id="screen-card" class="screen">
+    <button class="btn-home" type="button" aria-label="בית">⌂</button>
+    <div class="portrait">
+      <img src="assets/yoram-portrait.png" alt="יורם" onerror="this.style.display='none';document.getElementById('card-fallback').style.display='flex';">
+      <div class="portrait-fallback" id="card-fallback"><span class="big">❤️</span><span class="lbl">יורם</span></div>
+    </div>
+    <p class="card-title">כרטיס גיבור</p>
+    <p class="card-text" id="card-text"></p>
+    <button id="btn-next" class="btn" type="button">לשלב הבא</button>
+  </section>
+
+  <!-- FINALE -->
+  <section id="screen-finale" class="screen">
+    <button class="btn-home" type="button" aria-label="בית">⌂</button>
+    <div class="hero-figure">
+      <img src="assets/yoram-full-body.png" alt="יורם" onerror="this.style.display='none';document.getElementById('finale-fallback').style.display='flex';">
+      <div class="figure-fallback" id="finale-fallback"><span class="big">👑</span><span class="lbl">יורם הגיבור</span></div>
+    </div>
+    <h2>הגיבור שלנו</h2>
+    <p class="finale-text" id="finale-text"></p>
+    <button id="btn-replay" class="btn btn-big" type="button">שחק שוב</button>
+  </section>
+
+</div>
+<div id="confetti"></div>
+
+<script>
+/*ENGINE-START*/
+(function () {
+  'use strict';
+  const COLS = 6, ROWS = 6;
+  const TYPES = ['fruit','ball','shield','plane','heart','faith'];
+
+  function pickWeighted(weights) {
+    const total = weights.reduce(function(a,b){return a+b;},0);
+    let r = Math.random() * total;
+    for (let i=0;i<weights.length;i++){ r -= weights[i]; if (r < 0) return i; }
+    return weights.length - 1;
+  }
+
+  function makeBoard(targetType) {
+    // target type appears more often so collecting stays quick and frustration-free
+    while (true) {
+      const board = [];
+      for (let r=0;r<ROWS;r++){
+        const row = [];
+        for (let c=0;c<COLS;c++){
+          const w = TYPES.map(function(t){ return t === targetType ? 2.0 : 1.0; });
+          let idx, guard = 0;
+          do {
+            idx = pickWeighted(w);
+            guard++;
+          } while (
+            guard < 200 && (
+              (c>=2 && row[c-1]===TYPES[idx] && row[c-2]===TYPES[idx]) ||
+              (r>=2 && board[r-1][c]===TYPES[idx] && board[r-2][c]===TYPES[idx])
+            )
+          );
+          row.push(TYPES[idx]);
+        }
+        board.push(row);
+      }
+      if (!hasMatch(board) && findMove(board)) return board;
+    }
+  }
+
+  function findMatches(board) {
+    const cells = new Set();
+    for (let r=0;r<ROWS;r++){
+      let c=0;
+      while (c<COLS){
+        const t = board[r][c];
+        if (t==null){ c++; continue; }
+        let c2 = c+1;
+        while (c2<COLS && board[r][c2]===t) c2++;
+        if (c2-c>=3){ for (let k=c;k<c2;k++) cells.add(r+','+k); }
+        c = c2;
+      }
+    }
+    for (let c=0;c<COLS;c++){
+      let r=0;
+      while (r<ROWS){
+        const t = board[r][c];
+        if (t==null){ r++; continue; }
+        let r2 = r+1;
+        while (r2<ROWS && board[r2][c]===t) r2++;
+        if (r2-r>=3){ for (let k=r;k<r2;k++) cells.add(k+','+c); }
+        r = r2;
+      }
+    }
+    return Array.from(cells).map(function(s){ const p=s.split(','); return [Number(p[0]),Number(p[1])]; });
+  }
+
+  function hasMatch(board){ return findMatches(board).length > 0; }
+
+  function swap(board, r1,c1,r2,c2){
+    const t = board[r1][c1]; board[r1][c1] = board[r2][c2]; board[r2][c2] = t;
+  }
+
+  function findMove(board) {
+    for (let r=0;r<ROWS;r++){
+      for (let c=0;c<COLS;c++){
+        if (c+1<COLS){
+          swap(board,r,c,r,c+1);
+          if (hasMatch(board)){ swap(board,r,c,r,c+1); return {r1:r,c1:c,r2:r,c2:c+1}; }
+          swap(board,r,c,r,c+1);
+        }
+        if (r+1<ROWS){
+          swap(board,r,c,r+1,c);
+          if (hasMatch(board)){ swap(board,r,c,r+1,c); return {r1:r,c1:c,r2:r+1,c2:c}; }
+          swap(board,r,c,r+1,c);
+        }
+      }
+    }
+    return null;
+  }
+
+  function collapseAndRefill(board) {
+    const nb = [];
+    for (let r=0;r<ROWS;r++) nb.push(new Array(COLS).fill(null));
+    for (let c=0;c<COLS;c++){
+      const col = [];
+      for (let r=0;r<ROWS;r++){ if (board[r][c]!=null) col.push(board[r][c]); }
+      let r = ROWS-1;
+      for (let i=col.length-1;i>=0;i--){ nb[r--][c] = col[i]; }
+      while (r>=0){ nb[r--][c] = TYPES[Math.floor(Math.random()*TYPES.length)]; }
+    }
+    return nb;
+  }
+
+  function resolveBoard(board, targetType) {
+    let cleared = 0;
+    const steps = [];
+    let b = board;
+    let guard = 0;
+    while (guard++ < 500) {
+      const m = findMatches(b);
+      if (m.length===0) break;
+      let targetCleared = 0;
+      for (const cell of m){ if (b[cell[0]][cell[1]]===targetType) targetCleared++; }
+      cleared += targetCleared;
+      steps.push({ cells: m, targetCleared: targetCleared });
+      for (const cell of m){ b[cell[0]][cell[1]] = null; }
+      b = collapseAndRefill(b);
+    }
+    return { board: b, cleared: cleared, steps: steps };
+  }
+
+  function shuffleBoard(targetType){ return makeBoard(targetType); }
+
+  globalThis.__ENGINE = {
+    COLS:COLS, ROWS:ROWS, TYPES:TYPES,
+    makeBoard:makeBoard, findMatches:findMatches, hasMatch:hasMatch, findMove:findMove,
+    collapseAndRefill:collapseAndRefill, resolveBoard:resolveBoard, shuffleBoard:shuffleBoard, swap:swap
+  };
+})();
+/*ENGINE-END*/
+</script>
+
+<script>
+(function(){
+  'use strict';
+  const E = globalThis.__ENGINE;
+  const EMOJI = { ball:'⚽', shield:'🛡️', plane:'✈️', heart:'❤️', faith:'🕯️' };
+
+  // ---- 10 stages: texts exactly as approved (do not reword) ----
+  const LEVELS = [
+    { name:'השורשים — אמא שרה', target:'heart', count:8,  fruit:'🍎',
+      card:'יורם, הבן של שרה. מכאן מתחיל הסיפור שלך.' },
+    { name:'הילד מחיפה', target:'ball', count:10, fruit:'🍇', red:true,
+      intro:'הקבוצה שלך: הפועל חיפה 🔴⚽',
+      card:'גדלת בחיפה, והפכת לאיש חזק שלא מוותר.' },
+    { name:'גיל 26, דלת לדלת', target:'fruit', count:12, fruit:'🍊',
+      card:'התחלת במכירת חומרי ניקוי מדלת לדלת. לא פחדת מעבודה קשה.' },
+    { name:'במו ידיו', target:'shield', count:12, fruit:'🍓',
+      card:'את כל מה שיש לך בנית בעצמך, במו ידיך.' },
+    { name:'איש מאמין', target:'faith', count:12, fruit:'🍑',
+      card:'כל בוקר אתה מניח תפילין. ככה מתחיל יום של אדם חזק ומאמין.' },
+    { name:'המגן של המשפחות', target:'shield', count:15, fruit:'🍍',
+      card:'סוכן ביטוח מצטיין. דאגת לכל כך הרבה משפחות, ועשית טוב לכל כך הרבה אנשים.' },
+    { name:'אבא למופת', target:'heart', count:15, fruit:'🍌',
+      card:'האבא של שי וגלי. אבא למופת, תמיד שם בשביל הילדים שלו.' },
+    { name:'המשפחה הגדולה', target:'heart', count:18, fruit:'🍒',
+      card:'אלה אשתך, אולגה ואריאל, אילנה ובר — משפחה שלמה סביבך, אוהבת אותך.' },
+    { name:'סבא יורם', target:'fruit', count:18, fruit:'🥝',
+      card:'הסבא של מילי וג\'יימי. הן אוהבות את סבא שלהן.' },
+    { name:'מטייל בעולם — הגיבור שלנו', target:'plane', count:20, fruit:'🍉',
+      card:'טיילת בעולם, אהבת את החיים — ואתה הגיבור שלנו. המשפחה שלך אוהבת אותך ומחכה לך.' }
+  ];
+
+  const STORAGE_KEY = 'yoram-hero-v1';
+
+  const el = function(id){ return document.getElementById(id); };
+  const grid = el('grid');
+
+  const state = { levelIndex:0, collected:0, board:null, selected:null, busy:false, started:false, pending:false };
+
+  function level(){ return LEVELS[state.levelIndex]; }
+  function emojiFor(t, lv){ return t === 'fruit' ? lv.fruit : EMOJI[t]; }
+  function targetEmoji(lv){ return lv.target === 'fruit' ? lv.fruit : EMOJI[lv.target]; }
+  const names = {fruit:'פרי',ball:'כדורגל',shield:'מגן',plane:'מטוס',heart:'לב',faith:'אור'};
+  const fruitSymbols = {'🍎':'apple','🍇':'grape','🍊':'orange','🍓':'strawberry','🍑':'peach','🍍':'pineapple','🍌':'banana','🍒':'cherry','🥝':'kiwi','🍉':'watermelon'};
+  function candy(t){
+    const symbol = t === 'fruit' ? 'assets/fruit-symbols.svg#fruit-'+fruitSymbols[level().fruit] : '#candy-'+t;
+    return '<svg class="candy-art" aria-hidden="true" viewBox="0 0 64 64"><use href="'+symbol+'" xlink:href="'+symbol+'"></use></svg>';
+  }
+
+  // ---- screens ----
+  function show(id){
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    el(id).classList.add('active');
+  }
+
+  // ---- progress ----
+  function saveProgress(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ levelIndex:state.levelIndex, collected:state.collected, board:state.board, pending:state.pending })); }catch(e){}
+  }
+  function loadProgress(){
+    try{
+      const p = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (p && typeof p.levelIndex === 'number') return p;
+    }catch(e){}
+    return null;
+  }
+  function clearProgress(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+  function hasProgress(){
+    const p = loadProgress();
+    return !!(p && (p.levelIndex > 0 || p.collected > 0 || p.board));
+  }
+  function refreshStartButton(){
+    el('btn-start').textContent = hasProgress() ? 'ממשיכים' : 'מתחילים';
+  }
+
+  // ---- board rendering ----
+  function cellEl(r,c){ return grid.querySelector('.cell[data-r="'+r+'"][data-c="'+c+'"]'); }
+
+  function fallDistances(before){
+    const distances = Array.from({length:E.ROWS},function(){return Array(E.COLS).fill(0);});
+    for(let c=0;c<E.COLS;c++){
+      let dest=E.ROWS-1;
+      for(let r=E.ROWS-1;r>=0;r--){if(before[r][c]!=null){distances[dest][c]=dest-r;dest--;}}
+      for(let r=dest;r>=0;r--) distances[r][c]=dest+1;
+    }
+    return distances;
+  }
+  function renderBoard(anim){
+    const lv = level();
+    grid.innerHTML = '';
+    for (let r=0;r<E.ROWS;r++){
+      for (let c=0;c<E.COLS;c++){
+        const cell = document.createElement('button');
+        cell.type = 'button';
+        const drop=anim && anim[r][c];
+        cell.className = 'cell' + (drop ? ' fall-in' : '');
+        if(drop) cell.style.setProperty('--fall-distance',(-drop*(grid.clientWidth/6))+'px');
+        const t = state.board[r][c];
+        cell.innerHTML = candy(t);
+        cell.setAttribute('data-r', r);
+        cell.setAttribute('data-c', c);
+        cell.setAttribute('data-type', t);
+        cell.setAttribute('aria-label', 'אריח ' + names[t] + ', שורה ' + (r+1) + ', טור ' + (c+1));
+        cell.addEventListener('click', function(){ onCellTap(r,c); });
+        grid.appendChild(cell);
+      }
+    }
+  }
+
+  function updateCounter(){
+    const lv = level();
+    const shown = Math.min(state.collected, lv.count);
+    el('counter').innerHTML = 'אספת <b>'+shown+'</b> מתוך <b>'+lv.count+'</b> '+names[lv.target]+' <span class="tgt">'+candy(lv.target)+'</span>';
+  }
+
+  // ---- input ----
+  function onCellTap(r,c){
+    if (state.busy) return;
+    const sel = state.selected;
+    if (!sel){ state.selected = {r:r,c:c}; markSelected(r,c,true); return; }
+    if (sel.r===r && sel.c===c){ markSelected(r,c,false); state.selected=null; return; }
+    const dist = Math.abs(sel.r-r) + Math.abs(sel.c-c);
+    if (dist===1){ attemptSwap(sel,{r:r,c:c}); }
+    else { markSelected(sel.r,sel.c,false); state.selected={r:r,c:c}; markSelected(r,c,true); }
+  }
+  function markSelected(r,c,on){
+    const cell = cellEl(r,c);
+    if (cell) cell.classList.toggle('selected', on);
+  }
+
+  function attemptSwap(a,b){
+    state.busy = true;
+    state.selected = null;
+    const first = cellEl(a.r,a.c), second = cellEl(b.r,b.c);
+    const x = second.offsetLeft-first.offsetLeft, y = second.offsetTop-first.offsetTop;
+    first.style.setProperty('--dx',x+'px'); first.style.setProperty('--dy',y+'px');
+    second.style.setProperty('--dx',-x+'px'); second.style.setProperty('--dy',-y+'px');
+    first.classList.add('swap-motion'); second.classList.add('swap-motion');
+    E.swap(state.board, a.r,a.c,b.r,b.c);
+    const valid = E.hasMatch(state.board);
+    if (valid){ state.pending = true; saveProgress(); }
+    setTimeout(function(){
+      if(valid){ renderBoard(); cascadeStep(); }
+      else {
+        first.style.setProperty('--dx','0px'); first.style.setProperty('--dy','0px');
+        second.style.setProperty('--dx','0px'); second.style.setProperty('--dy','0px');
+        E.swap(state.board,a.r,a.c,b.r,b.c);
+        setTimeout(function(){renderBoard(); state.busy=false;},200);
+      }
+    },200);
+  }
+
+  function cascadeStep(){
+    const m = E.findMatches(state.board);
+    if (m.length === 0){ finishTurn(); return; }
+    let cleared = 0;
+    m.forEach(function(cell){ if (state.board[cell[0]][cell[1]] === level().target) cleared++; });
+    state.collected += cleared;
+    updateCounter();
+    m.forEach(function(cell){ const c=cellEl(cell[0],cell[1]); if(c) c.classList.add('pop'); });
+    setTimeout(function(){
+      m.forEach(function(cell){ state.board[cell[0]][cell[1]] = null; });
+      const distances=fallDistances(state.board);
+      state.board = E.collapseAndRefill(state.board);
+      saveProgress();
+      renderBoard(distances);
+      if (state.collected >= level().count){ setTimeout(finishLevel, 240); return; }
+      setTimeout(cascadeStep, 250);
+    }, 240);
+  }
+
+  function finishTurn(){
+    if (!E.findMove(state.board)){
+      state.board = E.shuffleBoard(level().target);
+      renderBoard();
+      const mv = E.findMove(state.board);
+      if (mv) flashHint(mv);
+    }
+    state.busy = false;
+    state.selected = null;
+    state.pending = false;
+    saveProgress();
+  }
+
+  function flashHint(move){
+    flashClass({r:move.r1,c:move.c1}, 'hint', 1400);
+    flashClass({r:move.r2,c:move.c2}, 'hint', 1400);
+  }
+  function flashClass(cell, cls, ms){
+    const c = cellEl(cell.r, cell.c);
+    if (c){ c.classList.add(cls); setTimeout(function(){ c.classList.remove(cls); }, ms||260); }
+  }
+  function shake(cell){
+    const c = cellEl(cell.r, cell.c);
+    if (c){ c.classList.add('shake'); setTimeout(function(){ c.classList.remove('shake'); }, 260); }
+  }
+
+  function finishLevel(){
+    state.collected = level().count;
+    state.busy = false;
+    state.pending = false;
+    saveProgress();
+    if (state.levelIndex === LEVELS.length-1){ showFinale(); }
+    else { showHeroCard(); }
+  }
+
+  // ---- level screens ----
+  function showIntro(){
+    const lv = level();
+    el('intro-badge').innerHTML = candy(lv.target);
+    el('intro-name').textContent = lv.name;
+    el('intro-line').textContent = lv.intro || '';
+    el('intro-line').style.display = lv.intro ? '' : 'none';
+    refreshStartButton();
+    show('screen-intro');
+  }
+
+  function showBoard(){
+    const lv = level();
+    if (state.collected >= lv.count){ finishLevel(); return; }
+    if (!state.board) state.board = E.makeBoard(lv.target);
+    state.selected = null; state.busy = state.pending;
+    el('level-label').textContent = 'שלב ' + (state.levelIndex+1) + ' מתוך ' + LEVELS.length;
+    el('board-name').textContent = lv.name;
+    el('board-frame').classList.toggle('red', !!lv.red);
+    updateCounter();
+    renderBoard();
+    saveProgress();
+    show('screen-board');
+    if (state.pending) setTimeout(cascadeStep, 0);
+  }
+
+  function showHeroCard(){
+    el('card-text').textContent = level().card;
+    show('screen-card');
+    burstConfetti();
+  }
+
+  function showFinale(){
+    el('finale-text').textContent = LEVELS[LEVELS.length-1].card;
+    show('screen-finale');
+    burstConfetti();
+  }
+
+  function advance(){
+    state.levelIndex++;
+    state.collected = 0;
+    state.board = null;
+    state.pending = false;
+    saveProgress();
+    showIntro();
+  }
+
+  function goHome(){
+    if (state.busy) return;
+    refreshStartButton();
+    show('screen-home');
+  }
+
+  function hint(){
+    if (state.busy) return;
+    let mv = E.findMove(state.board);
+    if (!mv){
+      state.board = E.shuffleBoard(level().target);
+      renderBoard();
+      mv = E.findMove(state.board);
+      saveProgress();
+    }
+    if (mv) flashHint(mv);
+  }
+
+  // ---- confetti ----
+  const reduceMotion = (typeof matchMedia === 'function') && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function burstConfetti(){
+    if (reduceMotion) return;
+    const bits = ['#d85a49','#e6ac47','#5c9c79','#6d9eb3','#c58bba'];
+    const box = el('confetti');
+    for (let i=0;i<22;i++){
+      const s = document.createElement('span');
+      s.className = 'confetti-bit';
+      s.style.background = bits[i % bits.length];
+      s.style.left = (Math.random()*100) + 'vw';
+      s.style.fontSize = (16 + Math.random()*18) + 'px';
+      s.style.animationDuration = (1.6 + Math.random()*1.6) + 's';
+      s.style.animationDelay = (Math.random()*0.4) + 's';
+      box.appendChild(s);
+      (function(node){ setTimeout(function(){ if (node.parentNode) node.parentNode.removeChild(node); }, 3600); })(s);
+    }
+  }
+
+  // ---- wiring ----
+  el('btn-start').addEventListener('click', function(){
+    const p = loadProgress();
+    if (p && (p.levelIndex > 0 || p.collected > 0 || p.board)){
+      state.levelIndex = p.levelIndex;
+      state.collected = p.collected;
+      const validBoard = Array.isArray(p.board) && p.board.length === E.ROWS && p.board.every(function(row){ return Array.isArray(row) && row.length === E.COLS && row.every(function(t){ return E.TYPES.includes(t); }); });
+      state.pending = !!(validBoard && p.pending);
+      state.board = validBoard && (state.pending || (!E.hasMatch(p.board) && E.findMove(p.board))) ? p.board : null;
+      showIntro();
+    } else {
+      clearProgress();
+      state.levelIndex = 0; state.collected = 0; state.board = null; state.pending = false;
+      showIntro();
+    }
+  });
+  el('btn-play').addEventListener('click', showBoard);
+  el('btn-hint').addEventListener('click', hint);
+  el('btn-next').addEventListener('click', advance);
+  el('btn-replay').addEventListener('click', function(){
+    clearProgress();
+    state.levelIndex = 0; state.collected = 0; state.board = null; state.pending = false;
+    showIntro();
+  });
+  document.querySelectorAll('.btn-home').forEach(function(b){ b.addEventListener('click', goHome); });
+
+  // ---- expose for tests ----
+  globalThis.__GAME = {
+    LEVELS: LEVELS, E: E, state: state,
+    level: level, emojiFor: emojiFor, targetEmoji: targetEmoji,
+    makeBoard: E.makeBoard, findMove: E.findMove, findMatches: E.findMatches,
+    resolveBoard: E.resolveBoard, collapseAndRefill: E.collapseAndRefill,
+    showIntro: showIntro, showBoard: showBoard, showHeroCard: showHeroCard, showFinale: showFinale,
+    onCellTap: onCellTap, cascadeStep: cascadeStep, finishTurn: finishTurn
+  };
+
+  // ---- boot ----
+  refreshStartButton();
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    navigator.serviceWorker.register('./sw.js').catch(function(){});
+  }
+})();
+</script>
+</body>
+</html>

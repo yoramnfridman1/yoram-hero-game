@@ -1,0 +1,4 @@
+# Only the game + its two used photos are published. Everything else stays local.
+assets/source/
+tests/
+assets/README.txt
