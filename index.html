@@ -453,7 +453,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
 
   // ---- progress ----
   function saveProgress(){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ levelIndex:state.levelIndex, collected:state.collected, board:state.board, pending:state.pending })); }catch(e){}
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ levelIndex:state.levelIndex, collected:state.collected })); }catch(e){}
   }
   function loadProgress(){
     try{
@@ -465,7 +465,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
   function clearProgress(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
   function hasProgress(){
     const p = loadProgress();
-    return !!(p && (p.levelIndex > 0 || p.collected > 0 || p.board));
+    return !!(p && (p.levelIndex > 0 || p.collected > 0));
   }
   function refreshStartButton(){
     el('btn-start').textContent = hasProgress() ? 'ממשיכים' : 'מתחילים';
@@ -536,7 +536,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
     first.classList.add('swap-motion'); second.classList.add('swap-motion');
     E.swap(state.board, a.r,a.c,b.r,b.c);
     const valid = E.hasMatch(state.board);
-    if (valid){ state.pending = true; saveProgress(); }
+    if (valid){ saveProgress(); }
     setTimeout(function(){
       if(valid){ renderBoard(); cascadeStep(); }
       else {
@@ -617,7 +617,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
     const lv = level();
     if (state.collected >= lv.count){ finishLevel(); return; }
     if (!state.board) state.board = E.makeBoard(lv.target);
-    state.selected = null; state.busy = state.pending;
+    state.selected = null; state.busy = false;
     el('level-label').textContent = 'שלב ' + (state.levelIndex+1) + ' מתוך ' + LEVELS.length;
     el('board-name').textContent = lv.name;
     el('board-frame').classList.toggle('red', !!lv.red);
@@ -625,7 +625,6 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
     renderBoard();
     saveProgress();
     show('screen-board');
-    if (state.pending) setTimeout(cascadeStep, 0);
   }
 
   function showHeroCard(){
@@ -689,12 +688,10 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
   // ---- wiring ----
   el('btn-start').addEventListener('click', function(){
     const p = loadProgress();
-    if (p && (p.levelIndex > 0 || p.collected > 0 || p.board)){
+    if (p && (p.levelIndex > 0 || p.collected > 0)){
       state.levelIndex = p.levelIndex;
       state.collected = p.collected;
-      const validBoard = Array.isArray(p.board) && p.board.length === E.ROWS && p.board.every(function(row){ return Array.isArray(row) && row.length === E.COLS && row.every(function(t){ return E.TYPES.includes(t); }); });
-      state.pending = !!(validBoard && p.pending);
-      state.board = validBoard && (state.pending || (!E.hasMatch(p.board) && E.findMove(p.board))) ? p.board : null;
+      state.board = null; state.pending = false;
       showIntro();
     } else {
       clearProgress();
