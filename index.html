@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fff7ec">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23d84a2b'/%3E%3Cpath d='M18 43h28l4-22-12 8-6-13-6 13-12-8z' fill='%23ffe6a1'/%3E%3C/svg%3E">
 <title>יורם הגיבור — המסע של יורם פרידמן</title>
 <style>
 :root{
@@ -97,7 +98,7 @@ h2{font-size:1.8rem; line-height:1.2; margin:8px 0 4px; font-weight:800;}
 .cell[data-type="heart"]{background:#ffd6e0;}
 .cell[data-type="faith"]{background:#ffeec4;}
 .cell.selected{box-shadow:0 0 0 3px var(--ink), inset 0 0 0 3px #fff; transform:scale(1.05); z-index:2;}
-.cell.hint{animation:hintpulse .6s ease-in-out 2;}
+.cell.hint{animation:hintpulse .28s ease-in-out;outline:4px solid #3f210f;outline-offset:-4px;z-index:2;}
 .cell.pop{animation:pop .24s ease forwards;}
 .cell.fall-in{animation:fallin .24s ease;}
 .cell.shake{animation:shake .26s ease;}
@@ -157,7 +158,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
 #screen-board{padding-top:12px}
 #screen-board .btn-home{top:10px;inset-inline-start:10px}
 .level-label{font-size:18px;color:#79503a}
-.board-name{font-size:26px;line-height:1.2;max-width:72%;min-height:31px}
+.board-name{font-size:28px;line-height:1.2;max-width:72%;min-height:34px}
 .counter{background:#fff9eb;border:2px solid #e8c89b;border-radius:18px;padding:4px 16px;margin:6px 0 10px;box-shadow:0 3px 0 #d6af83}
 .counter .tgt{display:inline-flex;vertical-align:middle;width:42px;height:42px}
 .board-frame{background:linear-gradient(145deg,#bd7b4a,#925831);border:4px solid #f2d2a4;box-shadow:0 7px 0 #7c4c2d,0 14px 24px #67462b40;padding:8px;border-radius:24px;max-width:430px}
@@ -174,35 +175,235 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
 .board-actions{margin-top:12px}
 #btn-hint{min-width:180px}
 .intro-badge{display:flex;justify-content:center;height:92px}.intro-badge .candy-art{max-width:92px}
+#intro-scene{display:block;width:100%;max-height:150px;object-fit:cover;border-radius:18px;margin:0 auto 10px}
 .candy-symbols{position:absolute;width:0;height:0;overflow:hidden}
 .guide{font-size:18px;font-weight:700;line-height:1.3;color:#704b35;margin:7px 0 2px}
 .portrait img{border:7px solid #fff9e8;box-shadow:0 0 0 4px #d2a66c,0 12px 28px #724b3038}
 .confetti-bit{width:9px;height:16px;border-radius:3px}
-@media(max-width:370px){.screen{padding-inline:6px}.board{gap:2px}.board-frame{padding:5px}.cell{min-height:52px}.board-name{font-size:24px}}
+@media(max-width:370px){.screen{padding-inline:6px}.board{gap:2px}.board-frame{padding:5px}.cell{min-height:52px}.board-name{font-size:28px}}
 
+
+/* Chapter environments: a warm keepsake album, with a distinct setting per chapter. */
+body{--scene:#f8e9d8;--scene2:#efd0ac;--rim:#a56c49;--table:#d6ae83;--detail:#a86d49}
+body[data-chapter="1"]{--scene:#f7e9db;--scene2:#e9c6aa;--rim:#ac6f5d;--table:#e4bd9d;--detail:#ba786e}
+body[data-chapter="2"]{--scene:#fce8de;--scene2:#eeb7a8;--rim:#ab3033;--table:#e3a291;--detail:#b63338}
+body[data-chapter="3"]{--scene:#f9edda;--scene2:#e8c89e;--rim:#aa774b;--table:#dfbd92;--detail:#ac7951}
+body[data-chapter="4"]{--scene:#f7ebd9;--scene2:#d8bf9f;--rim:#8e694e;--table:#d1b293;--detail:#8d6d50}
+body[data-chapter="5"]{--scene:#fff2d7;--scene2:#ead1a0;--rim:#a77a35;--table:#e5c89b;--detail:#b88d43}
+body[data-chapter="6"]{--scene:#eaf1e6;--scene2:#c4d6bd;--rim:#69836a;--table:#c1d2ba;--detail:#718b70}
+body[data-chapter="7"]{--scene:#fcece2;--scene2:#eecbb5;--rim:#b46c58;--table:#e9c5aa;--detail:#b97862}
+body[data-chapter="8"]{--scene:#f7eae2;--scene2:#dfc6b8;--rim:#a57368;--table:#dec2b0;--detail:#ae7a70}
+body[data-chapter="9"]{--scene:#eff3e5;--scene2:#d1debd;--rim:#779058;--table:#cbdab3;--detail:#829c63}
+body[data-chapter="10"]{--scene:#eaf3ef;--scene2:#c3dcd5;--rim:#578579;--table:#bbd8ce;--detail:#648f83}
+body[data-chapter]{background:radial-gradient(ellipse at 50% 4%,#fffdf5 0,var(--scene) 46%,var(--scene2) 100%)}
+body[data-chapter] .board-frame{background:var(--rim);border-color:#fff2da;box-shadow:0 7px 0 var(--detail),0 14px 24px #67462b40}
+body[data-chapter] .board{background:var(--rim)}
+body[data-chapter] .cell{background:var(--table)!important}
+body[data-chapter] .counter{border-color:var(--detail)}
+#screen-board::before{content:"";position:absolute;inset:100px 0 0;z-index:-1;opacity:.18;pointer-events:none;background:repeating-linear-gradient(135deg,transparent 0 27px,var(--detail) 28px 29px,transparent 30px 56px);mask-image:linear-gradient(transparent,#000 26%,transparent 85%)}
+body[data-chapter="2"] #screen-board::before{background:repeating-linear-gradient(90deg,transparent 0 32px,var(--detail) 32px 36px,transparent 36px 68px)}
+body[data-chapter="4"] #screen-board::before{background:repeating-linear-gradient(0deg,transparent 0 22px,var(--detail) 23px 25px,transparent 26px 48px)}
+body[data-chapter="5"] #screen-board::before{background:radial-gradient(ellipse at 50% 15%,var(--detail),transparent 57%)}
+body[data-chapter="9"] #screen-board::before{background:radial-gradient(circle,var(--detail) 2px,transparent 3px);background-size:30px 30px}
+body[data-chapter="10"] #screen-board::before{background:repeating-linear-gradient(165deg,transparent 0 24px,var(--detail) 25px 27px,transparent 28px 54px)}
+#screen-card .btn-home{z-index:5}
+#screen-card .keepsake{width:100%;max-width:430px;padding:18px 22px 24px;background:#fffaf0;border:3px solid var(--detail);border-radius:36px 36px 24px 24px;box-shadow:0 8px 0 var(--scene2),0 16px 30px #66462c22;position:relative}
+#screen-card .keepsake:before{content:"✦  ✦  ✦";display:block;color:var(--detail);font-size:22px;letter-spacing:9px;margin-bottom:9px}
+#screen-card .portrait img{width:min(44vw,170px);height:min(44vw,170px);box-shadow:0 0 0 4px var(--detail),0 12px 28px #724b3038}
+#screen-card .card-title{font-size:28px;color:#623c2a;margin-top:14px}
+#screen-card .chapter-name{font-size:19px;font-weight:700;color:#704b35;margin:0}
+#screen-card .card-text{font-size:1.35rem;color:#4a2c17;margin:12px 0 18px}
+#screen-card .reward-mark{width:60px;height:60px;margin:0 auto 8px;padding:4px;border-radius:50%;background:var(--scene);border:2px solid var(--detail)}
+#screen-card .reward-mark .candy-art{width:100%;height:100%}
+#screen-finale .finale-text{max-width:430px;padding:18px 22px;background:#fffaf0;border:3px solid var(--detail);border-radius:24px;box-shadow:0 6px 0 var(--scene2)}
+@media(max-width:370px){#screen-card .keepsake{padding:12px 16px 18px}#screen-card .portrait img{width:140px;height:140px}}
+
+/* Full-width illustrated chapters keep the story visible above the copy. */
+#screen-card .keepsake{overflow:hidden;padding-top:0}
+#screen-card .keepsake:before{display:none}
+.chapter-scene{display:block;width:calc(100% + 44px);height:auto;aspect-ratio:800/420;object-fit:cover;margin:0 -22px 0}
+#screen-card .portrait{margin-top:-42px}
+#screen-card .portrait img{position:relative;width:112px;height:112px}
+#screen-card .reward-mark{display:none}
+#screen-finale .chapter-scene{width:100%;max-width:430px;border:3px solid var(--detail);border-radius:24px;margin:0 auto 12px}
+#screen-finale .chapter-scene{max-height:170px;object-fit:cover;margin-bottom:6px}
+#screen-finale .hero-figure img{max-height:16vh;width:auto}
+#screen-finale .finale-text{margin:6px 0 12px;padding:12px 16px;line-height:1.3}
+@media(max-width:370px){#screen-card .chapter-scene{width:calc(100% + 32px);margin-inline:-16px}#screen-card .portrait img{width:112px;height:112px}}
+@media(max-height:700px){
+  #screen-board{padding-top:2px}
+  #screen-board .level-label{line-height:1.05;margin:0}
+  #screen-board .board-name{line-height:1;min-height:0;margin:0}
+  #screen-board .counter{padding:0 12px;margin:0;line-height:1.05}
+  #screen-board .counter .tgt{width:34px;height:34px}
+  #screen-board .guide{line-height:1.05;margin:0}
+  #screen-board .board-frame{max-width:350px;padding:4px}
+  #screen-board .board{gap:2px}
+  #screen-board .board-actions{margin-top:4px}
+}
+
+/* A chapter is a page in a keepsake album, not a floating profile badge. */
+#screen-card .keepsake{padding:0 0 22px;border-radius:22px;background:#fffaf0;text-align:right;box-shadow:0 5px 0 var(--scene2),0 14px 30px #66462c24}
+#screen-card .chapter-scene{width:100%;height:auto;aspect-ratio:800/420;margin:0;object-fit:cover;border-bottom:4px solid var(--detail)}
+#screen-card .portrait{margin:0;display:flex;align-items:center;gap:14px;padding:14px 20px 0}
+#screen-card .portrait img{margin:0;width:68px;height:68px;border-radius:16px;border:3px solid #fff7e5;box-shadow:0 0 0 2px var(--detail);flex:none}
+#screen-card .portrait::after{content:'יורם הגיבור';font-size:20px;font-weight:800;color:#623c2a}
+#screen-card .card-title{font-size:28px;margin:8px 20px 0;color:#623c2a}
+#screen-card .chapter-name{margin:0 20px;color:#704b35}
+#screen-card .card-text{margin:10px 20px 16px;line-height:1.42}
+#screen-card .btn{display:block;margin:0 auto}
+#screen-card .reward-mark{display:flex;position:absolute;top:12px;inset-inline-start:14px;width:54px;height:54px;margin:0;padding:5px;border:2px solid #fff9e8;background:#fff9e8;box-shadow:0 3px 8px #533a2b55}
+.chapter-progress{display:flex;direction:rtl;gap:5px;margin:0 20px 8px;align-items:center}
+.chapter-progress span{height:6px;flex:1;background:#dfd2c1;border-radius:8px}
+.chapter-progress span.done{background:var(--detail)}
+body[data-chapter="2"] #screen-card .keepsake,body[data-chapter="5"] #screen-card .keepsake,body[data-chapter="8"] #screen-card .keepsake{background:var(--scene)}
+body[data-chapter="3"] #screen-card .portrait,body[data-chapter="6"] #screen-card .portrait,body[data-chapter="9"] #screen-card .portrait{flex-direction:row-reverse;justify-content:flex-end}
+/* Scene-coloured frame and a small chapter illustration on the playing surface. */
+body[data-chapter] .board-frame{background-image:var(--chapter-art);background-size:cover;background-position:center;border-width:3px;padding:7px;box-shadow:0 5px 0 var(--detail),0 10px 18px #67462b30}
+body[data-chapter] .board{background:color-mix(in srgb,var(--rim) 83%,transparent);gap:3px}
+body[data-chapter] .cell{background:color-mix(in srgb,var(--table) 86%,white)!important}
+/* Each piece sits in its own softly lit enamel well. The drawing stays the
+   primary symbol; colour is a second cue, never the only identifier. */
+body[data-chapter] .cell[data-type="fruit"]{background-image:linear-gradient(145deg,#f5ffe4,#bcdca4)!important}
+body[data-chapter] .cell[data-type="ball"]{background-image:linear-gradient(145deg,#fff1e4,#edb9a4)!important}
+body[data-chapter] .cell[data-type="shield"]{background-image:linear-gradient(145deg,#edf8ff,#a9c7e7)!important}
+body[data-chapter] .cell[data-type="plane"]{background-image:linear-gradient(145deg,#f0fff8,#a5d4c3)!important}
+body[data-chapter] .cell[data-type="heart"]{background-image:linear-gradient(145deg,#fff1ef,#edb3b6)!important}
+body[data-chapter] .cell[data-type="faith"]{background-image:linear-gradient(145deg,#fff9dc,#e8ce83)!important}
+body[data-chapter] .cell{box-shadow:inset 0 2px 1px #ffffffb3,inset 0 -4px 0 #75513827,0 2px 3px #553a302e}
+.cell.pop::after{content:'✦';position:absolute;inset:0;display:grid;place-items:center;color:#fffbe0;text-shadow:0 1px 5px #e49e38;font-size:26px;pointer-events:none;animation:match-spark .24s ease-out forwards}
+@keyframes match-spark{from{opacity:0;transform:scale(.45)}35%{opacity:1}to{opacity:0;transform:scale(1.6)}}
+@media(max-width:370px){body[data-chapter] .board-frame{padding:3px}}
+@media(max-height:700px){#screen-card .chapter-scene{max-height:150px}#screen-card .portrait{padding-top:8px}#screen-card .portrait img{width:54px;height:54px}#screen-card .card-text{margin-block:5px 10px}#screen-card .keepsake{padding-bottom:14px}}
+/* The chapter picture is a real, unobstructed miniature, not a board texture. */
+#screen-board{padding:8px 12px 20px}
+.board-heading{display:flex;align-items:center;gap:8px;width:100%;max-width:430px;min-height:64px}
+#screen-board .board-heading .btn-home{position:static;flex:none}
+.board-heading-copy{flex:1;min-width:0}
+#screen-board .level-label{margin:0;line-height:1.1}
+#screen-board .board-name{max-width:none;min-height:0;margin:0;line-height:1.08}
+#board-scene{display:block;flex:none;width:130px;aspect-ratio:800/420;object-fit:contain;border:2px solid #fff8e9;border-radius:9px;background:var(--scene);box-shadow:0 2px 0 var(--detail)}
+#screen-board .counter{margin:3px 0;padding:0 12px;line-height:1.1}
+#screen-board .counter .tgt{width:34px;height:34px}
+#screen-board .guide{margin:3px 0;line-height:1.15}
+#screen-board .board-frame{max-width:350px;padding:4px}
+#screen-board .board{gap:2px}
+#screen-board .board-actions{margin-top:6px;flex-direction:row;justify-content:center}
+#screen-board .board-avatar{position:static;width:42px;height:42px;flex:none}
+@media(max-width:370px){#screen-board{padding-inline:6px}#board-scene{width:100px}.board-heading{gap:5px}}
+/* Give the album chapters different compositions while retaining their copy. */
+/* The illustrated story comes first in both visual and reading order. */
+body:is([data-chapter="2"],[data-chapter="5"],[data-chapter="8"]) #screen-card .keepsake{background:var(--scene);text-align:center;border-radius:32px 32px 20px 20px}
+body:is([data-chapter="2"],[data-chapter="5"],[data-chapter="8"]) #screen-card .portrait{justify-content:center}
+#screen-card .card-title::before,#screen-card .card-title::after{content:'✦';font-size:17px;color:#a86d37;vertical-align:middle;margin:0 10px}
+/* The scene itself carries the story; game-piece badges obscured the artwork. */
+#screen-card .reward-mark{display:none}
+/* Other milestones pair a larger portrait with their illustrated memory. */
+body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .keepsake{display:grid;grid-template-columns:1fr 112px;align-items:center;padding:16px 16px 20px;gap:0 12px}
+body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .chapter-scene{grid-column:1;grid-row:1;width:100%;margin:0;border:3px solid var(--detail);border-radius:16px}
+body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .portrait{grid-column:2;grid-row:1;justify-content:center;padding:0}
+body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .portrait img{width:96px;height:96px}
+body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .portrait::after{content:none}
+body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card :is(.card-title,.chapter-name,.card-text,.chapter-progress,.btn){grid-column:1 / -1}
+body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .reward-mark{top:22px;inset-inline-start:22px;width:46px;height:46px}
+/* Four editorial stagings: an open page, a panoramic milestone,
+   a paired portrait, and a family-story spread. Navigation stays fixed. */
+#screen-card .card-title::before,#screen-card .card-title::after{content:none}
+#screen-card .portrait::after{content:none}
+body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .keepsake{display:grid;grid-template-columns:82px 1fr;align-items:center;gap:0 12px;padding:0 0 20px;background:transparent;border:0;border-radius:0;box-shadow:none;text-align:right}
+body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .chapter-scene{grid-column:1/-1;width:100%;height:auto;max-height:190px;border:0;border-radius:8px;box-shadow:0 6px 0 var(--detail)}
+body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .portrait{grid-column:1;grid-row:2;padding:14px 0 0;justify-content:center}
+body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .portrait img{width:68px;height:68px}
+body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .card-title{grid-column:2;grid-row:2;margin:14px 0 0;font-size:28px}
+body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card :is(.chapter-name,.card-text,.chapter-progress,.btn){grid-column:1/-1}
+body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card :is(.chapter-name,.card-text){margin-inline:0}
+body:is([data-chapter="2"],[data-chapter="5"]) #screen-card .keepsake{border-radius:3px;background:#fff9eb;border-width:0;box-shadow:0 3px 0 var(--detail),0 14px 30px #66462c24;text-align:center}
+body:is([data-chapter="2"],[data-chapter="5"]) #screen-card .chapter-scene{height:170px;aspect-ratio:auto;object-fit:cover;border:0}
+body:is([data-chapter="2"],[data-chapter="5"]) #screen-card .portrait{justify-content:center;padding-top:10px}
+body:is([data-chapter="2"],[data-chapter="5"]) #screen-card .portrait img{width:54px;height:54px;border-radius:50%}
+body:is([data-chapter="3"],[data-chapter="6"]) #screen-card .keepsake{border-radius:4px;background:#fffaf0}
+body:is([data-chapter="3"],[data-chapter="6"]) #screen-card .chapter-name{font-size:23px}
+body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .keepsake{display:grid;grid-template-columns:92px 1fr;align-items:center;gap:0 12px;padding:15px 15px 20px;background:#fff9ed;border:0;border-radius:4px;box-shadow:0 10px 25px #66462c30;text-align:right}
+body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .chapter-scene{grid-column:1/-1;grid-row:1;width:100%;height:155px;max-height:none;margin:0;object-fit:cover;border:0;border-radius:2px}
+body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .portrait{grid-column:1;grid-row:2;padding:12px 0 0;justify-content:center}
+body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .portrait img{width:76px;height:76px;border-radius:50%}
+body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .card-title{grid-column:2;grid-row:2;margin:12px 0 0}
+body:is([data-chapter="8"],[data-chapter="9"]) #screen-card :is(.chapter-name,.card-text,.chapter-progress,.btn){grid-column:1/-1}
+body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .chapter-name{font-size:24px;margin:8px 0 0}
+body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .card-text{margin-inline:0}
+@media(max-height:700px){body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .chapter-scene{max-height:145px}body:is([data-chapter="2"],[data-chapter="5"],[data-chapter="8"],[data-chapter="9"]) #screen-card .chapter-scene{height:125px}}
+/* The family chapters are three different pages of the same album.
+   The existing landscapes are symbolic, not pictures of the real family. */
+body[data-chapter="7"] #screen-card .keepsake{display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:0 12px;padding:16px;background:#fffaf0;border:2px solid var(--detail);border-radius:5px;box-shadow:0 10px 24px #66462c25}
+body[data-chapter="7"] #screen-card .chapter-scene{grid-column:1;grid-row:1;width:100%;height:150px;max-height:none;object-fit:cover;border:0;border-radius:3px;box-shadow:none}
+body[data-chapter="7"] #screen-card .portrait{grid-column:2;grid-row:1;padding:0}
+body[data-chapter="7"] #screen-card .portrait img{width:88px;height:88px;border-radius:50%}
+body[data-chapter="7"] #screen-card .card-title{grid-column:1/-1;grid-row:auto;margin:14px 0 0}
+body[data-chapter="7"] #screen-card .chapter-name{font-size:23px}
+body[data-chapter="8"] #screen-card .keepsake{display:block;padding:0 0 18px;border-radius:4px;background:#fffaf0;text-align:right}
+body[data-chapter="8"] #screen-card .chapter-scene{width:100%;height:185px;border-radius:0;object-fit:cover}
+body[data-chapter="8"] #screen-card .portrait{padding:12px 20px 0;justify-content:flex-start}
+body[data-chapter="8"] #screen-card .portrait img{width:58px;height:58px;border-radius:12px}
+body[data-chapter="8"] #screen-card .card-title{margin:8px 20px 0}
+body[data-chapter="8"] #screen-card .chapter-name{margin:0 20px;font-size:23px}
+body[data-chapter="8"] #screen-card .card-text{margin:8px 20px 14px}
+body[data-chapter="9"] #screen-card .keepsake{grid-template-columns:76px minmax(0,1fr);padding:14px 14px 18px;background:#fffdf5;border:2px solid var(--detail);border-radius:20px 4px 20px 4px}
+body[data-chapter="9"] #screen-card .chapter-scene{height:175px;border:8px solid #fff;border-bottom-width:14px;border-radius:2px;box-shadow:0 2px 8px #66462c30;object-fit:cover}
+body[data-chapter="9"] #screen-card .portrait img{width:64px;height:64px;border-radius:50%}
+body[data-chapter="9"] #screen-card .chapter-name{font-size:23px}
+@media(max-height:700px){body[data-chapter="7"] #screen-card .chapter-scene{height:120px}body[data-chapter="8"] #screen-card .chapter-scene,body[data-chapter="9"] #screen-card .chapter-scene{height:125px}}
+/* Original confectionery treatment; symbols remain the primary shape cue. */
+body[data-chapter] .cell{box-shadow:inset 0 2px 4px #fff9,inset 0 -5px 5px #67402738,0 2px 2px #45230d40}
+.cell .candy-art{filter:drop-shadow(0 2px 1px #42261d80) drop-shadow(0 4px 3px #42261d55)}
+.board-frame{position:relative}
+.guide{position:relative} #match-feedback{position:absolute;inset:0;z-index:6;pointer-events:none;display:grid;place-items:center;background:#fff9e9;color:#733725;border:2px solid #b87d45;border-radius:12px;padding:2px 8px;font-size:20px;font-weight:800}
+#match-feedback:empty{display:none}
+.cell.power-row::after,.cell.power-column::after{content:'↔';position:absolute;inset:4px;display:grid;place-items:center;color:#fff;font-size:30px;font-weight:900;text-shadow:0 1px 3px #40200c,0 0 5px #40200c;outline:3px solid #fff3a4;border-radius:12px;pointer-events:none}
+.cell.power-column::after{content:'↕'}
+.collected-pulse{animation:counter-bounce .25s ease-out}
+@keyframes counter-bounce{50%{transform:scale(1.06);box-shadow:0 0 0 4px #e9b75e}}
+/* Candy sits on a continuous sugared tray, not square buttons. */
+body[data-chapter] .board{background:#8b5c49;gap:2px}
+body[data-chapter] .cell, body[data-chapter] .cell[data-type]{background:transparent!important;background-image:none!important;box-shadow:inset 0 0 0 1px #fff2,inset 0 -2px 4px #35170824;padding:0}
+@media(min-height:740px){#screen-board{justify-content:center}}
+@media(max-height:700px){#screen-board{padding-bottom:4px}}
+.cell .candy-art{max-width:none;width:100%;height:100%;filter:drop-shadow(0 3px 1px #48281999) drop-shadow(0 4px 3px #48281955)}
+body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #582719;outline:2px solid #582719}
 </style>
 </head>
 <body>
 <svg class="candy-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<!-- WebKit resolves external symbol paint references against this document. Keep these identical to fruit-symbols.svg. -->
+<radialGradient id="fruit-grad-red" cx="32%" cy="23%" r="76%"><stop stop-color="#ffaba1"/><stop offset=".34" stop-color="#ed4548"/><stop offset=".76" stop-color="#bf172d"/><stop offset="1" stop-color="#781329"/></radialGradient>
+<radialGradient id="fruit-grad-orange" cx="31%" cy="22%" r="78%"><stop stop-color="#fff1a2"/><stop offset=".32" stop-color="#ffbc39"/><stop offset=".76" stop-color="#ee7b14"/><stop offset="1" stop-color="#ad4010"/></radialGradient>
+<radialGradient id="fruit-grad-purple" cx="30%" cy="20%" r="80%"><stop stop-color="#e7b4ed"/><stop offset=".34" stop-color="#a850b5"/><stop offset=".8" stop-color="#6b2583"/><stop offset="1" stop-color="#421350"/></radialGradient>
+<radialGradient id="fruit-grad-peach" cx="27%" cy="19%" r="79%"><stop stop-color="#fff1bb"/><stop offset=".36" stop-color="#ffbd82"/><stop offset=".72" stop-color="#f17c74"/><stop offset="1" stop-color="#c24953"/></radialGradient>
+<radialGradient id="fruit-grad-yellow" cx="30%" cy="18%" r="86%"><stop stop-color="#fff5b1"/><stop offset=".42" stop-color="#f8cf4c"/><stop offset=".8" stop-color="#d99623"/><stop offset="1" stop-color="#9a5e16"/></radialGradient>
+<radialGradient id="fruit-grad-kiwi" cx="35%" cy="25%" r="74%"><stop stop-color="#edf3af"/><stop offset=".43" stop-color="#a5d359"/><stop offset=".8" stop-color="#6da73d"/><stop offset="1" stop-color="#3c6f2e"/></radialGradient>
+<linearGradient id="fruit-grad-leaf" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a5cf68"/><stop offset=".48" stop-color="#4d963f"/><stop offset="1" stop-color="#25602d"/></linearGradient>
+<linearGradient id="fruit-grad-rind" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#78b64b"/><stop offset="1" stop-color="#276338"/></linearGradient>
 <radialGradient id="ruby" cx="30%" cy="20%"><stop stop-color="#ffb6a6"/><stop offset=".42" stop-color="#ef4e50"/><stop offset="1" stop-color="#a51d36"/></radialGradient>
 <radialGradient id="orange" cx="30%" cy="20%"><stop stop-color="#fff2a7"/><stop offset=".45" stop-color="#ffbd35"/><stop offset="1" stop-color="#d66b0b"/></radialGradient>
 <radialGradient id="blue" cx="30%" cy="20%"><stop stop-color="#bdf4ff"/><stop offset=".48" stop-color="#51b9d7"/><stop offset="1" stop-color="#247092"/></radialGradient>
 <radialGradient id="green" cx="30%" cy="20%"><stop stop-color="#e0ffa6"/><stop offset=".48" stop-color="#87c75a"/><stop offset="1" stop-color="#408b46"/></radialGradient>
 <radialGradient id="purple" cx="30%" cy="20%"><stop stop-color="#f6d4ff"/><stop offset=".48" stop-color="#ba80cb"/><stop offset="1" stop-color="#79508d"/></radialGradient>
 <radialGradient id="gold" cx="30%" cy="20%"><stop stop-color="#fff5af"/><stop offset=".5" stop-color="#eebd45"/><stop offset="1" stop-color="#b87920"/></radialGradient>
-<symbol id="candy-heart" viewBox="0 0 64 64"><path d="M32 55 C24 48 7 37 7 23 C7 10 22 7 32 19 C42 7 57 10 57 23 C57 37 40 48 32 55Z" fill="url(#ruby)" stroke="#9b3341" stroke-width="2"/><path d="M14 22 Q16 14 24 17" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/></symbol>
-<symbol id="candy-fruit" viewBox="0 0 64 64"><circle cx="32" cy="35" r="23" fill="url(#orange)" stroke="#ae6522" stroke-width="2"/><path d="M32 13 Q31 5 41 5 Q41 13 32 15" fill="#4c9b51" stroke="#41814c" stroke-width="2"/><path d="M15 28 Q18 20 24 19" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="3" stroke-linecap="round"/><path d="M33 18v31 M20 25q12 8 24 0 M20 42q12-8 24 0" fill="none" stroke="#fff1b5" stroke-opacity=".45" stroke-width="1.6"/></symbol>
-<symbol id="candy-ball" viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="#fffaf1" stroke="#342c27" stroke-width="2.5"/><path d="M32 20l10 7-4 12H26l-4-12z" fill="#342c27" stroke="#342c27" stroke-width="1.5" stroke-linejoin="round"/><path d="M32 20v-9 M42 27l11-3 M38 39l6 10 M26 39l-6 10 M22 27l-11-3" fill="none" stroke="#342c27" stroke-width="2.5" stroke-linecap="round"/><path d="M17 22q3-6 8-7" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></symbol>
-<symbol id="candy-shield" viewBox="0 0 64 64"><path d="M32 7 L53 15 L51 34 Q48 47 32 56 Q16 47 13 34 L11 15Z" fill="url(#blue)" stroke="#397b91" stroke-width="2"/><path d="M32 15l4 10 11 1-9 7 3 11-9-6-9 6 3-11-9-7 11-1z" fill="#fff4ce"/><path d="M17 18l8-3" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/></symbol>
-<symbol id="candy-plane" viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="16" fill="url(#green)" stroke="#4f8d50" stroke-width="2"/><path d="M14 36l15-5 7-16q2-4 5-2l-3 17 11 6q3 2 1 4l-14-3-5 10 4 4-2 2-8-5-6 1-2-3 6-4 3-9-11 5z" fill="#fff9e6" stroke="#fff9e6" stroke-linejoin="round"/></symbol>
-<symbol id="candy-faith" viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="url(#gold)" stroke="#b28139" stroke-width="2"/><path d="M32 13 Q23 23 29 28 Q32 31 35 28 Q41 23 32 13Z" fill="#fff8d2"/><path d="M25 31h14v14H25z M22 46h20" fill="#fff7df" stroke="#fff7df" stroke-width="2" stroke-linecap="round"/><path d="M15 24Q18 17 24 16" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/></symbol>
+<radialGradient id="ball-glaze" cx="30%" cy="23%" r="78%"><stop stop-color="#fff"/><stop offset=".52" stop-color="#fff9e7"/><stop offset=".84" stop-color="#d2c5ae"/><stop offset="1" stop-color="#796a61"/></radialGradient>
+<radialGradient id="amber-glaze" cx="32%" cy="18%" r="80%"><stop stop-color="#fff9be"/><stop offset=".35" stop-color="#ffd247"/><stop offset=".75" stop-color="#db7c13"/><stop offset="1" stop-color="#8a390c"/></radialGradient>
+<radialGradient id="mint-glaze" cx="27%" cy="20%" r="80%"><stop stop-color="#dcffdf"/><stop offset=".36" stop-color="#60d3aa"/><stop offset=".78" stop-color="#168f76"/><stop offset="1" stop-color="#075747"/></radialGradient>
+<symbol id="candy-heart" viewBox="0 0 64 64"><path d="M32 58 C24 50 4 39 4 22 C4 7 22 4 32 17 C42 4 60 7 60 22 C60 39 40 50 32 58Z" fill="#7e142d"/><path d="M32 53 C24 46 6 36 6 21 C6 8 22 5 32 18 C42 5 58 8 58 21 C58 36 40 46 32 53Z" fill="url(#ruby)" stroke="#ff9b99" stroke-width="1.4"/><path d="M11 22 C12 14 19 11 24 14" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="3.4" stroke-linecap="round"/><path d="M17 39 Q32 53 47 38" fill="none" stroke="#ff9fa0" stroke-opacity=".55" stroke-width="2"/></symbol>
+<symbol id="candy-fruit" viewBox="0 0 64 64"><circle cx="32" cy="35" r="25" fill="url(#orange)"/><path d="M32 13 Q31 5 41 5 Q41 13 32 15" fill="#4c9b51"/></symbol>
+<symbol id="candy-ball" viewBox="0 0 64 64"><circle cx="32" cy="34" r="27" fill="#c17b41"/><circle cx="32" cy="30" r="26" fill="url(#ball-glaze)" stroke="#fff0d2" stroke-width="2"/><path d="M32 17l10 7-4 12H26l-4-12z" fill="#a54436"/><g fill="#b5533d"><path d="M26 5 Q32 2 38 5 L36 10 L28 10Z"/><path d="M8 18 L13 17 L17 23 L13 28 L6 27Z"/><path d="M56 18 L51 17 L47 23 L51 28 L58 27Z"/><path d="M13 43 L20 41 L24 48 L21 53 Q16 50 13 43Z"/><path d="M51 43 L44 41 L40 48 L43 53 Q48 50 51 43Z"/></g><path d="M32 17v-7 M42 24l9-3 M38 36l6 7 M26 36l-6 7 M22 24l-9-3" fill="none" stroke="#bc826e" stroke-width="1.5"/><path d="M12 24q3-10 12-14" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="candy-shield" viewBox="0 0 64 64"><path d="M32 7 Q43 9 57 15 L54 38 Q51 52 32 61 Q13 52 10 38 L7 15 Q21 9 32 7Z" fill="#124962"/><path d="M32 3 Q44 6 57 12 L54 34 Q51 48 32 56 Q13 48 10 34 L7 12 Q20 6 32 3Z" fill="url(#blue)" stroke="#c3f6ff" stroke-width="2"/><path d="M32 12l4 10 11 1-8 7 2 10-9-5-9 5 2-10-8-7 11-1z" fill="#bffaff" opacity=".9"/><path d="M13 17 Q19 12 24 12 M17 38 Q21 46 29 49" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="candy-plane" viewBox="0 0 64 64"><path d="M31 8 Q32 3 35 3 Q39 3 39 8 L38 22 56 32 Q59 34 57 39 L38 34 38 47 45 52 45 57 34 54 23 57 23 52 30 47 30 34 11 39 Q9 34 12 32 L30 22Z" fill="#075747" transform="translate(0 4)"/><path d="M31 8 Q32 3 35 3 Q39 3 39 8 L38 22 56 32 Q59 34 57 39 L38 34 38 47 45 52 45 57 34 54 23 57 23 52 30 47 30 34 11 39 Q9 34 12 32 L30 22Z" fill="url(#mint-glaze)" stroke="#c0ffea" stroke-width="2" stroke-linejoin="round"/><path d="M34 10v18 M16 34l11-5" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="3" stroke-linecap="round"/><path d="M32 44h5" stroke="#116c5a" stroke-width="2"/></symbol>
+<symbol id="candy-faith" viewBox="0 0 64 64"><path d="M21 31 Q21 27 25 27 H39 Q43 27 43 31 V54 Q43 59 32 59 Q21 59 21 54Z" fill="#b15519"/><path d="M21 29 Q21 25 25 25 H39 Q43 25 43 29 V51 Q43 56 32 56 Q21 56 21 51Z" fill="url(#amber-glaze)" stroke="#fff0ae" stroke-width="2"/><ellipse cx="32" cy="28" rx="11" ry="4" fill="#fff0b4"/><path d="M32 27 V22" stroke="#6e381b" stroke-width="2"/><path d="M32 3 C29 10 24 13 26 19 Q27 24 32 24 Q39 24 39 18 Q39 12 32 3Z" fill="#f06819" stroke="#a64517" stroke-width="1.3"/><path d="M32 12 Q28 18 32 21 Q36 19 32 12Z" fill="#fff4a1"/><path d="M25 33v15" stroke="#fff8d5" stroke-width="3" stroke-linecap="round" opacity=".8"/><path d="M39 32v5q-2 4-4 0v-4" fill="#ffefb2"/></symbol>
 </defs></svg>
 <div id="app">
 
   <!-- HOME -->
   <section id="screen-home" class="screen active">
     <div class="hero-figure">
-      <img src="assets/yoram-full-body.png" alt="יורם" onerror="this.style.display='none';document.getElementById('home-fallback').style.display='flex';">
+      <img src="assets/yoram-full-body-cutout.png" alt="יורם" onerror="this.style.display='none';document.getElementById('home-fallback').style.display='flex';">
       <div class="figure-fallback" id="home-fallback"><span class="big">👑</span><span class="lbl">יורם הגיבור</span></div>
     </div>
     <h1>יורם <span class="accent-red">הגיבור</span></h1>
@@ -213,6 +414,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
   <!-- LEVEL_INTRO -->
   <section id="screen-intro" class="screen">
     <div class="card">
+      <img id="intro-scene" src="assets/scenes/chapter-01.jpg" alt="" aria-hidden="true">
       <div class="intro-badge" id="intro-badge">⭐</div>
       <h2 id="intro-name"></h2>
       <p class="intro-line" id="intro-line"></p>
@@ -223,37 +425,49 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
 
   <!-- BOARD -->
   <section id="screen-board" class="screen">
+    <div class="board-heading">
     <button class="btn-home" type="button" aria-label="בית">⌂</button>
-    <img class="board-avatar" src="assets/yoram-portrait.png" alt="יורם">
+    <div class="board-heading-copy">
     <p class="level-label" id="level-label"></p>
     <h2 class="board-name" id="board-name"></h2>
+    </div>
+    <img id="board-scene" src="assets/scenes/chapter-01.jpg" alt="" aria-hidden="true">
+    </div>
     <p class="counter" id="counter" aria-live="polite"></p>
-    <p class="guide">נוגעים בשני סמלים שכנים כדי להחליף ביניהם</p>
+    <p class="guide">נוגעים בסמל ואחריו בשכן שלו, כדי ליצור שורה של 3 זהים. ארבעה זהים יוצרים חץ שמנקה שורה או טור!<span id="match-feedback" aria-hidden="true"></span></p>
     <div class="board-frame" id="board-frame">
       <div class="board" id="grid"></div>
     </div>
     <div class="board-actions">
       <button id="btn-hint" class="btn btn-ghost" type="button">רמז</button>
+      <img class="board-avatar" src="assets/yoram-portrait-cutout.png" alt="יורם">
     </div>
   </section>
 
   <!-- HERO_CARD -->
   <section id="screen-card" class="screen">
     <button class="btn-home" type="button" aria-label="בית">⌂</button>
+    <div class="keepsake">
+    <img class="chapter-scene" id="card-scene" src="assets/scenes/chapter-01.jpg" alt="" aria-hidden="true">
+    <div class="reward-mark" id="reward-mark" aria-hidden="true"></div>
     <div class="portrait">
-      <img src="assets/yoram-portrait.png" alt="יורם" onerror="this.style.display='none';document.getElementById('card-fallback').style.display='flex';">
+      <img src="assets/yoram-portrait-cutout.png" alt="יורם" onerror="this.style.display='none';document.getElementById('card-fallback').style.display='flex';">
       <div class="portrait-fallback" id="card-fallback"><span class="big">❤️</span><span class="lbl">יורם</span></div>
     </div>
     <p class="card-title">כרטיס גיבור</p>
+    <p class="chapter-name" id="card-chapter"></p>
     <p class="card-text" id="card-text"></p>
+    <div class="chapter-progress" id="chapter-progress" aria-hidden="true"></div>
     <button id="btn-next" class="btn" type="button">לשלב הבא</button>
+    </div>
   </section>
 
   <!-- FINALE -->
   <section id="screen-finale" class="screen">
     <button class="btn-home" type="button" aria-label="בית">⌂</button>
+    <img class="chapter-scene" src="assets/scenes/chapter-10.jpg" alt="" aria-hidden="true">
     <div class="hero-figure">
-      <img src="assets/yoram-full-body.png" alt="יורם" onerror="this.style.display='none';document.getElementById('finale-fallback').style.display='flex';">
+      <img src="assets/yoram-full-body-cutout.png" alt="יורם" onerror="this.style.display='none';document.getElementById('finale-fallback').style.display='flex';">
       <div class="figure-fallback" id="finale-fallback"><span class="big">👑</span><span class="lbl">יורם הגיבור</span></div>
     </div>
     <h2>הגיבור שלנו</h2>
@@ -280,7 +494,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
 
   function makeBoard(targetType) {
     // target type appears more often so collecting stays quick and frustration-free
-    while (true) {
+    for (let attempt=0; attempt<8; attempt++) {
       const board = [];
       for (let r=0;r<ROWS;r++){
         const row = [];
@@ -302,6 +516,12 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
       }
       if (!hasMatch(board) && findMove(board)) return board;
     }
+    // A proven playable layout also makes a broken or constant random source safe.
+    const layout = [[4,2,4,5,2,0],[5,5,4,1,4,4],[1,2,0,4,4,5],[2,3,1,0,3,5],[0,4,4,5,0,4],[2,3,4,3,3,1]];
+    const target = TYPES.indexOf(targetType);
+    const order = TYPES.slice();
+    if (target >= 0) [order[4],order[target]] = [order[target],order[4]];
+    return layout.map(function(row){ return row.map(function(i){ return order[i]; }); });
   }
 
   function findMatches(board) {
@@ -332,6 +552,31 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
   }
 
   function hasMatch(board){ return findMatches(board).length > 0; }
+
+  // A four-or-more match instantly activates a striped candy. Each affected
+  // cell is included once, even when several lines intersect.
+  function clearPlan(board){
+    const cells = new Set(findMatches(board).map(function(p){return p.join(',');}));
+    const powers = [];
+    function scan(axis, outer, inner){
+      for(let line=0;line<outer;line++){
+        let start=0;
+        while(start<inner){
+          const value = axis==='row' ? board[line][start] : board[start][line];
+          let end=start+1;
+          while(value!=null && end<inner && (axis==='row' ? board[line][end] : board[end][line])===value) end++;
+          if(value!=null && end-start>=4){
+            const r=axis==='row'?line:start, c=axis==='row'?start:line;
+            powers.push({r:r,c:c,axis:axis});
+            for(let i=0;i<inner;i++) cells.add(axis==='row' ? line+','+i : i+','+line);
+          }
+          start=end;
+        }
+      }
+    }
+    scan('row',ROWS,COLS); scan('column',COLS,ROWS);
+    return {cells:Array.from(cells,function(s){return s.split(',').map(Number);}), powers:powers};
+  }
 
   function swap(board, r1,c1,r2,c2){
     const t = board[r1][c1]; board[r1][c1] = board[r2][c2]; board[r2][c2] = t;
@@ -374,7 +619,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
     let b = board;
     let guard = 0;
     while (guard++ < 500) {
-      const m = findMatches(b);
+      const m = clearPlan(b).cells;
       if (m.length===0) break;
       let targetCleared = 0;
       for (const cell of m){ if (b[cell[0]][cell[1]]===targetType) targetCleared++; }
@@ -383,6 +628,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
       for (const cell of m){ b[cell[0]][cell[1]] = null; }
       b = collapseAndRefill(b);
     }
+    if (hasMatch(b)) b = makeBoard(targetType);
     return { board: b, cleared: cleared, steps: steps };
   }
 
@@ -390,7 +636,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
 
   globalThis.__ENGINE = {
     COLS:COLS, ROWS:ROWS, TYPES:TYPES,
-    makeBoard:makeBoard, findMatches:findMatches, hasMatch:hasMatch, findMove:findMove,
+    makeBoard:makeBoard, findMatches:findMatches, clearPlan:clearPlan, hasMatch:hasMatch, findMove:findMove,
     collapseAndRefill:collapseAndRefill, resolveBoard:resolveBoard, shuffleBoard:shuffleBoard, swap:swap
   };
 })();
@@ -431,14 +677,23 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
   const STORAGE_KEY = 'yoram-hero-v1';
 
   const el = function(id){ return document.getElementById(id); };
+  // A locally embedded illustration is visible while chapter art loads and if it fails.
+  const sceneFallback = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420"><rect width="800" height="420" fill="#f6e5c9"/><circle cx="620" cy="90" r="48" fill="#f3c96b"/><path d="M0 305 Q190 155 400 305 Q600 160 800 285 V420 H0Z" fill="#c4d5b0"/><path d="M0 355 Q215 235 420 355 Q600 275 800 335 V420 H0Z" fill="#9eb98c"/><path d="M400 290 C355 250 300 300 400 365 C500 300 445 250 400 290Z" fill="#c95b4d"/></svg>');
+  document.querySelectorAll('#intro-scene, #board-scene, .chapter-scene').forEach(function(image){
+    image.style.backgroundImage = 'url("' + sceneFallback + '")';
+    image.style.backgroundSize = 'cover';
+    image.addEventListener('error', function(){ if(image.src !== sceneFallback) image.src = sceneFallback; });
+  });
   const grid = el('grid');
 
-  const state = { levelIndex:0, collected:0, board:null, selected:null, busy:false, started:false, pending:false };
+  const state = { levelIndex:0, collected:0, board:null, selected:null, busy:false, started:false, pending:false, cascadeSeen:[] };
 
   function level(){ return LEVELS[state.levelIndex]; }
   function emojiFor(t, lv){ return t === 'fruit' ? lv.fruit : EMOJI[t]; }
   function targetEmoji(lv){ return lv.target === 'fruit' ? lv.fruit : EMOJI[lv.target]; }
   const names = {fruit:'פרי',ball:'כדורגל',shield:'מגן',plane:'מטוס',heart:'לב',faith:'אור'};
+  const goalNames = {fruit:'פירות',ball:'כדורי כדורגל',shield:'מגנים',plane:'מטוסים',heart:'לבבות',faith:'אורות'};
+  const chapterIntros = ['הסיפור מתחיל עם אמא שרה.', 'הקבוצה שלך: הפועל חיפה 🔴⚽', 'בגיל 26 התחיל המסע מדלת לדלת.', 'סיפור על מה שבנית במו ידיך.', 'פותחים את הבוקר באמונה.', 'סיפור על הדאגה למשפחות.', 'פרק על אבא של שי וגלי.', 'פרק על המשפחה הגדולה שלך.', 'סבא יורם ומילי וג׳יימי.', 'המסע בעולם של הגיבור שלנו.'];
   const fruitSymbols = {'🍎':'apple','🍇':'grape','🍊':'orange','🍓':'strawberry','🍑':'peach','🍍':'pineapple','🍌':'banana','🍒':'cherry','🥝':'kiwi','🍉':'watermelon'};
   function candy(t){
     const symbol = t === 'fruit' ? 'assets/fruit-symbols.svg#fruit-'+fruitSymbols[level().fruit] : '#candy-'+t;
@@ -448,12 +703,15 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
   // ---- screens ----
   function show(id){
     document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    el('confetti').replaceChildren();
     el(id).classList.add('active');
+    if (id === 'screen-home') delete document.body.dataset.chapter;
+    else document.body.dataset.chapter = String(state.levelIndex + 1);
   }
 
   // ---- progress ----
   function saveProgress(){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ levelIndex:state.levelIndex, collected:state.collected, board:state.board })); }catch(e){}
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ levelIndex:state.levelIndex, collected:state.collected, board:state.board, pending:state.pending, cascadeSeen:state.cascadeSeen })); }catch(e){}
   }
   function loadProgress(){
     try{
@@ -508,7 +766,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
   function updateCounter(){
     const lv = level();
     const shown = Math.min(state.collected, lv.count);
-    el('counter').innerHTML = 'אספת <b>'+shown+'</b> מתוך <b>'+lv.count+'</b> '+names[lv.target]+' <span class="tgt">'+candy(lv.target)+'</span>';
+    el('counter').innerHTML = 'אספת <b>'+shown+'</b> מתוך <b>'+lv.count+'</b> '+goalNames[lv.target]+' <span class="tgt">'+candy(lv.target)+'</span>';
   }
 
   // ---- input ----
@@ -536,46 +794,56 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
     first.classList.add('swap-motion'); second.classList.add('swap-motion');
     E.swap(state.board, a.r,a.c,b.r,b.c);
     const valid = E.hasMatch(state.board);
-    if (valid){ saveProgress(); }
-    state._cs = 0;
-    clearTimeout(state._watchdog);
-    state._watchdog = setTimeout(function(){
-      if (state.busy){
-        state.board = E.shuffleBoard(level().target);
-        state.busy = false; state.selected = null;
-        renderBoard(); updateCounter(); saveProgress();
-      }
-    }, 3000);
+    if (valid){ state.pending = true; state.cascadeSeen = []; saveProgress(); }
     setTimeout(function(){
       if(valid){ renderBoard(); cascadeStep(); }
       else {
         first.style.setProperty('--dx','0px'); first.style.setProperty('--dy','0px');
         second.style.setProperty('--dx','0px'); second.style.setProperty('--dy','0px');
         E.swap(state.board,a.r,a.c,b.r,b.c);
-        setTimeout(function(){renderBoard(); state.busy=false;},120);
+        setTimeout(function(){renderBoard(); state.busy=false;},200);
       }
-    },120);
+    },200);
   }
 
   function cascadeStep(){
-    state._cs = (state._cs || 0) + 1;
-    if (state._cs > 60){ finishTurn(); return; }
-    const m = E.findMatches(state.board);
+    if (state.cascadeSeen.length >= 128){
+      state.board = E.makeBoard(level().target);
+      renderBoard();
+      finishTurn();
+      return;
+    }
+    const plan = E.clearPlan(state.board), m = plan.cells;
     if (m.length === 0){ finishTurn(); return; }
+    const accelerated = state.cascadeSeen.length >= 8;
+    state.cascadeSeen.push(1);
     let cleared = 0;
     m.forEach(function(cell){ if (state.board[cell[0]][cell[1]] === level().target) cleared++; });
     state.collected += cleared;
     updateCounter();
+    const feedback = el('match-feedback');
+    feedback.textContent = plan.powers.length ? 'חץ הקסם מנקה!' : (state.cascadeSeen.length > 1 ? 'רצף נהדר!' : (cleared ? 'יופי! +' + cleared : 'כל הכבוד!'));
+    plan.powers.forEach(function(p){ const cell=cellEl(p.r,p.c); if(cell){ cell.classList.add('power-'+p.axis); cell.setAttribute('aria-label',cell.getAttribute('aria-label') + (p.axis==='row' ? ', חץ שמנקה שורה' : ', חץ שמנקה טור')); } });
+    if (cleared) { el('counter').classList.remove('collected-pulse'); void el('counter').offsetWidth; el('counter').classList.add('collected-pulse'); }
     m.forEach(function(cell){ const c=cellEl(cell[0],cell[1]); if(c) c.classList.add('pop'); });
     setTimeout(function(){
+      feedback.textContent = '';
+      el('counter').classList.remove('collected-pulse');
       m.forEach(function(cell){ state.board[cell[0]][cell[1]] = null; });
       const distances=fallDistances(state.board);
       state.board = E.collapseAndRefill(state.board);
       saveProgress();
       renderBoard(distances);
-      if (state.collected >= level().count){ setTimeout(finishLevel, 150); return; }
-      setTimeout(cascadeStep, 100);
-    }, 150);
+      if (state.collected >= level().count){ setTimeout(finishLevel, accelerated ? 0 : 240); return; }
+      // An exceptionally long chain must not trap the player forever.
+      if (state.cascadeSeen.length >= 128){
+        state.board = E.makeBoard(level().target);
+        renderBoard();
+        finishTurn();
+        return;
+      }
+      setTimeout(cascadeStep, accelerated ? 0 : 250);
+    }, accelerated ? 0 : 240);
   }
 
   function finishTurn(){
@@ -588,6 +856,7 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
     state.busy = false;
     state.selected = null;
     state.pending = false;
+    state.cascadeSeen = [];
     saveProgress();
   }
 
@@ -616,19 +885,22 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
   // ---- level screens ----
   function showIntro(){
     const lv = level();
+    el('intro-scene').src = 'assets/scenes/chapter-'+String(state.levelIndex+1).padStart(2,'0')+'.jpg';
     el('intro-badge').innerHTML = candy(lv.target);
     el('intro-name').textContent = lv.name;
-    el('intro-line').textContent = lv.intro || '';
-    el('intro-line').style.display = lv.intro ? '' : 'none';
+    el('intro-line').textContent = chapterIntros[state.levelIndex];
+    el('intro-line').style.display = '';
     refreshStartButton();
     show('screen-intro');
   }
 
   function showBoard(){
     const lv = level();
+    el('board-frame').style.setProperty('--chapter-art', 'url("assets/scenes/chapter-'+String(state.levelIndex+1).padStart(2,'0')+'.jpg")');
+    el('board-scene').src = 'assets/scenes/chapter-'+String(state.levelIndex+1).padStart(2,'0')+'.jpg';
     if (state.collected >= lv.count){ finishLevel(); return; }
     if (!state.board) state.board = E.makeBoard(lv.target);
-    state.selected = null; state.busy = false;
+    state.selected = null; state.busy = state.pending;
     el('level-label').textContent = 'שלב ' + (state.levelIndex+1) + ' מתוך ' + LEVELS.length;
     el('board-name').textContent = lv.name;
     el('board-frame').classList.toggle('red', !!lv.red);
@@ -636,10 +908,19 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
     renderBoard();
     saveProgress();
     show('screen-board');
+    if (state.pending) setTimeout(cascadeStep, 0);
   }
 
   function showHeroCard(){
+    el('card-scene').src = 'assets/scenes/chapter-' + String(state.levelIndex + 1).padStart(2,'0') + '.jpg';
     el('card-text').textContent = level().card;
+    el('card-chapter').textContent = level().name;
+    el('reward-mark').innerHTML = candy(level().target);
+    el('chapter-progress').replaceChildren(...LEVELS.map(function(_, i){
+      const mark = document.createElement('span');
+      if(i <= state.levelIndex) mark.className = 'done';
+      return mark;
+    }));
     show('screen-card');
     burstConfetti();
   }
@@ -689,8 +970,8 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
       s.style.background = bits[i % bits.length];
       s.style.left = (Math.random()*100) + 'vw';
       s.style.fontSize = (16 + Math.random()*18) + 'px';
-      s.style.animationDuration = (1.6 + Math.random()*1.6) + 's';
-      s.style.animationDelay = (Math.random()*0.4) + 's';
+      s.style.animationDuration = '.28s';
+      s.style.animationDelay = '0s';
       box.appendChild(s);
       (function(node){ setTimeout(function(){ if (node.parentNode) node.parentNode.removeChild(node); }, 3600); })(s);
     }
@@ -703,7 +984,9 @@ h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
       state.levelIndex = p.levelIndex;
       state.collected = p.collected;
       const validBoard = Array.isArray(p.board) && p.board.length === E.ROWS && p.board.every(function(row){ return Array.isArray(row) && row.length === E.COLS && row.every(function(t){ return E.TYPES.includes(t); }); });
-      state.board = validBoard && (!E.hasMatch(p.board) && E.findMove(p.board)) ? p.board : null;
+      state.pending = !!(validBoard && p.pending);
+      state.cascadeSeen = state.pending && Array.isArray(p.cascadeSeen) ? p.cascadeSeen.slice(0,128) : [];
+      state.board = validBoard && (state.pending || (!E.hasMatch(p.board) && E.findMove(p.board))) ? p.board : null;
       showIntro();
     } else {
       clearProgress();

@@ -37,13 +37,7 @@
       <g fill="#ffdf92" opacity=".9"><ellipse cx="21" cy="29" rx="1" ry="1.7" transform="rotate(-25 21 29)"/><ellipse cx="30" cy="28" rx="1" ry="1.7"/><ellipse cx="40" cy="29" rx="1" ry="1.7" transform="rotate(25 40 29)"/><ellipse cx="25" cy="37" rx="1" ry="1.7"/><ellipse cx="35" cy="37" rx="1" ry="1.7"/><ellipse cx="42" cy="37" rx="1" ry="1.7"/><ellipse cx="30" cy="45" rx="1" ry="1.7"/><ellipse cx="37" cy="45" rx="1" ry="1.7"/></g>
       <path d="M17 29q0-4 3-6" fill="none" stroke="#fff6e9" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>
     </symbol>
-    <symbol id="fruit-peach" viewBox="0 0 64 64">
-      <path d="M32 18 C25 10 11 15 9 28 C7 43 18 55 32 57 C46 55 57 43 55 28 C53 15 39 10 32 18Z" fill="url(#fruit-grad-peach)" stroke="#be675e" stroke-width="1.4"/>
-      <path d="M32 18 Q30 31 33 45 Q34 50 32 55" fill="none" stroke="#bf6260" stroke-opacity=".48" stroke-width="1.8"/>
-      <path d="M32 18 Q30 12 32 8" fill="none" stroke="#74512d" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M32 15 Q36 6 46 8 Q44 16 33 17Z" fill="url(#fruit-grad-leaf)" stroke="#397437" stroke-width="1"/>
-      <path d="M15 29q2-7 8-9" fill="none" stroke="#fff8e9" stroke-opacity=".72" stroke-width="2.5" stroke-linecap="round"/>
-    </symbol>
+    <symbol id="fruit-peach" viewBox="0 0 64 64"><path d="M32 19 C24 10 10 16 8 30 C6 43 16 56 28 57 Q31 57 32 54 Q33 57 36 57 C48 56 58 43 56 30 C54 16 40 10 32 19Z" fill="url(#fruit-grad-peach)" stroke="#b65a58" stroke-width="1.8"/><path d="M32 20 Q27 32 31 43 Q34 50 32 54" fill="none" stroke="#b94e58" stroke-width="2.5" opacity=".8"/><path d="M32 19 Q30 13 32 9" fill="none" stroke="#74512d" stroke-width="3" stroke-linecap="round"/><path d="M32 16 Q37 5 49 8 Q46 17 33 19Z" fill="url(#fruit-grad-leaf)" stroke="#397437" stroke-width="1"/><path d="M14 29q2-7 8-9" fill="none" stroke="#fff8e9" stroke-width="3" stroke-linecap="round"/></symbol>
     <symbol id="fruit-pineapple" viewBox="0 0 64 64">
       <path d="M30 20 Q22 14 21 5 Q29 8 32 16 Q34 6 40 3 Q40 12 37 18 Q43 11 49 11 Q46 19 39 23Z" fill="url(#fruit-grad-leaf)" stroke="#3f7834" stroke-width="1.2" stroke-linejoin="round"/>
       <path d="M32 19 C20 19 14 27 15 39 C16 51 22 58 32 58 C42 58 48 51 49 39 C50 27 44 19 32 19Z" fill="url(#fruit-grad-yellow)" stroke="#a96c1c" stroke-width="1.5"/>
@@ -56,13 +50,7 @@
       <path d="M12 23 C14 40 23 50 35 50" fill="none" stroke="#fff1a0" stroke-opacity=".72" stroke-width="2.2" stroke-linecap="round"/>
       <path d="M15 34 C20 46 28 50 36 50" fill="none" stroke="#bb8328" stroke-opacity=".45" stroke-width="1"/>
     </symbol>
-    <symbol id="fruit-cherry" viewBox="0 0 64 64">
-      <path d="M22 33 Q22 17 36 8 Q41 19 44 33" fill="none" stroke="#5b7136" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M35 11 Q40 3 50 6 Q48 13 37 14Z" fill="url(#fruit-grad-leaf)" stroke="#346b32" stroke-width="1"/>
-      <circle cx="20" cy="43" r="12" fill="url(#fruit-grad-red)" stroke="#8b2333" stroke-width="1.4"/>
-      <circle cx="44" cy="43" r="12" fill="url(#fruit-grad-red)" stroke="#8b2333" stroke-width="1.4"/>
-      <path d="M13 40q1-4 4-5 M37 40q1-4 4-5" fill="none" stroke="#fff2e5" stroke-opacity=".75" stroke-width="2.3" stroke-linecap="round"/>
-    </symbol>
+    <symbol id="fruit-cherry" viewBox="0 0 64 64"><path d="M18 36 Q20 17 34 7 Q43 18 46 36" fill="none" stroke="#38622a" stroke-width="3.5" stroke-linecap="round"/><path d="M34 10 Q40 2 51 6 Q48 14 37 14Z" fill="url(#fruit-grad-leaf)" stroke="#285d2a" stroke-width="1.5"/><circle cx="18" cy="43" r="12" fill="url(#fruit-grad-red)" stroke="#8b2333" stroke-width="1.5"/><circle cx="46" cy="43" r="12" fill="url(#fruit-grad-red)" stroke="#8b2333" stroke-width="1.5"/><path d="M11 40q1-4 4-5 M39 40q1-4 4-5" fill="none" stroke="#fff2e5" stroke-width="2.8" stroke-linecap="round"/></symbol>
     <symbol id="fruit-kiwi" viewBox="0 0 64 64">
       <ellipse cx="32" cy="33" rx="23" ry="25" fill="#88592e" stroke="#604020" stroke-width="1.4"/>
       <ellipse cx="32" cy="32" rx="20" ry="22" fill="url(#fruit-grad-kiwi)" stroke="#d4db88" stroke-width="1.5"/>
