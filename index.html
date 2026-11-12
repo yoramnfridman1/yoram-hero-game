@@ -4,371 +4,57 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fff7ec">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23d84a2b'/%3E%3Cpath d='M18 43h28l4-22-12 8-6-13-6 13-12-8z' fill='%23ffe6a1'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='8' y='5' width='48' height='54' rx='3' fill='%23923e33'/%3E%3Cpath d='M45 5v54M17 20h20M17 29h20' stroke='%23f6f1e6' stroke-width='2'/%3E%3C/svg%3E">
 <title>יורם הגיבור — המסע של יורם פרידמן</title>
 <style>
-:root{
-  --bg1:#fff7ec; --bg2:#ffe7d0;
-  --ink:#4a2c17; --muted:#7a5a3f;
-  --card:#ffffff;
-  --accent:#d84a2b; --accent-dark:#b83a20;
-  --red:#d81e2b;
-  --gold:#e8a33d;
-  --border:#f3ddc4;
-  --shadow:0 8px 24px rgba(122,80,40,.14);
-}
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
-body{
-  font-family:'Heebo','Assistant',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
-  background:linear-gradient(180deg,var(--bg1),var(--bg2));
-  background-attachment:fixed;
-  color:var(--ink);
-  min-height:100vh;
-  font-size:18px; line-height:1.55;
-  -webkit-tap-highlight-color:transparent;
-  -webkit-text-size-adjust:100%;
-}
-#app{min-height:100vh; display:flex; flex-direction:column; align-items:center;}
-.screen{display:none; width:100%; max-width:560px; padding:24px 16px 32px; flex:1; flex-direction:column; align-items:center; text-align:center;}
-.screen.active{display:flex;}
-
-h1{font-size:2.3rem; line-height:1.15; margin:14px 0 2px; font-weight:800;}
-h2{font-size:1.8rem; line-height:1.2; margin:8px 0 4px; font-weight:800;}
-.subtitle{font-size:1.3rem; color:var(--muted); margin:0 0 22px; font-weight:600;}
-.accent-red{color:var(--red);}
-
-.card{background:var(--card); border-radius:26px; box-shadow:var(--shadow); padding:24px 20px; width:100%;}
-
-/* Buttons */
-.btn{
-  font-family:inherit; font-size:1.3rem; font-weight:800;
-  border:none; border-radius:999px; cursor:pointer;
-  padding:16px 34px; min-height:58px; min-width:220px;
-  color:#fff; background:linear-gradient(180deg,#ef6a3a,var(--accent));
-  box-shadow:0 7px 18px rgba(216,74,43,.32);
-  transition:transform .12s ease;
-}
-.btn:active{transform:translateY(2px) scale(.99);}
-.btn-big{font-size:1.6rem; padding:22px 48px; min-height:68px;}
-.btn-ghost{background:var(--card); color:var(--ink); box-shadow:var(--shadow); border:2px solid var(--border);}
-.btn:focus-visible{outline:3px solid var(--accent); outline-offset:3px;}
-
-/* Home */
-.hero-figure{position:relative; margin:4px 0 6px;}
-.hero-figure img{width:min(68vw,250px); max-height:42vh; object-fit:contain; border-radius:24px; display:block; margin:0 auto;}
-.figure-fallback{
-  display:none; width:min(68vw,250px); height:min(68vw,250px); margin:0 auto;
-  border-radius:50%; background:linear-gradient(160deg,#ffe3c2,#ffd0a0);
-  align-items:center; justify-content:center; flex-direction:column; gap:2px;
-  box-shadow:var(--shadow); border:5px solid #fff;
-}
-.figure-fallback .big{font-size:4.4rem; line-height:1;}
-.figure-fallback .lbl{font-size:1.25rem; font-weight:800; color:var(--accent-dark);}
-
-/* Level intro */
-.intro-badge{font-size:3.2rem; line-height:1; margin-bottom:4px;}
-.intro-line{font-size:1.25rem; font-weight:700; color:var(--accent-dark); margin:8px 0 18px;}
-
-/* Board */
-.board-frame{
-  background:var(--card); border-radius:26px; padding:14px;
-  box-shadow:var(--shadow); border:3px solid var(--border);
-  width:100%; max-width:430px;
-}
-.board-frame.red{border-color:var(--red); box-shadow:0 8px 24px rgba(216,30,43,.22);}
-.level-label{font-size:1.05rem; color:var(--muted); font-weight:700; margin:0 0 2px;}
-.board-name{font-size:1.5rem; font-weight:800; margin:0 0 6px;}
-.counter{font-size:1.35rem; font-weight:800; margin:4px 0 12px;}
-.counter b{color:var(--accent); font-size:1.55rem;}
-.counter .tgt{font-size:1.6rem;}
-.board{display:grid; grid-template-columns:repeat(6,1fr); gap:6px;}
-.cell{
-  aspect-ratio:1; min-height:52px; border:none; border-radius:14px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:2rem; cursor:pointer; position:relative;
-  box-shadow:inset 0 -3px 0 rgba(0,0,0,.09), 0 2px 4px rgba(0,0,0,.06);
-  transition:transform .18s ease, box-shadow .18s ease, opacity .22s ease;
-  -webkit-user-select:none; user-select:none; -webkit-touch-callout:none;
-}
-.cell[data-type="fruit"]{background:#cbeccf;}
-.cell[data-type="ball"]{background:#ffd9b8;}
-.cell[data-type="shield"]{background:#d6e5ff;}
-.cell[data-type="plane"]{background:#d4efff;}
-.cell[data-type="heart"]{background:#ffd6e0;}
-.cell[data-type="faith"]{background:#ffeec4;}
-.cell.selected{box-shadow:0 0 0 3px var(--ink), inset 0 0 0 3px #fff; transform:scale(1.05); z-index:2;}
-.cell.hint{animation:hintpulse .28s ease-in-out;outline:4px solid #3f210f;outline-offset:-4px;z-index:2;}
-.cell.pop{animation:pop .24s ease forwards;}
-.cell.fall-in{animation:fallin .24s ease;}
-.cell.shake{animation:shake .26s ease;}
-.cell.swap-flash{animation:swapflash .2s ease;}
-@keyframes hintpulse{0%,100%{box-shadow:0 0 0 0 var(--gold);}50%{box-shadow:0 0 0 5px var(--gold);}}
-@keyframes pop{0%{transform:scale(1); opacity:1;}60%{transform:scale(1.25); opacity:1;}100%{transform:scale(0); opacity:0;}}
-@keyframes fallin{0%{transform:translateY(-20px); opacity:0;}100%{transform:translateY(0); opacity:1;}}
-@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
-@keyframes swapflash{0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
-.board-actions{margin-top:16px; display:flex; flex-direction:column; gap:10px; width:100%; align-items:center;}
-
-/* Hero card / finale */
-.portrait{position:relative;}
-.portrait img{width:min(52vw,190px); height:min(52vw,190px); object-fit:cover; border-radius:50%; border:5px solid #fff; box-shadow:var(--shadow); display:block; margin:0 auto;}
-.portrait-fallback{
-  display:none; width:min(52vw,190px); height:min(52vw,190px); margin:0 auto;
-  border-radius:50%; background:linear-gradient(160deg,#ffe3c2,#ffd0a0);
-  align-items:center; justify-content:center; flex-direction:column; gap:2px;
-  box-shadow:var(--shadow); border:5px solid #fff;
-}
-.portrait-fallback .big{font-size:3.6rem; line-height:1;}
-.portrait-fallback .lbl{font-size:1.15rem; font-weight:800; color:var(--accent-dark);}
-.card-title{font-size:1.5rem; font-weight:800; margin:14px 0 2px;}
-.card-text{font-size:1.35rem; font-weight:600; line-height:1.5; margin:8px 0 20px;}
-.finale-text{font-size:1.4rem; font-weight:700; line-height:1.55; margin:12px 0 22px;}
-
-/* Home (small) button */
-.btn-home{
-  position:absolute; top:14px; inset-inline-start:14px;
-  width:52px; height:52px; border-radius:50%; border:2px solid var(--border);
-  background:var(--card); font-size:1.4rem; cursor:pointer; box-shadow:var(--shadow);
-  display:flex; align-items:center; justify-content:center; color:var(--ink);
-}
-.screen{position:relative;}
-
-/* Confetti */
-#confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:50;}
-.confetti-bit{position:absolute; top:-6%; animation:fall linear forwards;}
-@keyframes fall{to{transform:translateY(110vh) rotate(540deg); opacity:.2;}}
-
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation:none !important; transition:none !important;}
-  .cell.hint{outline:4px solid #3f210f;outline-offset:-4px;box-shadow:inset 0 0 0 7px #fff6c6;z-index:2}
-}
-
-/* A warm confectionery world, with large, distinct playing pieces. */
-body{background:radial-gradient(ellipse at 50% 0,#fffdf1 0,#f9e8ce 55%,#f2d6b5 100%);color:#573321}
-.screen{padding:20px 12px 28px}
-#screen-home,#screen-intro,#screen-card,#screen-finale{justify-content:center}
-h1{font-size:clamp(2.7rem,11vw,4rem);color:#8f2f2c;text-shadow:0 2px #fff}
-.subtitle{color:#75503c}
-.hero-figure{background:radial-gradient(circle,#fff9eb 40%,#f3cc98 100%);border:8px solid #fff8e8;border-radius:48% 48% 42% 42%;box-shadow:0 9px 0 #dbb084,0 18px 35px #a16c3e35;padding:8px 18px 0}
-.hero-figure img{border-radius:40% 40% 35% 35%}
-.btn{background:linear-gradient(#e7644b,#bf302c);box-shadow:inset 0 2px #ffad8d,0 5px 0 #932c26,0 10px 18px #8e432f35}
-.btn-ghost{background:#fff8e7;color:#6a3927;box-shadow:0 4px 0 #d1ad87}
-.card{background:#fff8e9;border:3px solid #e5bf8a;box-shadow:0 8px 0 #c99467,0 16px 30px #8e5f3d24}
-#screen-board{padding-top:12px}
-#screen-board .btn-home{top:10px;inset-inline-start:10px}
-.level-label{font-size:18px;color:#79503a}
-.board-name{font-size:28px;line-height:1.2;max-width:72%;min-height:34px}
-.counter{background:#fff9eb;border:2px solid #e8c89b;border-radius:18px;padding:4px 16px;margin:6px 0 10px;box-shadow:0 3px 0 #d6af83}
-.counter .tgt{display:inline-flex;vertical-align:middle;width:42px;height:42px}
-.board-frame{background:linear-gradient(145deg,#bd7b4a,#925831);border:4px solid #f2d2a4;box-shadow:0 7px 0 #7c4c2d,0 14px 24px #67462b40;padding:8px;border-radius:24px;max-width:430px}
-.board{gap:3px;direction:ltr;background:#8e593a;border-radius:14px;padding:3px}
-.cell{min-width:0;min-height:52px;border-radius:13px;padding:2px;background:#f1cca1!important;box-shadow:inset 0 2px 6px #75432155,inset 0 -1px 1px #fff6df66;overflow:visible;touch-action:manipulation}
-.candy-art{display:block;width:100%;height:100%;max-width:55px;filter:drop-shadow(0 3px 1px #5c2b2355);pointer-events:none}
-.cell.selected{outline:3px solid #fff8bd;outline-offset:-3px;box-shadow:0 0 0 3px #8b392a,inset 0 0 0 2px #fff;transform:scale(1.05);z-index:3}
-.cell.swap-motion{transition:transform .2s ease;transform:translate(var(--dx),var(--dy));z-index:4}
-.cell.fall-in{animation:fallin .24s cubic-bezier(.2,.7,.25,1)}
-@keyframes candy-drop{from{transform:translateY(var(--fall-distance))}75%{transform:translateY(3px)}to{transform:translateY(0)}}
-.cell.fall-in{animation:candy-drop .25s cubic-bezier(.2,.7,.25,1)}
-.board-avatar{position:absolute;top:10px;inset-inline-end:12px;width:52px;height:52px;object-fit:cover;border-radius:50%;border:3px solid #fff8e9;box-shadow:0 0 0 2px #c59a69}
-.cell:focus-visible{outline:3px solid #fff;outline-offset:-3px}
-.board-actions{margin-top:12px}
-#btn-hint{min-width:180px}
-.intro-badge{display:flex;justify-content:center;height:92px}.intro-badge .candy-art{max-width:92px}
-#intro-scene{display:block;width:100%;max-height:150px;object-fit:cover;border-radius:18px;margin:0 auto 10px}
+/* A playable paper album. One token system, no legacy overrides. */
+:root{--paper:#f6f1e6;--page:#fffcf5;--ink:#302f29;--muted:#665f52;--line:#c9bdab;--accent:#923e33;--olive:#64734a;--gold:#ae8542;--soft:#e8dfcf}
+*{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:Arial,'Arial Hebrew',sans-serif;font-size:18px;line-height:1.5;background:var(--paper);color:var(--ink);-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}button{font:inherit;touch-action:manipulation}button:not(:disabled){cursor:pointer}[hidden]{display:none!important}h1,h2,h3,p{margin:0}h1,h2,h3{font-family:'Times New Roman',serif;line-height:1.12;font-weight:700}h1{font-size:60px;letter-spacing:-1px}h2,h3{font-size:32px}h1:focus,h2:focus{outline:none}button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px}img{max-width:100%}#app{min-height:100svh}.screen{display:none;position:relative;width:100%;max-width:1000px;margin:auto;padding:20px 16px 32px}.screen.active{display:flex;flex-direction:column;gap:16px}.btn{min-height:54px;border:1px solid var(--accent);border-radius:5px;padding:12px 24px;background:var(--accent);color:#fffdf7;font-weight:700;line-height:1.25;transition:transform .15s}.btn:active{transform:translateY(1px)}.btn-ghost{color:var(--ink);background:transparent;border-color:var(--line)}.btn-home{min-width:52px;min-height:52px;padding:8px 12px;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:4px;font-size:18px}.btn:disabled,.btn-home:disabled{opacity:.5;cursor:default}.page-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%}.page-nav .btn{min-width:0;padding-inline:14px}.eyebrow,.level-label{font-size:18px;color:var(--muted)}.subtitle{font-size:21px;color:var(--muted)}.accent-red{color:var(--accent)}.rule{height:1px;background:var(--line);width:100%}body[data-chapter="2"]{--olive:#923e33}body[data-chapter="5"]{--olive:#a37a31}
 .candy-symbols{position:absolute;width:0;height:0;overflow:hidden}
-.guide{font-size:18px;font-weight:700;line-height:1.3;color:#704b35;margin:7px 0 2px}
-.portrait img{border:7px solid #fff9e8;box-shadow:0 0 0 4px #d2a66c,0 12px 28px #724b3038}
-.confetti-bit{width:9px;height:16px;border-radius:3px}
-@media(max-width:370px){.screen{padding-inline:6px}.board{gap:2px}.board-frame{padding:5px}.cell{min-height:52px}.board-name{font-size:28px}}
-
-
-/* Chapter environments: a warm keepsake album, with a distinct setting per chapter. */
-body{--scene:#f8e9d8;--scene2:#efd0ac;--rim:#a56c49;--table:#d6ae83;--detail:#a86d49}
-body[data-chapter="1"]{--scene:#f7e9db;--scene2:#e9c6aa;--rim:#ac6f5d;--table:#e4bd9d;--detail:#ba786e}
-body[data-chapter="2"]{--scene:#fce8de;--scene2:#eeb7a8;--rim:#ab3033;--table:#e3a291;--detail:#b63338}
-body[data-chapter="3"]{--scene:#f9edda;--scene2:#e8c89e;--rim:#aa774b;--table:#dfbd92;--detail:#ac7951}
-body[data-chapter="4"]{--scene:#f7ebd9;--scene2:#d8bf9f;--rim:#8e694e;--table:#d1b293;--detail:#8d6d50}
-body[data-chapter="5"]{--scene:#fff2d7;--scene2:#ead1a0;--rim:#a77a35;--table:#e5c89b;--detail:#b88d43}
-body[data-chapter="6"]{--scene:#eaf1e6;--scene2:#c4d6bd;--rim:#69836a;--table:#c1d2ba;--detail:#718b70}
-body[data-chapter="7"]{--scene:#fcece2;--scene2:#eecbb5;--rim:#b46c58;--table:#e9c5aa;--detail:#b97862}
-body[data-chapter="8"]{--scene:#f7eae2;--scene2:#dfc6b8;--rim:#a57368;--table:#dec2b0;--detail:#ae7a70}
-body[data-chapter="9"]{--scene:#eff3e5;--scene2:#d1debd;--rim:#779058;--table:#cbdab3;--detail:#829c63}
-body[data-chapter="10"]{--scene:#eaf3ef;--scene2:#c3dcd5;--rim:#578579;--table:#bbd8ce;--detail:#648f83}
-body[data-chapter]{background:radial-gradient(ellipse at 50% 4%,#fffdf5 0,var(--scene) 46%,var(--scene2) 100%)}
-body[data-chapter] .board-frame{background:var(--rim);border-color:#fff2da;box-shadow:0 7px 0 var(--detail),0 14px 24px #67462b40}
-body[data-chapter] .board{background:var(--rim)}
-body[data-chapter] .cell{background:var(--table)!important}
-body[data-chapter] .counter{border-color:var(--detail)}
-#screen-board::before{content:"";position:absolute;inset:100px 0 0;z-index:-1;opacity:.18;pointer-events:none;background:repeating-linear-gradient(135deg,transparent 0 27px,var(--detail) 28px 29px,transparent 30px 56px);mask-image:linear-gradient(transparent,#000 26%,transparent 85%)}
-body[data-chapter="2"] #screen-board::before{background:repeating-linear-gradient(90deg,transparent 0 32px,var(--detail) 32px 36px,transparent 36px 68px)}
-body[data-chapter="4"] #screen-board::before{background:repeating-linear-gradient(0deg,transparent 0 22px,var(--detail) 23px 25px,transparent 26px 48px)}
-body[data-chapter="5"] #screen-board::before{background:radial-gradient(ellipse at 50% 15%,var(--detail),transparent 57%)}
-body[data-chapter="9"] #screen-board::before{background:radial-gradient(circle,var(--detail) 2px,transparent 3px);background-size:30px 30px}
-body[data-chapter="10"] #screen-board::before{background:repeating-linear-gradient(165deg,transparent 0 24px,var(--detail) 25px 27px,transparent 28px 54px)}
-#screen-card .btn-home{z-index:5}
-#screen-card .keepsake{width:100%;max-width:430px;padding:18px 22px 24px;background:#fffaf0;border:3px solid var(--detail);border-radius:36px 36px 24px 24px;box-shadow:0 8px 0 var(--scene2),0 16px 30px #66462c22;position:relative}
-#screen-card .keepsake:before{content:"✦  ✦  ✦";display:block;color:var(--detail);font-size:22px;letter-spacing:9px;margin-bottom:9px}
-#screen-card .portrait img{width:min(44vw,170px);height:min(44vw,170px);box-shadow:0 0 0 4px var(--detail),0 12px 28px #724b3038}
-#screen-card .card-title{font-size:28px;color:#623c2a;margin-top:14px}
-#screen-card .chapter-name{font-size:19px;font-weight:700;color:#704b35;margin:0}
-#screen-card .card-text{font-size:1.35rem;color:#4a2c17;margin:12px 0 18px}
-#screen-card .reward-mark{width:60px;height:60px;margin:0 auto 8px;padding:4px;border-radius:50%;background:var(--scene);border:2px solid var(--detail)}
-#screen-card .reward-mark .candy-art{width:100%;height:100%}
-#screen-finale .finale-text{max-width:430px;padding:18px 22px;background:#fffaf0;border:3px solid var(--detail);border-radius:24px;box-shadow:0 6px 0 var(--scene2)}
-@media(max-width:370px){#screen-card .keepsake{padding:12px 16px 18px}#screen-card .portrait img{width:140px;height:140px}}
-
-/* Full-width illustrated chapters keep the story visible above the copy. */
-#screen-card .keepsake{overflow:hidden;padding-top:0}
-#screen-card .keepsake:before{display:none}
-.chapter-scene{display:block;width:calc(100% + 44px);height:auto;aspect-ratio:800/420;object-fit:cover;margin:0 -22px 0}
-#screen-card .portrait{margin-top:-42px}
-#screen-card .portrait img{position:relative;width:112px;height:112px}
-#screen-card .reward-mark{display:none}
-#screen-finale .chapter-scene{width:100%;max-width:430px;border:3px solid var(--detail);border-radius:24px;margin:0 auto 12px}
-#screen-finale .chapter-scene{max-height:170px;object-fit:cover;margin-bottom:6px}
-#screen-finale .hero-figure img{max-height:16vh;width:auto}
-#screen-finale .finale-text{margin:6px 0 12px;padding:12px 16px;line-height:1.3}
-@media(max-width:370px){#screen-card .chapter-scene{width:calc(100% + 32px);margin-inline:-16px}#screen-card .portrait img{width:112px;height:112px}}
-@media(max-height:700px){
-  #screen-board{padding-top:2px}
-  #screen-board .level-label{line-height:1.05;margin:0}
-  #screen-board .board-name{line-height:1;min-height:0;margin:0}
-  #screen-board .counter{padding:0 12px;margin:0;line-height:1.05}
-  #screen-board .counter .tgt{width:34px;height:34px}
-  #screen-board .guide{line-height:1.05;margin:0}
-  #screen-board .board-frame{max-width:350px;padding:4px}
-  #screen-board .board{gap:2px}
-  #screen-board .board-actions{margin-top:4px}
-}
-
-/* A chapter is a page in a keepsake album, not a floating profile badge. */
-#screen-card .keepsake{padding:0 0 22px;border-radius:22px;background:#fffaf0;text-align:right;box-shadow:0 5px 0 var(--scene2),0 14px 30px #66462c24}
-#screen-card .chapter-scene{width:100%;height:auto;aspect-ratio:800/420;margin:0;object-fit:cover;border-bottom:4px solid var(--detail)}
-#screen-card .portrait{margin:0;display:flex;align-items:center;gap:14px;padding:14px 20px 0}
-#screen-card .portrait img{margin:0;width:68px;height:68px;border-radius:16px;border:3px solid #fff7e5;box-shadow:0 0 0 2px var(--detail);flex:none}
-#screen-card .portrait::after{content:'יורם הגיבור';font-size:20px;font-weight:800;color:#623c2a}
-#screen-card .card-title{font-size:28px;margin:8px 20px 0;color:#623c2a}
-#screen-card .chapter-name{margin:0 20px;color:#704b35}
-#screen-card .card-text{margin:10px 20px 16px;line-height:1.42}
-#screen-card .btn{display:block;margin:0 auto}
-#screen-card .reward-mark{display:flex;position:absolute;top:12px;inset-inline-start:14px;width:54px;height:54px;margin:0;padding:5px;border:2px solid #fff9e8;background:#fff9e8;box-shadow:0 3px 8px #533a2b55}
-.chapter-progress{display:flex;direction:rtl;gap:5px;margin:0 20px 8px;align-items:center}
-.chapter-progress span{height:6px;flex:1;background:#dfd2c1;border-radius:8px}
-.chapter-progress span.done{background:var(--detail)}
-body[data-chapter="2"] #screen-card .keepsake,body[data-chapter="5"] #screen-card .keepsake,body[data-chapter="8"] #screen-card .keepsake{background:var(--scene)}
-body[data-chapter="3"] #screen-card .portrait,body[data-chapter="6"] #screen-card .portrait,body[data-chapter="9"] #screen-card .portrait{flex-direction:row-reverse;justify-content:flex-end}
-/* Scene-coloured frame and a small chapter illustration on the playing surface. */
-body[data-chapter] .board-frame{background-image:var(--chapter-art);background-size:cover;background-position:center;border-width:3px;padding:7px;box-shadow:0 5px 0 var(--detail),0 10px 18px #67462b30}
-body[data-chapter] .board{background:color-mix(in srgb,var(--rim) 83%,transparent);gap:3px}
-body[data-chapter] .cell{background:color-mix(in srgb,var(--table) 86%,white)!important}
-/* Each piece sits in its own softly lit enamel well. The drawing stays the
-   primary symbol; colour is a second cue, never the only identifier. */
-body[data-chapter] .cell[data-type="fruit"]{background-image:linear-gradient(145deg,#f5ffe4,#bcdca4)!important}
-body[data-chapter] .cell[data-type="ball"]{background-image:linear-gradient(145deg,#fff1e4,#edb9a4)!important}
-body[data-chapter] .cell[data-type="shield"]{background-image:linear-gradient(145deg,#edf8ff,#a9c7e7)!important}
-body[data-chapter] .cell[data-type="plane"]{background-image:linear-gradient(145deg,#f0fff8,#a5d4c3)!important}
-body[data-chapter] .cell[data-type="heart"]{background-image:linear-gradient(145deg,#fff1ef,#edb3b6)!important}
-body[data-chapter] .cell[data-type="faith"]{background-image:linear-gradient(145deg,#fff9dc,#e8ce83)!important}
-body[data-chapter] .cell{box-shadow:inset 0 2px 1px #ffffffb3,inset 0 -4px 0 #75513827,0 2px 3px #553a302e}
-.cell.pop::after{content:'✦';position:absolute;inset:0;display:grid;place-items:center;color:#fffbe0;text-shadow:0 1px 5px #e49e38;font-size:26px;pointer-events:none;animation:match-spark .24s ease-out forwards}
-@keyframes match-spark{from{opacity:0;transform:scale(.45)}35%{opacity:1}to{opacity:0;transform:scale(1.6)}}
-@media(max-width:370px){body[data-chapter] .board-frame{padding:3px}}
-@media(max-height:700px){#screen-card .chapter-scene{max-height:150px}#screen-card .portrait{padding-top:8px}#screen-card .portrait img{width:54px;height:54px}#screen-card .card-text{margin-block:5px 10px}#screen-card .keepsake{padding-bottom:14px}}
-/* The chapter picture is a real, unobstructed miniature, not a board texture. */
-#screen-board{padding:8px 12px 20px}
-.board-heading{display:flex;align-items:center;gap:8px;width:100%;max-width:430px;min-height:64px}
-#screen-board .board-heading .btn-home{position:static;flex:none}
-.board-heading-copy{flex:1;min-width:0}
-#screen-board .level-label{margin:0;line-height:1.1}
-#screen-board .board-name{max-width:none;min-height:0;margin:0;line-height:1.08}
-#board-scene{display:block;flex:none;width:130px;aspect-ratio:800/420;object-fit:contain;border:2px solid #fff8e9;border-radius:9px;background:var(--scene);box-shadow:0 2px 0 var(--detail)}
-#screen-board .counter{margin:3px 0;padding:0 12px;line-height:1.1}
-#screen-board .counter .tgt{width:34px;height:34px}
-#screen-board .guide{margin:3px 0;line-height:1.15}
-#screen-board .board-frame{max-width:350px;padding:4px}
-#screen-board .board{gap:2px}
-#screen-board .board-actions{margin-top:6px;flex-direction:row;justify-content:center}
-#screen-board .board-avatar{position:static;width:42px;height:42px;flex:none}
-@media(max-width:370px){#screen-board{padding-inline:6px}#board-scene{width:100px}.board-heading{gap:5px}}
-/* Give the album chapters different compositions while retaining their copy. */
-/* The illustrated story comes first in both visual and reading order. */
-body:is([data-chapter="2"],[data-chapter="5"],[data-chapter="8"]) #screen-card .keepsake{background:var(--scene);text-align:center;border-radius:32px 32px 20px 20px}
-body:is([data-chapter="2"],[data-chapter="5"],[data-chapter="8"]) #screen-card .portrait{justify-content:center}
-#screen-card .card-title::before,#screen-card .card-title::after{content:'✦';font-size:17px;color:#a86d37;vertical-align:middle;margin:0 10px}
-/* The scene itself carries the story; game-piece badges obscured the artwork. */
-#screen-card .reward-mark{display:none}
-/* Other milestones pair a larger portrait with their illustrated memory. */
-body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .keepsake{display:grid;grid-template-columns:1fr 112px;align-items:center;padding:16px 16px 20px;gap:0 12px}
-body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .chapter-scene{grid-column:1;grid-row:1;width:100%;margin:0;border:3px solid var(--detail);border-radius:16px}
-body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .portrait{grid-column:2;grid-row:1;justify-content:center;padding:0}
-body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .portrait img{width:96px;height:96px}
-body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .portrait::after{content:none}
-body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card :is(.card-title,.chapter-name,.card-text,.chapter-progress,.btn){grid-column:1 / -1}
-body:is([data-chapter="3"],[data-chapter="6"],[data-chapter="9"]) #screen-card .reward-mark{top:22px;inset-inline-start:22px;width:46px;height:46px}
-/* Four editorial stagings: an open page, a panoramic milestone,
-   a paired portrait, and a family-story spread. Navigation stays fixed. */
-#screen-card .card-title::before,#screen-card .card-title::after{content:none}
-#screen-card .portrait::after{content:none}
-body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .keepsake{display:grid;grid-template-columns:82px 1fr;align-items:center;gap:0 12px;padding:0 0 20px;background:transparent;border:0;border-radius:0;box-shadow:none;text-align:right}
-body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .chapter-scene{grid-column:1/-1;width:100%;height:auto;max-height:190px;border:0;border-radius:8px;box-shadow:0 6px 0 var(--detail)}
-body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .portrait{grid-column:1;grid-row:2;padding:14px 0 0;justify-content:center}
-body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .portrait img{width:68px;height:68px}
-body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .card-title{grid-column:2;grid-row:2;margin:14px 0 0;font-size:28px}
-body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card :is(.chapter-name,.card-text,.chapter-progress,.btn){grid-column:1/-1}
-body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card :is(.chapter-name,.card-text){margin-inline:0}
-body:is([data-chapter="2"],[data-chapter="5"]) #screen-card .keepsake{border-radius:3px;background:#fff9eb;border-width:0;box-shadow:0 3px 0 var(--detail),0 14px 30px #66462c24;text-align:center}
-body:is([data-chapter="2"],[data-chapter="5"]) #screen-card .chapter-scene{height:170px;aspect-ratio:auto;object-fit:cover;border:0}
-body:is([data-chapter="2"],[data-chapter="5"]) #screen-card .portrait{justify-content:center;padding-top:10px}
-body:is([data-chapter="2"],[data-chapter="5"]) #screen-card .portrait img{width:54px;height:54px;border-radius:50%}
-body:is([data-chapter="3"],[data-chapter="6"]) #screen-card .keepsake{border-radius:4px;background:#fffaf0}
-body:is([data-chapter="3"],[data-chapter="6"]) #screen-card .chapter-name{font-size:23px}
-body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .keepsake{display:grid;grid-template-columns:92px 1fr;align-items:center;gap:0 12px;padding:15px 15px 20px;background:#fff9ed;border:0;border-radius:4px;box-shadow:0 10px 25px #66462c30;text-align:right}
-body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .chapter-scene{grid-column:1/-1;grid-row:1;width:100%;height:155px;max-height:none;margin:0;object-fit:cover;border:0;border-radius:2px}
-body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .portrait{grid-column:1;grid-row:2;padding:12px 0 0;justify-content:center}
-body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .portrait img{width:76px;height:76px;border-radius:50%}
-body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .card-title{grid-column:2;grid-row:2;margin:12px 0 0}
-body:is([data-chapter="8"],[data-chapter="9"]) #screen-card :is(.chapter-name,.card-text,.chapter-progress,.btn){grid-column:1/-1}
-body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .chapter-name{font-size:24px;margin:8px 0 0}
-body:is([data-chapter="8"],[data-chapter="9"]) #screen-card .card-text{margin-inline:0}
-@media(max-height:700px){body:is([data-chapter="1"],[data-chapter="4"],[data-chapter="7"]) #screen-card .chapter-scene{max-height:145px}body:is([data-chapter="2"],[data-chapter="5"],[data-chapter="8"],[data-chapter="9"]) #screen-card .chapter-scene{height:125px}}
-/* The family chapters are three different pages of the same album.
-   The existing landscapes are symbolic, not pictures of the real family. */
-body[data-chapter="7"] #screen-card .keepsake{display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:0 12px;padding:16px;background:#fffaf0;border:2px solid var(--detail);border-radius:5px;box-shadow:0 10px 24px #66462c25}
-body[data-chapter="7"] #screen-card .chapter-scene{grid-column:1;grid-row:1;width:100%;height:150px;max-height:none;object-fit:cover;border:0;border-radius:3px;box-shadow:none}
-body[data-chapter="7"] #screen-card .portrait{grid-column:2;grid-row:1;padding:0}
-body[data-chapter="7"] #screen-card .portrait img{width:88px;height:88px;border-radius:50%}
-body[data-chapter="7"] #screen-card .card-title{grid-column:1/-1;grid-row:auto;margin:14px 0 0}
-body[data-chapter="7"] #screen-card .chapter-name{font-size:23px}
-body[data-chapter="8"] #screen-card .keepsake{display:block;padding:0 0 18px;border-radius:4px;background:#fffaf0;text-align:right}
-body[data-chapter="8"] #screen-card .chapter-scene{width:100%;height:185px;border-radius:0;object-fit:cover}
-body[data-chapter="8"] #screen-card .portrait{padding:12px 20px 0;justify-content:flex-start}
-body[data-chapter="8"] #screen-card .portrait img{width:58px;height:58px;border-radius:12px}
-body[data-chapter="8"] #screen-card .card-title{margin:8px 20px 0}
-body[data-chapter="8"] #screen-card .chapter-name{margin:0 20px;font-size:23px}
-body[data-chapter="8"] #screen-card .card-text{margin:8px 20px 14px}
-body[data-chapter="9"] #screen-card .keepsake{grid-template-columns:76px minmax(0,1fr);padding:14px 14px 18px;background:#fffdf5;border:2px solid var(--detail);border-radius:20px 4px 20px 4px}
-body[data-chapter="9"] #screen-card .chapter-scene{height:175px;border:8px solid #fff;border-bottom-width:14px;border-radius:2px;box-shadow:0 2px 8px #66462c30;object-fit:cover}
-body[data-chapter="9"] #screen-card .portrait img{width:64px;height:64px;border-radius:50%}
-body[data-chapter="9"] #screen-card .chapter-name{font-size:23px}
-@media(max-height:700px){body[data-chapter="7"] #screen-card .chapter-scene{height:120px}body[data-chapter="8"] #screen-card .chapter-scene,body[data-chapter="9"] #screen-card .chapter-scene{height:125px}}
-/* Original confectionery treatment; symbols remain the primary shape cue. */
-body[data-chapter] .cell{box-shadow:inset 0 2px 4px #fff9,inset 0 -5px 5px #67402738,0 2px 2px #45230d40}
-.cell .candy-art{filter:drop-shadow(0 2px 1px #42261d80) drop-shadow(0 4px 3px #42261d55)}
-.board-frame{position:relative}
-.guide{position:relative} #match-feedback{position:absolute;inset:0;z-index:6;pointer-events:none;display:grid;place-items:center;background:#fff9e9;color:#733725;border:2px solid #b87d45;border-radius:12px;padding:2px 8px;font-size:20px;font-weight:800}
-#match-feedback:empty{display:none}
-.cell.power-row::after,.cell.power-column::after{content:'↔';position:absolute;inset:4px;display:grid;place-items:center;color:#fff;font-size:30px;font-weight:900;text-shadow:0 1px 3px #40200c,0 0 5px #40200c;outline:3px solid #fff3a4;border-radius:12px;pointer-events:none}
-.cell.power-column::after{content:'↕'}
-.collected-pulse{animation:counter-bounce .25s ease-out}
-@keyframes counter-bounce{50%{transform:scale(1.06);box-shadow:0 0 0 4px #e9b75e}}
-/* Candy sits on a continuous sugared tray, not square buttons. */
-body[data-chapter] .board{background:#8b5c49;gap:2px}
-body[data-chapter] .cell, body[data-chapter] .cell[data-type]{background:transparent!important;background-image:none!important;box-shadow:inset 0 0 0 1px #fff2,inset 0 -2px 4px #35170824;padding:0}
-@media(min-height:740px){#screen-board{justify-content:center}}
-@media(max-height:700px){#screen-board{padding-bottom:4px}}
-.cell .candy-art{max-width:none;width:100%;height:100%;filter:drop-shadow(0 3px 1px #48281999) drop-shadow(0 4px 3px #48281955)}
-body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #582719;outline:2px solid #582719}
+/* The cover pairs the man with the title, instead of putting him on a pedestal. */
+#screen-home{max-width:760px;min-height:100svh;justify-content:center;padding:28px 24px;gap:20px}.cover{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:8px;border-block:1px solid var(--line);padding:24px 0;background:var(--page)}.cover-type{padding:4px 12px;text-align:right}.cover-type h1{font-size:clamp(44px,12vw,72px)}.cover-type .subtitle{margin-top:14px}.hero-figure{margin:0;align-self:end;text-align:center}.hero-figure img{display:block;width:auto;max-width:100%;height:290px;object-fit:contain;margin:auto}.cover-bottom{display:flex;justify-content:space-between;color:var(--muted);font-size:18px}.cover-actions{display:flex;flex-direction:column;gap:10px}.cover-actions .btn{width:100%}.figure-fallback,.portrait-fallback{display:none;min-height:100px;align-items:center;justify-content:center}.symbol-note{font-size:18px;color:var(--muted)}
+/* Intro is a chapter leaf. */
+#screen-intro{max-width:660px}.intro-leaf{background:var(--page);padding:18px;border:1px solid var(--line);display:flex;flex-direction:column;gap:16px}.intro-art{position:relative}.intro-art img{display:block;width:100%;aspect-ratio:800/420;object-fit:cover;filter:saturate(.72)}.intro-badge{position:absolute;left:12px;bottom:12px;width:60px;height:60px;background:var(--page);border:1px solid var(--line);padding:6px;border-radius:4px}.intro-line{font-size:20px}.intro-goal{display:flex;gap:12px;align-items:center;padding-top:12px;border-top:1px solid var(--line)}.intro-goal .candy-art{width:44px;height:44px;flex:none}.intro-leaf .btn{width:100%}
+/* Playing page: growing keepsake on one side, familiar board on the other. */
+#screen-board{max-width:980px;padding:10px 8px 24px;gap:8px}.board-heading{display:flex;gap:12px;align-items:center}.board-heading-copy{flex:1;min-width:0}.board-name{font-size:28px}.board-avatar{width:46px;height:52px;object-fit:contain;border-bottom:1px solid var(--line)}.play-spread{display:grid;grid-template-columns:1fr;gap:10px}.story-side{display:flex;flex-direction:column;gap:6px}.keepsake-line{font-size:18px;color:var(--muted);line-height:1.25}.keepsake-view{position:relative;display:grid;grid-template-columns:1fr 1.4fr;min-height:100px;border-block:1px solid var(--line);background:var(--page);overflow:hidden}.keepsake-view img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;filter:saturate(.65);opacity:.17}.keepsake-view .scene-window{position:relative;min-width:0;overflow:hidden}.keepsake-view .scene-window img{opacity:var(--reveal,.2);transition:opacity .24s}.keepsake-view .motif-svg{display:block;width:100%;height:100px;align-self:center;color:var(--olive)}.motif-base{fill:none;stroke:#a89b82;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}.motif-mark{fill:#f4eddf;stroke:#ad9e87;stroke-width:1.1;transition:fill .24s,stroke .24s}.motif-mark[data-earned="true"]{fill:var(--olive);stroke:var(--olive)}.motif-svg text{fill:var(--ink);font-family:Arial,sans-serif;font-size:19px;stroke:none}.motif-svg .label{font-size:16px}.play-side{width:100%;max-width:350px;justify-self:center;display:flex;flex-direction:column;gap:8px}.counter{font-size:20px;display:flex;align-items:center;justify-content:center;gap:5px;min-height:36px;line-height:1.25;flex-wrap:wrap}.counter b{color:var(--accent);font-size:22px}.counter .tgt{width:30px;height:30px;display:inline-block}.board-frame{position:relative;background:#e0d5c3;border:1px solid #a99c85;border-radius:6px;padding:5px;box-shadow:0 3px 0 #c0b29c}.board-frame.red{border-color:var(--accent);box-shadow:0 3px 0 var(--accent)}.board{direction:ltr;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px}.cell{position:relative;aspect-ratio:1;min-width:0;min-height:52px;border:1px solid #d1c4af;border-radius:5px;background:var(--page);padding:5px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 1px #5a483d28;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .2s,opacity .24s}.candy-art{display:block;pointer-events:none;width:100%;height:100%;filter:drop-shadow(0 1px 0 #584b3626)}.cell.selected{outline:3px solid var(--accent);outline-offset:-3px;background:#f3ded0;z-index:3}.cell.selected:after{content:'';position:absolute;bottom:2px;width:6px;height:6px;background:var(--accent);border-radius:50%}.cell.hint{outline:3px solid var(--ink);outline-offset:-3px;box-shadow:inset 0 0 0 5px #e6d6ac;z-index:2;animation:hintpulse .28s}.cell.swap-motion{transform:translate(var(--dx),var(--dy));z-index:4}.cell.pop{animation:pop .24s forwards}.cell.fall-in{animation:candy-drop .25s}.cell.power-row::after,.cell.power-column::after{content:'↔';position:absolute;inset:1px;display:grid;place-items:center;background:#fff9ddcf;color:#733326;font-size:32px;font-weight:700;border:2px solid #8b4b31}.cell.power-column::after{content:'↕'}.board-actions{display:flex;gap:8px}.board-actions .btn{flex:1;min-width:0}.guide{font-size:18px;line-height:1.4}.guide summary{min-height:44px;padding:8px 0;cursor:pointer}.guide p{padding:0 0 8px}.feedback-line{position:relative;min-height:27px;color:var(--muted);text-align:center;font-size:18px}#match-feedback{color:var(--accent);font-weight:700}.collected-pulse{animation:counter-bounce .25s}
+/* SVG user units shrink with the short-phone strip: keep personal names readable. */
+@media(max-width:719px){#board-keepsake .motif-svg text{font-size:25px}}
+/* Reward leaves: motifs, text and images change staging, not just colour. */
+#screen-card,#screen-memory{max-width:760px}.reward-page{display:grid;gap:14px;background:var(--page);border:1px solid var(--line);padding:20px}.reward-heading{display:flex;gap:14px;align-items:center}.portrait img{display:block;width:64px;height:76px;object-fit:contain;flex:none}.card-title{font-size:18px;color:var(--muted)}.chapter-name{font-size:30px}.card-text,.finale-text{font-size:22px;line-height:1.55}.reward-art{position:relative}.chapter-scene{display:block;width:100%;aspect-ratio:800/420;object-fit:cover;filter:saturate(.72)}.reward-art .keepsake-view{grid-template-columns:1fr;border:0;min-height:105px}.reward-art .scene-window{display:none}.reward-art .motif-svg{height:120px}.reward-actions{display:flex;flex-direction:column;gap:10px}.chapter-progress{display:flex;gap:5px;direction:rtl}.chapter-progress span{height:3px;flex:1;background:var(--soft)}.chapter-progress .done{background:var(--olive)}
+.reward-page[data-layout="roots"] .reward-art{display:grid;grid-template-columns:1fr 1fr;align-items:center}.reward-page[data-layout="roots"] .chapter-scene{aspect-ratio:1;object-position:25%}.reward-page[data-layout="football"]{border-top:8px solid var(--accent)}.reward-page[data-layout="football"] .reward-art{border-bottom:4px double var(--accent)}.reward-page[data-layout="football"] .chapter-scene{aspect-ratio:2.5}.reward-page[data-layout="doors"] .chapter-scene{aspect-ratio:2.5}.reward-page[data-layout="doors"] .keepsake-view{border-block:1px dashed var(--line)}.reward-page[data-layout="foundation"] .reward-art{border-bottom:3px solid #a38a67}.reward-page[data-layout="foundation"] .chapter-scene{aspect-ratio:1.6;object-position:center 30%}.reward-page[data-layout="morning"] .reward-art{max-width:310px;justify-self:center;width:100%;border:1px solid var(--gold);border-radius:130px 130px 0 0;overflow:hidden}.reward-page[data-layout="morning"] .chapter-scene{aspect-ratio:1.8}.reward-page[data-layout="shelter"] .reward-art{border-radius:80px 80px 0 0;overflow:hidden}.reward-page[data-layout="shelter"] .chapter-scene{aspect-ratio:1.5;object-position:70%}.reward-page[data-layout="father"] .chapter-scene{aspect-ratio:1.5;object-position:center top}.reward-page[data-layout="gathering"] .reward-art{padding:10px;background:#eee5d5}.reward-page[data-layout="gathering"] .chapter-scene{aspect-ratio:2.6}.reward-page[data-layout="gathering"] .keepsake-view{background:transparent}.reward-page[data-layout="grandpa"] .reward-art{border:7px solid #fff;box-shadow:0 2px 5px #69574624;transform:rotate(-1deg)}.reward-page[data-layout="grandpa"] .chapter-scene{aspect-ratio:1.5;object-position:center top}.reward-page[data-layout="travel"] .chapter-scene{aspect-ratio:1.6}
+/* Collected objects sit on the illustrated page, rather than in a second chart. */
+.reward-page:is([data-layout="football"],[data-layout="doors"],[data-layout="gathering"]) .reward-art>div{position:relative;margin:-18px 12px 0;background:var(--page);border:1px solid var(--line);padding:4px 8px;box-shadow:0 3px 5px #59493612}
+.reward-page[data-layout="football"] .reward-art{border:0}
+.reward-page[data-layout="football"] .reward-art>div{transform:rotate(-2deg);margin-inline:18px}
+.reward-page[data-layout="football"] .keepsake-view{background:transparent}
+.reward-page[data-layout="doors"] .keepsake-view{border:0}
+.reward-page[data-layout="gathering"] .reward-art>div{margin-inline:5px;transform:rotate(1deg)}
+.cell[data-type="fruit"] .candy-art,.intro-badge .candy-art{filter:saturate(.72)}
+/* Earned objects occupy the foreground of their own scene. */
+[data-motif="foundation"] .motif-mark[data-earned="true"]{fill:#b39a77;stroke:#826e53}
+[data-motif="shelter"] .motif-mark[data-earned="true"]{fill:#9d6150;stroke:#9d6150}
+[data-motif="father"] .motif-mark[data-earned="true"]{fill:#94744c;stroke:#735d41}
+[data-motif="grandpa"] .motif-mark[data-earned="true"]>g{fill:var(--fruit-ink);stroke:#736344}
+[data-motif="travel"] .motif-mark[data-earned="true"]{stroke:#923e33;fill:none}
+.keepsake-view:is([data-object="foundation"],[data-object="shelter"],[data-object="father"],[data-object="grandpa"],[data-object="travel"]){display:block}
+.keepsake-view:is([data-object="foundation"],[data-object="shelter"],[data-object="father"],[data-object="grandpa"],[data-object="travel"]) .scene-window{position:absolute;inset:0;min-height:0}
+.keepsake-view:is([data-object="foundation"],[data-object="shelter"],[data-object="father"],[data-object="grandpa"],[data-object="travel"]) .scene-window img{opacity:calc(var(--reveal)*.5)}
+.keepsake-view:is([data-object="foundation"],[data-object="shelter"],[data-object="father"],[data-object="grandpa"],[data-object="travel"]) .motif-svg{position:relative;background:linear-gradient(0deg,#fffcf5e8,transparent)}
+.reward-page:is([data-layout="foundation"],[data-layout="shelter"],[data-layout="father"],[data-layout="grandpa"],[data-layout="travel"]) .reward-art>div{position:absolute;bottom:0;inset-inline:0}
+.reward-page:is([data-layout="foundation"],[data-layout="shelter"],[data-layout="father"],[data-layout="grandpa"],[data-layout="travel"]) .keepsake-view{background:transparent}
+.reward-page:is([data-layout="foundation"],[data-layout="shelter"],[data-layout="father"],[data-layout="grandpa"],[data-layout="travel"]) .motif-svg{height:auto;aspect-ratio:240/110;background:linear-gradient(0deg,#fffcf5 0%,#fffcf5c9 65%,transparent)}
+.reward-page[data-layout="foundation"] .motif-svg{width:100%;transform:translateY(6px)}
+.reward-page[data-layout="travel"] .motif-svg{width:83%;margin-inline:auto;transform:rotate(-4deg)}
+/* The ending opens onto everything earned, with no requirement to replay. */
+#screen-finale{max-width:900px}.finale-heading{display:grid;grid-template-columns:1fr 92px;gap:16px;align-items:center;padding-block:14px;border-block:1px solid var(--line)}.finale-heading .hero-figure img{height:170px}.finale-heading h2{font-size:40px}.finale-heading .finale-text{font-size:21px;margin-top:12px}.finale-montage{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.finale-memory{min-width:0;min-height:66px;border:1px solid var(--line);padding:3px;background:var(--page);color:var(--ink)}.finale-memory img{display:block;width:100%;aspect-ratio:1;object-fit:cover;filter:saturate(.65)}.finale-memory span{display:block;font-size:18px}.finale-actions{display:flex;flex-direction:column;gap:10px}
+/* Earned album index keeps unearned chapters visibly locked. */
+#screen-album{max-width:900px}.album-entries{display:grid;grid-template-columns:1fr 1fr;gap:14px}.album-entry{display:flex;flex-direction:column;align-items:stretch;gap:7px;text-align:right;font-size:18px;line-height:1.3;background:var(--page);border:1px solid var(--line);padding:8px;color:var(--ink)}.album-entry img,.locked-mark{width:100%;aspect-ratio:1.7;object-fit:cover;filter:saturate(.7)}.locked-mark{display:grid;place-items:center;color:var(--muted);font-family:Georgia,serif;font-size:32px;background:var(--soft)}.album-entry:disabled{background:transparent;color:var(--muted)}.album-status{font-size:18px;color:var(--muted)}#confetti{display:none}
+@keyframes pop{to{transform:scale(.65);opacity:0}}@keyframes candy-drop{from{transform:translateY(var(--fall-distance))}to{transform:translateY(0)}}@keyframes hintpulse{50%{background:#ead9ad}}@keyframes counter-bounce{50%{transform:translateY(-2px)}}
+@media(min-width:720px){.screen{padding-top:30px}.play-spread{grid-template-columns:minmax(0,1fr) 374px;gap:36px;align-items:center;direction:rtl}.story-side{gap:16px}.story-side .keepsake-view{display:flex;flex-direction:column-reverse;min-height:420px;justify-content:space-between}.story-side .scene-window{min-height:220px}.story-side .motif-svg{height:200px}.board-heading{margin-bottom:14px}.board-name{font-size:36px}.reward-art .motif-svg{height:180px}.reward-page{padding:28px}.reward-actions{flex-direction:row}.reward-actions .btn{flex:1}.album-entries{grid-template-columns:repeat(3,1fr)}.cover{padding:40px 20px}.hero-figure img{height:380px}.cover-actions{flex-direction:row}.finale-actions{flex-direction:row}.finale-actions .btn{flex:1}}
+@media(max-width:374px){#screen-board{padding-inline:5px}.board{gap:2px}.board-frame{padding:4px}.cell{padding:4px}.screen{padding-inline:12px}.reward-page{padding:14px}.cover-type{padding-inline:6px}.hero-figure img{height:250px}}
+@media(max-width:719px) and (max-height:740px){#board-keepsake .keepsake-view{min-height:82px}#board-keepsake .motif-svg{height:82px}.play-spread{grid-template-areas:'keepsake' 'play' 'caption'}.story-side{display:contents}#board-keepsake{grid-area:keepsake}.play-side{grid-area:play}.keepsake-line{grid-area:caption}}
+#finale-keepsake .keepsake-view{min-height:150px}#finale-keepsake .motif-svg{height:150px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -391,90 +77,73 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
 <radialGradient id="ball-glaze" cx="30%" cy="23%" r="78%"><stop stop-color="#fff"/><stop offset=".52" stop-color="#fff9e7"/><stop offset=".84" stop-color="#d2c5ae"/><stop offset="1" stop-color="#796a61"/></radialGradient>
 <radialGradient id="amber-glaze" cx="32%" cy="18%" r="80%"><stop stop-color="#fff9be"/><stop offset=".35" stop-color="#ffd247"/><stop offset=".75" stop-color="#db7c13"/><stop offset="1" stop-color="#8a390c"/></radialGradient>
 <radialGradient id="mint-glaze" cx="27%" cy="20%" r="80%"><stop stop-color="#dcffdf"/><stop offset=".36" stop-color="#60d3aa"/><stop offset=".78" stop-color="#168f76"/><stop offset="1" stop-color="#075747"/></radialGradient>
-<symbol id="candy-heart" viewBox="0 0 64 64"><path d="M32 58 C24 50 4 39 4 22 C4 7 22 4 32 17 C42 4 60 7 60 22 C60 39 40 50 32 58Z" fill="#7e142d"/><path d="M32 53 C24 46 6 36 6 21 C6 8 22 5 32 18 C42 5 58 8 58 21 C58 36 40 46 32 53Z" fill="url(#ruby)" stroke="#ff9b99" stroke-width="1.4"/><path d="M11 22 C12 14 19 11 24 14" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="3.4" stroke-linecap="round"/><path d="M17 39 Q32 53 47 38" fill="none" stroke="#ff9fa0" stroke-opacity=".55" stroke-width="2"/></symbol>
+<symbol id="candy-heart" viewBox="0 0 64 64"><path d="M32 54C23 46 7 35 7 22C7 10 22 7 32 20C42 7 57 10 57 22C57 35 41 46 32 54Z" fill="#aa554b" stroke="#743d36" stroke-width="2"/><path d="M14 22Q16 14 23 17" fill="none" stroke="#e8bcb0" stroke-width="2"/></symbol>
 <symbol id="candy-fruit" viewBox="0 0 64 64"><circle cx="32" cy="35" r="25" fill="url(#orange)"/><path d="M32 13 Q31 5 41 5 Q41 13 32 15" fill="#4c9b51"/></symbol>
-<symbol id="candy-ball" viewBox="0 0 64 64"><circle cx="32" cy="34" r="27" fill="#c17b41"/><circle cx="32" cy="30" r="26" fill="url(#ball-glaze)" stroke="#fff0d2" stroke-width="2"/><path d="M32 17l10 7-4 12H26l-4-12z" fill="#a54436"/><g fill="#b5533d"><path d="M26 5 Q32 2 38 5 L36 10 L28 10Z"/><path d="M8 18 L13 17 L17 23 L13 28 L6 27Z"/><path d="M56 18 L51 17 L47 23 L51 28 L58 27Z"/><path d="M13 43 L20 41 L24 48 L21 53 Q16 50 13 43Z"/><path d="M51 43 L44 41 L40 48 L43 53 Q48 50 51 43Z"/></g><path d="M32 17v-7 M42 24l9-3 M38 36l6 7 M26 36l-6 7 M22 24l-9-3" fill="none" stroke="#bc826e" stroke-width="1.5"/><path d="M12 24q3-10 12-14" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></symbol>
-<symbol id="candy-shield" viewBox="0 0 64 64"><path d="M32 7 Q43 9 57 15 L54 38 Q51 52 32 61 Q13 52 10 38 L7 15 Q21 9 32 7Z" fill="#124962"/><path d="M32 3 Q44 6 57 12 L54 34 Q51 48 32 56 Q13 48 10 34 L7 12 Q20 6 32 3Z" fill="url(#blue)" stroke="#c3f6ff" stroke-width="2"/><path d="M32 12l4 10 11 1-8 7 2 10-9-5-9 5 2-10-8-7 11-1z" fill="#bffaff" opacity=".9"/><path d="M13 17 Q19 12 24 12 M17 38 Q21 46 29 49" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/></symbol>
-<symbol id="candy-plane" viewBox="0 0 64 64"><path d="M31 8 Q32 3 35 3 Q39 3 39 8 L38 22 56 32 Q59 34 57 39 L38 34 38 47 45 52 45 57 34 54 23 57 23 52 30 47 30 34 11 39 Q9 34 12 32 L30 22Z" fill="#075747" transform="translate(0 4)"/><path d="M31 8 Q32 3 35 3 Q39 3 39 8 L38 22 56 32 Q59 34 57 39 L38 34 38 47 45 52 45 57 34 54 23 57 23 52 30 47 30 34 11 39 Q9 34 12 32 L30 22Z" fill="url(#mint-glaze)" stroke="#c0ffea" stroke-width="2" stroke-linejoin="round"/><path d="M34 10v18 M16 34l11-5" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="3" stroke-linecap="round"/><path d="M32 44h5" stroke="#116c5a" stroke-width="2"/></symbol>
-<symbol id="candy-faith" viewBox="0 0 64 64"><path d="M21 31 Q21 27 25 27 H39 Q43 27 43 31 V54 Q43 59 32 59 Q21 59 21 54Z" fill="#b15519"/><path d="M21 29 Q21 25 25 25 H39 Q43 25 43 29 V51 Q43 56 32 56 Q21 56 21 51Z" fill="url(#amber-glaze)" stroke="#fff0ae" stroke-width="2"/><ellipse cx="32" cy="28" rx="11" ry="4" fill="#fff0b4"/><path d="M32 27 V22" stroke="#6e381b" stroke-width="2"/><path d="M32 3 C29 10 24 13 26 19 Q27 24 32 24 Q39 24 39 18 Q39 12 32 3Z" fill="#f06819" stroke="#a64517" stroke-width="1.3"/><path d="M32 12 Q28 18 32 21 Q36 19 32 12Z" fill="#fff4a1"/><path d="M25 33v15" stroke="#fff8d5" stroke-width="3" stroke-linecap="round" opacity=".8"/><path d="M39 32v5q-2 4-4 0v-4" fill="#ffefb2"/></symbol>
+<symbol id="candy-ball" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="#fffaf1" stroke="#655c4e" stroke-width="2"/><path d="M32 18l11 8-4 13H25l-4-13z" fill="#342c27"/><path d="M27 7h10l-5 11M8 24l13 2M13 47l12-8M51 47L39 39M56 24l-13 2M32 58V47" stroke="#342c27" stroke-width="3" fill="none"/></symbol>
+<symbol id="candy-shield" viewBox="0 0 64 64"><path d="M32 6L54 15 50 37Q46 49 32 57Q18 49 14 37L10 15Z" fill="#7395a0" stroke="#3f626c" stroke-width="2"/><path d="M23 31l7 7 13-16" fill="none" stroke="#fffaf1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="candy-plane" viewBox="0 0 64 64"><path d="M29 9Q32 2 35 9V24L56 35V40L35 34V47L43 53V57L32 53 21 57V53L29 47V34L8 40V35L29 24Z" fill="#648b78" stroke="#355b4c" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="candy-faith" viewBox="0 0 64 64"><path d="M23 29H41V54H23Z" fill="#d6b56e" stroke="#8c703c" stroke-width="2"/><path d="M32 28V22" stroke="#534735" stroke-width="2"/><path d="M32 5Q20 20 32 23Q44 20 32 5Z" fill="#bc7b3a"/><path d="M28 34V48" stroke="#fff4d2" stroke-width="3"/></symbol>
 </defs></svg>
 <div id="app">
-
-  <!-- HOME -->
   <section id="screen-home" class="screen active">
-    <div class="hero-figure">
-      <img src="assets/yoram-full-body-cutout.png" alt="יורם" onerror="this.style.display='none';document.getElementById('home-fallback').style.display='flex';">
-      <div class="figure-fallback" id="home-fallback"><span class="big">👑</span><span class="lbl">יורם הגיבור</span></div>
+    <p class="eyebrow">עשרה פרקים. סיפור אחד שלך.</p>
+    <div class="cover">
+      <div class="cover-type"><h1>יורם<br><span class="accent-red">הגיבור</span></h1><p class="subtitle">המסע של<br>יורם פרידמן</p></div>
+      <figure class="hero-figure"><img src="assets/yoram-full-body-cutout.png" alt="יורם" onerror="this.style.display='none';document.getElementById('home-fallback').style.display='flex'"><div class="figure-fallback" id="home-fallback">יורם הגיבור</div></figure>
     </div>
-    <h1>יורם <span class="accent-red">הגיבור</span></h1>
-    <p class="subtitle">המסע של יורם פרידמן</p>
-    <button id="btn-start" class="btn btn-big" type="button">מתחילים</button>
+    <div class="cover-bottom"><span>באהבה, מהמשפחה</span><span>בקצב שלך</span></div>
+    <div class="cover-actions"><button id="btn-start" class="btn" type="button">מתחילים</button><button id="btn-album-home" class="btn btn-ghost album-open" type="button" hidden>האלבום שלך</button></div>
+    <p class="symbol-note">מחברים סמלים, ובכל פרק מצטרפת מזכרת לאלבום.</p>
   </section>
-
-  <!-- LEVEL_INTRO -->
   <section id="screen-intro" class="screen">
-    <div class="card">
-      <img id="intro-scene" src="assets/scenes/chapter-01.jpg" alt="" aria-hidden="true">
-      <div class="intro-badge" id="intro-badge">⭐</div>
-      <h2 id="intro-name"></h2>
-      <p class="intro-line" id="intro-line"></p>
+    <nav class="page-nav"><button class="btn-home" type="button" aria-label="בית">בית</button><p id="intro-number" class="eyebrow"></p></nav>
+    <div class="intro-leaf">
+      <div class="intro-art"><img id="intro-scene" src="assets/scenes/chapter-01.jpg" alt="איור סמלי לפרק"><div class="intro-badge" id="intro-badge"></div></div>
+      <h2 id="intro-name"></h2><p class="intro-line" id="intro-line"></p>
+      <p class="intro-goal" id="intro-goal"></p><p id="intro-keepsake-line"></p>
       <button id="btn-play" class="btn" type="button">שחק</button>
     </div>
-    <button class="btn-home" type="button" aria-label="בית">⌂</button>
+    <p class="symbol-note">האיורים מלווים את הסיפור; הם אינם תמונות של המקומות או המשפחה.</p>
   </section>
-
-  <!-- BOARD -->
   <section id="screen-board" class="screen">
-    <div class="board-heading">
-    <button class="btn-home" type="button" aria-label="בית">⌂</button>
-    <div class="board-heading-copy">
-    <p class="level-label" id="level-label"></p>
-    <h2 class="board-name" id="board-name"></h2>
-    </div>
-    <img id="board-scene" src="assets/scenes/chapter-01.jpg" alt="" aria-hidden="true">
-    </div>
-    <p class="counter" id="counter" aria-live="polite"></p>
-    <p class="guide">נוגעים בסמל ואחריו בשכן שלו, כדי ליצור שורה של 3 זהים. ארבעה זהים יוצרים חץ שמנקה שורה או טור!<span id="match-feedback" aria-hidden="true"></span></p>
-    <div class="board-frame" id="board-frame">
-      <div class="board" id="grid"></div>
-    </div>
-    <div class="board-actions">
-      <button id="btn-hint" class="btn btn-ghost" type="button">רמז</button>
-      <img class="board-avatar" src="assets/yoram-portrait-cutout.png" alt="יורם">
+    <div class="board-heading"><button class="btn-home" type="button" aria-label="בית">בית</button><div class="board-heading-copy"><p class="level-label" id="level-label"></p><h2 class="board-name" id="board-name"></h2></div><img class="board-avatar" src="assets/yoram-portrait-cutout.png" alt="יורם"></div>
+    <div class="play-spread">
+      <aside class="story-side" aria-label="המזכרת של הפרק"><div id="board-keepsake"></div><p id="keepsake-line" class="keepsake-line"></p></aside>
+      <div class="play-side">
+        <p class="counter" id="counter" aria-live="polite"></p>
+        <div class="board-frame" id="board-frame"><div class="board" id="grid"></div></div>
+        <div class="board-actions"><button id="btn-hint" class="btn btn-ghost" type="button">רמז</button><button id="btn-album-board" class="btn btn-ghost album-open" type="button">אלבום</button></div>
+        <p class="guide">נוגעים בסמל ואחריו בשכן שלו, כדי ליצור שורה של 3 זהים.</p>
+        <details class="guide"><summary>על ארבעה סמלים ועל הרמז</summary><p>ארבעה זהים יוצרים חץ שמנקה מיד שורה או טור. החץ אינו נשמר למהלך הבא. אפשר לבקש רמז בכל פעם.</p></details>
+        <div class="feedback-line" role="status"><span id="match-feedback"></span></div>
+      </div>
     </div>
   </section>
-
-  <!-- HERO_CARD -->
   <section id="screen-card" class="screen">
-    <button class="btn-home" type="button" aria-label="בית">⌂</button>
-    <div class="keepsake">
-    <img class="chapter-scene" id="card-scene" src="assets/scenes/chapter-01.jpg" alt="" aria-hidden="true">
-    <div class="reward-mark" id="reward-mark" aria-hidden="true"></div>
-    <div class="portrait">
-      <img src="assets/yoram-portrait-cutout.png" alt="יורם" onerror="this.style.display='none';document.getElementById('card-fallback').style.display='flex';">
-      <div class="portrait-fallback" id="card-fallback"><span class="big">❤️</span><span class="lbl">יורם</span></div>
-    </div>
-    <p class="card-title">כרטיס גיבור</p>
-    <p class="chapter-name" id="card-chapter"></p>
-    <p class="card-text" id="card-text"></p>
-    <div class="chapter-progress" id="chapter-progress" aria-hidden="true"></div>
-    <button id="btn-next" class="btn" type="button">לשלב הבא</button>
-    </div>
+    <nav class="page-nav"><button class="btn-home" type="button" aria-label="בית">בית</button><span class="eyebrow">נוסף לאלבום שלך</span></nav>
+    <article class="reward-page keepsake" id="reward-page">
+      <header class="reward-heading"><div class="portrait"><img src="assets/yoram-portrait-cutout.png" alt="יורם"><div id="card-fallback" class="portrait-fallback">יורם</div></div><div><p class="card-title" id="card-number"></p><h2 class="chapter-name" id="card-chapter"></h2></div></header>
+      <div class="reward-art"><img class="chapter-scene" id="card-scene" src="assets/scenes/chapter-01.jpg" alt="איור סמלי לפרק"><div id="card-keepsake"></div></div>
+      <p class="card-text" id="card-text"></p><div id="reward-mark" hidden></div><div class="chapter-progress" id="chapter-progress" aria-hidden="true"></div>
+      <div class="reward-actions"><button id="btn-next" class="btn" type="button">לשלב הבא</button><button id="btn-album-card" class="btn btn-ghost album-open" type="button">האלבום שלך</button></div>
+    </article>
   </section>
-
-  <!-- FINALE -->
   <section id="screen-finale" class="screen">
-    <button class="btn-home" type="button" aria-label="בית">⌂</button>
-    <img class="chapter-scene" src="assets/scenes/chapter-10.jpg" alt="" aria-hidden="true">
-    <div class="hero-figure">
-      <img src="assets/yoram-full-body-cutout.png" alt="יורם" onerror="this.style.display='none';document.getElementById('finale-fallback').style.display='flex';">
-      <div class="figure-fallback" id="finale-fallback"><span class="big">👑</span><span class="lbl">יורם הגיבור</span></div>
-    </div>
-    <h2>הגיבור שלנו</h2>
-    <p class="finale-text" id="finale-text"></p>
-    <button id="btn-replay" class="btn btn-big" type="button">שחק שוב</button>
+    <nav class="page-nav"><button class="btn-home" type="button" aria-label="בית">בית</button><span class="eyebrow">כל עשרת הפרקים, יחד</span></nav>
+    <div class="finale-heading"><div><h2>הגיבור שלנו</h2><p class="finale-text" id="finale-text"></p></div><figure class="hero-figure"><img src="assets/yoram-full-body-cutout.png" alt="יורם"><div class="figure-fallback" id="finale-fallback">יורם</div></figure></div>
+    <div id="finale-keepsake"></div><div id="finale-montage" class="finale-montage" aria-label="עשרת פרקי המסע"></div>
+    <p>הסיפור שלך נשאר כאן. אפשר לפתוח כל פרק, מתי שרוצים.</p>
+    <div class="finale-actions"><button id="btn-album-finale" class="btn album-open" type="button">פותחים את האלבום</button><button id="btn-replay" class="btn btn-ghost" type="button">שחק שוב</button></div>
+    <p class="symbol-note">משחק חוזר לא מוחק את האלבום.</p>
   </section>
-
+  <section id="screen-album" class="screen">
+    <nav class="page-nav"><button id="btn-album-back" class="btn btn-ghost" type="button">חזרה למשחק</button></nav>
+    <h2>האלבום שלך</h2><p id="album-summary"></p><div id="album-entries" class="album-entries"></div>
+  </section>
+  <section id="screen-memory" class="screen">
+    <nav class="page-nav"><button id="btn-memory-back" class="btn btn-ghost" type="button">חזרה לאלבום</button></nav>
+    <article id="memory-page" class="reward-page"><header class="reward-heading"><div class="portrait"><img src="assets/yoram-portrait-cutout.png" alt="יורם"></div><h2 id="memory-name"></h2></header><div class="reward-art"><img id="memory-scene" class="chapter-scene" alt="איור סמלי לפרק"><div id="memory-keepsake"></div></div><p id="memory-text" class="card-text"></p></article>
+  </section>
 </div>
 <div id="confetti"></div>
 
@@ -679,15 +348,24 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
   const el = function(id){ return document.getElementById(id); };
   // A locally embedded illustration is visible while chapter art loads and if it fails.
   const sceneFallback = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420"><rect width="800" height="420" fill="#f6e5c9"/><circle cx="620" cy="90" r="48" fill="#f3c96b"/><path d="M0 305 Q190 155 400 305 Q600 160 800 285 V420 H0Z" fill="#c4d5b0"/><path d="M0 355 Q215 235 420 355 Q600 275 800 335 V420 H0Z" fill="#9eb98c"/><path d="M400 290 C355 250 300 300 400 365 C500 300 445 250 400 290Z" fill="#c95b4d"/></svg>');
-  document.querySelectorAll('#intro-scene, #board-scene, .chapter-scene').forEach(function(image){
-    image.style.backgroundImage = 'url("' + sceneFallback + '")';
-    image.style.backgroundSize = 'cover';
-    image.addEventListener('error', function(){ if(image.src !== sceneFallback) image.src = sceneFallback; });
-  });
+  function prepareScenes(){
+    document.querySelectorAll('img[src*="assets/scenes/"]').forEach(function(image){
+      image.style.backgroundImage='url("'+sceneFallback+'")';
+      image.style.backgroundSize='cover';
+    });
+  }
+  document.addEventListener('error',function(event){
+    const image=event.target;
+    if(image instanceof HTMLImageElement && image.getAttribute('src')?.includes('assets/scenes/')) image.src=sceneFallback;
+  },true);
+  prepareScenes();
   const grid = el('grid');
 
   const state = { levelIndex:0, collected:0, board:null, selected:null, busy:false, started:false, pending:false, cascadeSeen:[] };
 
+  let completed = 0, restoringView = false;
+  const homeOrigin = function(){return {screen:'screen-home',chapter:null,opener:'btn-album-home',scroll:0};};
+  let navigation = {navVersion:1,yoramView:'game',origin:homeOrigin(),scroll:0,focus:null};
   function level(){ return LEVELS[state.levelIndex]; }
   function emojiFor(t, lv){ return t === 'fruit' ? lv.fruit : EMOJI[t]; }
   function targetEmoji(lv){ return lv.target === 'fruit' ? lv.fruit : EMOJI[lv.target]; }
@@ -700,33 +378,133 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
     return '<svg class="candy-art" aria-hidden="true" viewBox="0 0 64 64"><use href="'+symbol+'" xlink:href="'+symbol+'"></use></svg>';
   }
 
+  // Each collected target adds one ink mark to an original symbolic keepsake.
+  // These are graphic metaphors, never a claim to depict an actual place.
+  const motifs = ['roots','football','doors','foundation','morning','shelter','father','gathering','grandpa','travel'];
+  const keepsakeLines = ['כל לב מוסיף עלה לעץ השורשים.', 'כל כדור מוסיף פס לצעיף האדום.', 'כל פרי מוסיף דלת לדרך.', 'כל מגן מוסיף אבן לבסיס.', 'כל אור מוסיף קרן לבוקר.', 'כל מגן מוסיף חלק לגג המגן.', 'כל לב מוסיף קורה לספסל שבאיור.', 'כל לב מוסיף רקמה לשולחן המשפחתי.', 'כל פרי מצטרף לקערות של מילי וג׳יימי.', 'כל מטוס מוסיף קטע לדרך שבמפה.'];
+  function keepsakeMarkup(index, amount, complete){
+    const lv=LEVELS[index], earned=Math.min(lv.count,Math.max(0,amount));
+    let base='', foreground='', marks=[];
+    const mark=function(shape,i){return '<g class="motif-mark" data-earned="'+(i<earned)+'">'+shape+'</g>';};
+    if(index===0){
+      base='<path d="M120 87V42 M120 68L88 49 M120 58L149 36 M120 45L105 26 M120 83L104 94 M120 83L140 94"/>';
+      const points=[[79,42],[96,51],[99,22],[114,31],[131,24],[150,29],[141,49],[162,45]];
+      marks=points.map(function(p,i){return mark('<ellipse cx="'+p[0]+'" cy="'+p[1]+'" rx="12" ry="6" transform="rotate('+ (i%2?32:-32)+' '+p.join(' ')+')"/>',i);});
+    }else if(index===1){
+      base='<path d="M77 28L106 35 87 94 59 85Z M130 34L155 26 182 85 154 98Z" fill="#eadcc9" stroke="#9a5d4a"/><path d="M77 13Q117-2 155 20L148 43Q112 25 78 40Z" fill="#a45447" stroke="#834638"/><path d="M81 19Q116 9 150 25 M79 33Q115 19 148 36" stroke="#e6bfab" stroke-width="1.2"/><path d="M61 87l-3 9M67 89l-3 9M73 91l-3 9M79 93l-3 9M85 95l-3 9 M155 100l4 8M161 97l4 8M168 94l4 8M175 91l4 8M181 88l4 8" stroke="#923e33" stroke-width="2"/>';
+      for(let i=0;i<10;i++){
+        const n=Math.floor(i/2),left=i%2===0,x=left?76-n*3.3:136+n*4.4,y=left?41+n*9:42+n*9;
+        const shape=left ? 'M'+x+' '+y+'l26 8-2 6-26-8z' : 'M'+x+' '+y+'l24-9 3 6-24 10z';
+        marks.push(mark('<path d="'+shape+'"/><path d="M'+(x+3)+' '+(y+2)+'l'+(left?'19 6':'18-6')+'" fill="none" stroke="#f4e8d6" stroke-width=".65" opacity=".6"/>',i));
+      }
+    }else if(index===2){
+      base='<path stroke-dasharray="2 4" d="M17 48H217Q234 48 234 57T217 105H17" stroke="#b49e78"/>';
+      for(let i=0;i<12;i++){
+        const x=15+(i<6?i:11-i)*36,y=i<6?7:62;
+        base+='<path d="M'+x+' '+(y+36)+'v-32q12-8 24 0v32 M'+(x-2)+' '+(y+37)+'h28 M'+(x-3)+' '+(y+40)+'h30" stroke="#9f8b70"/>';
+        marks.push(mark('<path d="M'+(x+3)+' '+(y+6)+'h18v30h-18z"/><path d="M'+(x+6)+' '+(y+10)+'h12v9h-12z M'+(x+6)+' '+(y+23)+'h12v9h-12z" fill="none" stroke="#e9dfc8" stroke-width=".85"/><circle cx="'+(x+18)+'" cy="'+(y+21)+'" r="1.4" fill="#b78d42" stroke="#775d30" stroke-width=".4"/>',i));
+      }
+    }else if(index===3){
+      base='<path d="M12 99Q118 94 228 99" stroke="#82735d" stroke-width="2"/>';
+      // Laid from the ground up. Unequal lengths break the vertical mortar joints.
+      const joints=[[18,65,123,174,222],[18,91,140,185,222],[18,55,112,161,222]];
+      for(let i=0;i<12;i++){
+        const row=Math.floor(i/4),col=i%4,x=joints[row][col]+1,w=joints[row][col+1]-x-2,y=75-row*25;
+        marks.push(mark('<path d="M'+(x+3)+' '+y+'l'+(w-6)+' -1 3 4-1 17-'+(w-4)+' 1-3-4z"/><path d="M'+(x+5)+' '+(y+4)+'l'+(w-11)+' -1 M'+(x+6)+' '+(y+17)+'l'+(w-13)+' 1" fill="none" stroke="#fff9e7" stroke-width="1" opacity=".55"/>',i));
+      }
+    }else if(index===4){
+      base='<path d="M35 91H205 M77 91a43 43 0 0 1 86 0 M113 91V66 M126 91V66"/>';
+      for(let i=0;i<12;i++){const a=Math.PI+i*Math.PI/11,x=120+Math.cos(a)*59,y=91+Math.sin(a)*59,x2=120+Math.cos(a)*78,y2=91+Math.sin(a)*78;marks.push(mark('<path d="M'+x+' '+y+'L'+x2+' '+y2+'" stroke-width="5"/>',i));}
+    }else if(index===5){
+      base='<path d="M25 50V99H215V50" stroke-width="3"/><path d="M41 74l23-18 23 18v24H41z M97 69l23-18 23 18v29H97z M153 74l23-18 23 18v24h-46z" fill="#fffcf5" stroke="#8b836c"/><path d="M59 98V82h10v16 M115 98V77h10v21 M171 98V82h10v16" stroke="#7e755f"/>';
+      const roofY=x=>10+Math.abs(120-x)*.32;
+      for(let i=0;i<15;i++){
+        const x=15+i*14,x2=x+14,y=roofY(x),y2=roofY(x2);
+        const peak=i===7?'L120 10':'';
+        marks.push(mark('<path d="M'+x+' '+y+peak+'L'+x2+' '+y2+'V'+(y2+12)+(i===7?'L120 22':'')+'L'+x+' '+(y+12)+'Z"/>',i));
+      }
+      foreground='<path d="M15 55.6L120 22 225 55.6" fill="none" stroke="#74674f" stroke-width="1.5"/>';
+    }else if(index===6){
+      base='<path d="M36 18V98 M204 18V98 M27 78l-5 24 M213 78l5 24 M24 82H216" stroke="#6b6552" stroke-width="4"/>';
+      for(let i=0;i<15;i++){
+        if(i<5)marks.push(mark('<rect x="30" y="'+(17+i*8)+'" width="180" height="6.5" rx="1.2"/>',i));
+        else{const x=30+(i-5)*18;marks.push(mark('<path d="M'+x+' 62h17l'+((x-120)/16)+' 17h-19z"/>',i));}
+      }
+      foreground='<path d="M16 57h28v8H16z M196 57h28v8h-28z" fill="#867452" stroke="#68593f"/><g fill="#fff8e9" stroke="#a39478"><rect x="46" y="22" width="58" height="32" rx="2"/><rect x="136" y="22" width="58" height="32" rx="2"/></g><text x="75" y="46" text-anchor="middle">שי</text><text x="165" y="46" text-anchor="middle">גלי</text>';
+    }else if(index===7){
+      base='<rect x="25" y="21" width="190" height="68" rx="32"/><ellipse cx="120" cy="55" rx="43" ry="20"/><path d="M87 55H153 M120 40V70"/>';
+      for(let i=0;i<18;i++){let a=i*Math.PI*2/18,x=120+Math.cos(a)*82,y=55+Math.sin(a)*25;marks.push(mark('<path d="M'+(x-3)+' '+y+'l3-4 3 4-3 4z"/>',i));}
+    }else if(index===8){
+      base='<ellipse cx="60" cy="67" rx="46" ry="12" fill="#d8c6a3"/><ellipse cx="180" cy="67" rx="46" ry="12" fill="#d8c6a3"/>';
+      const fruitPlaces=[[28,57],[48,61],[69,62],[89,57],[37,40],[59,43],[80,39],[49,24],[70,23]];
+      for(let i=0;i<18;i++){
+        const p=fruitPlaces[i%9],x=p[0]+(i<9?0:120),y=p[1],kind=i%3;
+        const shape=kind===0 ? '<path d="M0-6C-14-15-15 8-3 10Q0 8 3 10C15 8 14-15 0-6Z"/>' : kind===1 ? '<path d="M-4-9Q-9-1-10 3C-13 16 13 16 10 3Q5-3 4-9Z"/>' : '<circle cy="2" r="10"/>';
+        marks.push(mark('<g transform="translate('+x+' '+y+')" style="--fruit-ink:'+['#a65443','#8b954d','#cb943c'][kind]+'">'+shape+'<path d="M0-7q-2-6 2-8 M1-10q6-5 8-1q-3 4-8 1" fill="none" stroke="#646b40" stroke-width="1.4"/><path d="M-6 0q-2 4 1 6" fill="none" stroke="#fff7e1" stroke-width="1"/></g>',i));
+      }
+      foreground='<path d="M14 65Q60 78 106 65Q100 91 60 91Q20 91 14 65Z M134 65Q180 78 226 65Q220 91 180 91Q140 91 134 65Z" fill="#c38e6b" stroke="#815b45" stroke-width="1.5"/><path d="M22 72Q60 83 98 72 M142 72Q180 83 218 72" fill="none" stroke="#f5e5c7" stroke-width="2"/><g fill="#fff8e9" stroke="#a39478" stroke-width=".7"><rect x="25" y="61" width="70" height="32" rx="3"/><rect x="145" y="61" width="70" height="32" rx="3"/></g><text x="60" y="85" text-anchor="middle">מילי</text><text x="180" y="85" text-anchor="middle">ג׳יימי</text>';
+    }else{
+      base='<path d="M10 18L80 8 158 20 230 9V91L158 103 80 91 10 102Z" fill="#fff7e6" stroke="#98866b"/><path d="M80 8V91 M158 20V103" stroke="#cfbea0"/><path d="M22 30l18-7 14 9-7 15-21 3z M95 20l31 7 9 21-13 12-23-9z M171 57l21-19 23 8-2 24-28 12z" fill="#d8dfc5" stroke="#b1bb98"/><path d="M18 87q16-9 33-6 M174 25l23-3" stroke="#d1c2a2"/>';
+      const routePoint=n=>[24+n*9.5,60-Math.sin(n/20*Math.PI*2.3)*23];
+      for(let i=0;i<20;i++){
+        const a=routePoint(i),b=routePoint(i+1);
+        marks.push(mark('<path d="M'+a.join(' ')+'L'+b.join(' ')+'" fill="none" stroke-width="3.5"/>',i));
+      }
+      const point=routePoint(earned);
+      foreground='<g transform="translate('+(point[0]-9)+' '+(point[1]-9)+') rotate(35 9 9)"><path d="M8 0h2v7l8 5v2l-8-3v5l3 2v1l-4-1-4 1v-1l3-2v-5l-8 3v-2l8-5z" fill="#923e33" stroke="#fff8e9" stroke-width=".7"/></g>';
+    }
+    const image='assets/scenes/chapter-'+String(index+1).padStart(2,'0')+'.jpg';
+    return '<div class="keepsake-view" data-object="'+motifs[index]+'" style="--reveal:'+(0.25+0.75*earned/lv.count).toFixed(3)+'"><div class="scene-window"><img '+(complete?'':'id="board-scene" ')+'src="'+image+'" alt=""></div><svg class="motif-svg" data-motif="'+motifs[index]+'" viewBox="0 0 240 110" role="img" aria-label="'+earned+' מתוך '+lv.count+' פרטים במזכרת"><g class="motif-base">'+base+'</g>'+marks.join('')+foreground+'</svg></div>';
+  }
+  function updateKeepsake(){
+    el('board-keepsake').innerHTML=keepsakeMarkup(state.levelIndex,state.collected,false);
+    el('keepsake-line').textContent=keepsakeLines[state.levelIndex];
+    prepareScenes();
+  }
+
   // ---- screens ----
   function show(id){
     document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
     el('confetti').replaceChildren();
     el(id).classList.add('active');
+    if(!restoringView && id!=='screen-album' && id!=='screen-memory'){
+      navigation={navVersion:1,yoramView:'game',origin:homeOrigin(),scroll:0,focus:null};
+      history.replaceState(navigation,'');
+    }
+    prepareScenes();
     if (id === 'screen-home') delete document.body.dataset.chapter;
     else document.body.dataset.chapter = String(state.levelIndex + 1);
+    window.scrollTo(0,0);
+    const heading=el(id).querySelector('h1,h2');
+    if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
   }
 
   // ---- progress ----
   function saveProgress(){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ levelIndex:state.levelIndex, collected:state.collected, board:state.board, pending:state.pending, cascadeSeen:state.cascadeSeen })); }catch(e){}
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ version:2, completed:completed, levelIndex:state.levelIndex, collected:state.collected, board:state.board, pending:state.pending, cascadeSeen:state.cascadeSeen })); }catch(e){}
   }
   function loadProgress(){
     try{
       const p = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      if (p && typeof p.levelIndex === 'number') return p;
+      if (!p || !Number.isInteger(p.levelIndex) || p.levelIndex < 0 || p.levelIndex >= LEVELS.length ||
+          !Number.isInteger(p.collected) || p.collected < 0 || p.collected > LEVELS[p.levelIndex].count + 35) return null;
+      const earned = p.levelIndex + (p.collected >= LEVELS[p.levelIndex].count ? 1 : 0);
+      if (p.version === 2 && (!Number.isInteger(p.completed) || p.completed < p.levelIndex || p.completed > LEVELS.length)) return null;
+      if (p.version != null && p.version !== 1 && p.version !== 2) return null;
+      p.completed = p.version === 2 ? Math.max(p.completed,earned) : earned;
+      p.collected = Math.min(p.collected, LEVELS[p.levelIndex].count);
+      return p;
     }catch(e){}
     return null;
   }
   function clearProgress(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
   function hasProgress(){
     const p = loadProgress();
-    return !!(p && (p.levelIndex > 0 || p.collected > 0 || p.board));
+    return !!(p && (p.completed > 0 || p.levelIndex > 0 || p.collected > 0 || p.board));
   }
   function refreshStartButton(){
     el('btn-start').textContent = hasProgress() ? 'ממשיכים' : 'מתחילים';
+    el('btn-album-home').hidden = completed === 0;
   }
 
   // ---- board rendering ----
@@ -767,11 +545,13 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
     const lv = level();
     const shown = Math.min(state.collected, lv.count);
     el('counter').innerHTML = 'אספת <b>'+shown+'</b> מתוך <b>'+lv.count+'</b> '+goalNames[lv.target]+' <span class="tgt">'+candy(lv.target)+'</span>';
+    updateKeepsake();
   }
 
   // ---- input ----
   function onCellTap(r,c){
     if (state.busy) return;
+    grid.querySelectorAll('.hint').forEach(function(cell){cell.classList.remove('hint');});
     const sel = state.selected;
     if (!sel){ state.selected = {r:r,c:c}; markSelected(r,c,true); return; }
     if (sel.r===r && sel.c===c){ markSelected(r,c,false); state.selected=null; return; }
@@ -822,7 +602,7 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
     state.collected += cleared;
     updateCounter();
     const feedback = el('match-feedback');
-    feedback.textContent = plan.powers.length ? 'חץ הקסם מנקה!' : (state.cascadeSeen.length > 1 ? 'רצף נהדר!' : (cleared ? 'יופי! +' + cleared : 'כל הכבוד!'));
+    feedback.textContent = plan.powers.length ? 'ארבעה יחד — השורה או הטור מתפנים' : (cleared ? 'נוספו '+cleared+' למזכרת' : 'התאמה');
     plan.powers.forEach(function(p){ const cell=cellEl(p.r,p.c); if(cell){ cell.classList.add('power-'+p.axis); cell.setAttribute('aria-label',cell.getAttribute('aria-label') + (p.axis==='row' ? ', חץ שמנקה שורה' : ', חץ שמנקה טור')); } });
     if (cleared) { el('counter').classList.remove('collected-pulse'); void el('counter').offsetWidth; el('counter').classList.add('collected-pulse'); }
     m.forEach(function(cell){ const c=cellEl(cell[0],cell[1]); if(c) c.classList.add('pop'); });
@@ -861,8 +641,8 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
   }
 
   function flashHint(move){
-    flashClass({r:move.r1,c:move.c1}, 'hint', 1400);
-    flashClass({r:move.r2,c:move.c2}, 'hint', 1400);
+    grid.querySelectorAll('.hint').forEach(function(cell){cell.classList.remove('hint');});
+    [[move.r1,move.c1],[move.r2,move.c2]].forEach(function(p){const cell=cellEl(p[0],p[1]);if(cell)cell.classList.add('hint');});
   }
   function flashClass(cell, cls, ms){
     const c = cellEl(cell.r, cell.c);
@@ -875,6 +655,7 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
 
   function finishLevel(){
     state.collected = level().count;
+    completed = Math.max(completed, state.levelIndex + 1);
     state.busy = false;
     state.pending = false;
     saveProgress();
@@ -886,6 +667,9 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
   function showIntro(){
     const lv = level();
     el('intro-scene').src = 'assets/scenes/chapter-'+String(state.levelIndex+1).padStart(2,'0')+'.jpg';
+    el('intro-number').textContent='פרק '+(state.levelIndex+1)+' מתוך 10';
+    el('intro-goal').innerHTML=candy(lv.target)+'<span>אוספים '+lv.count+' '+goalNames[lv.target]+'</span>';
+    el('intro-keepsake-line').textContent=keepsakeLines[state.levelIndex];
     el('intro-badge').innerHTML = candy(lv.target);
     el('intro-name').textContent = lv.name;
     el('intro-line').textContent = chapterIntros[state.levelIndex];
@@ -896,23 +680,31 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
 
   function showBoard(){
     const lv = level();
-    el('board-frame').style.setProperty('--chapter-art', 'url("assets/scenes/chapter-'+String(state.levelIndex+1).padStart(2,'0')+'.jpg")');
-    el('board-scene').src = 'assets/scenes/chapter-'+String(state.levelIndex+1).padStart(2,'0')+'.jpg';
+    el('btn-album-board').hidden = completed === 0;
     if (state.collected >= lv.count){ finishLevel(); return; }
     if (!state.board) state.board = E.makeBoard(lv.target);
     state.selected = null; state.busy = state.pending;
+    saveProgress();
+    renderBoardScreen();
+    if (state.pending) setTimeout(cascadeStep, 0);
+  }
+  // Pure view hydration: browsing history must not save, generate or resolve play.
+  function renderBoardScreen(){
+    const lv=level();
+    el('btn-album-board').hidden=completed===0;
     el('level-label').textContent = 'שלב ' + (state.levelIndex+1) + ' מתוך ' + LEVELS.length;
     el('board-name').textContent = lv.name;
     el('board-frame').classList.toggle('red', !!lv.red);
     updateCounter();
     renderBoard();
-    saveProgress();
     show('screen-board');
-    if (state.pending) setTimeout(cascadeStep, 0);
   }
 
   function showHeroCard(){
     el('card-scene').src = 'assets/scenes/chapter-' + String(state.levelIndex + 1).padStart(2,'0') + '.jpg';
+    el('reward-page').dataset.layout=motifs[state.levelIndex];
+    el('card-keepsake').innerHTML=keepsakeMarkup(state.levelIndex,level().count,true);
+    el('card-number').textContent='פרק '+(state.levelIndex+1)+' · יורם הגיבור';
     el('card-text').textContent = level().card;
     el('card-chapter').textContent = level().name;
     el('reward-mark').innerHTML = candy(level().target);
@@ -922,13 +714,15 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
       return mark;
     }));
     show('screen-card');
-    burstConfetti();
+
   }
 
   function showFinale(){
     el('finale-text').textContent = LEVELS[LEVELS.length-1].card;
+    el('finale-keepsake').innerHTML=keepsakeMarkup(9,20,true);
+    el('finale-montage').replaceChildren(...LEVELS.map(function(lv,i){const b=document.createElement('button');b.type='button';b.className='finale-memory';b.id='finale-memory-'+i;b.setAttribute('aria-label',lv.name);b.innerHTML='<img src="assets/scenes/chapter-'+String(i+1).padStart(2,'0')+'.jpg" alt=""><span>'+String(i+1).padStart(2,'0')+'</span>';b.addEventListener('click',function(event){showAlbum(event);showMemory(i);});return b;}));
     show('screen-finale');
-    burstConfetti();
+
   }
 
   function advance(){
@@ -958,35 +752,111 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
     if (mv) flashHint(mv);
   }
 
-  // ---- confetti ----
-  const reduceMotion = (typeof matchMedia === 'function') && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function burstConfetti(){
-    if (reduceMotion) return;
-    const bits = ['#d85a49','#e6ac47','#5c9c79','#6d9eb3','#c58bba'];
-    const box = el('confetti');
-    for (let i=0;i<22;i++){
-      const s = document.createElement('span');
-      s.className = 'confetti-bit';
-      s.style.background = bits[i % bits.length];
-      s.style.left = (Math.random()*100) + 'vw';
-      s.style.fontSize = (16 + Math.random()*18) + 'px';
-      s.style.animationDuration = '.28s';
-      s.style.animationDelay = '0s';
-      box.appendChild(s);
-      (function(node){ setTimeout(function(){ if (node.parentNode) node.parentNode.removeChild(node); }, 3600); })(s);
+  // Album history stores only view provenance, never a second copy of the game.
+  function validBoard(board){
+    return Array.isArray(board) && board.length===E.ROWS && board.every(function(row){return Array.isArray(row) && row.length===E.COLS && row.every(function(t){return E.TYPES.includes(t);});});
+  }
+  function hydrateProgress(p){
+    if(!p) return;
+    state.levelIndex=p.levelIndex; completed=p.completed; state.collected=p.collected;
+    const valid=validBoard(p.board);
+    state.pending=!!(valid && p.pending);
+    state.cascadeSeen=state.pending && Array.isArray(p.cascadeSeen) ? p.cascadeSeen.slice(0,128) : [];
+    state.board=valid && (state.pending || (!E.hasMatch(p.board) && E.findMove(p.board))) ? p.board : null;
+  }
+  function safeScroll(value){return Number.isFinite(value) && value>=0 && value<=1000000 ? value : 0;}
+  function safeFocus(value){
+    return typeof value==='string' && /^(btn-album-(home|board|card|finale)|album-entry-[0-9]|finale-memory-[0-9])$/.test(value) ? value : null;
+  }
+  function validatedNavigation(raw){
+    const fallback={navVersion:1,yoramView:'game',origin:homeOrigin(),scroll:0,focus:null};
+    if(!raw || raw.navVersion!==1 || !['game','album','memory'].includes(raw.yoramView))return fallback;
+    const o=raw.origin;
+    if(!o || !['screen-home','screen-board','screen-card','screen-finale'].includes(o.screen))return fallback;
+    let origin=homeOrigin();
+    const same=o.chapter===state.levelIndex;
+    const stable=state.board && !state.pending && !E.hasMatch(state.board) && E.findMove(state.board);
+    const allowed=o.screen==='screen-home' || (same && (
+      (o.screen==='screen-board' && stable && state.collected<level().count) ||
+      (o.screen==='screen-card' && state.levelIndex<9 && state.collected>=level().count && completed>state.levelIndex) ||
+      (o.screen==='screen-finale' && state.levelIndex===9 && state.collected>=level().count && completed===10)));
+    if(allowed)origin={screen:o.screen,chapter:o.screen==='screen-home'?null:o.chapter,opener:safeFocus(o.opener),scroll:safeScroll(o.scroll)};
+    const result={navVersion:1,yoramView:raw.yoramView,origin:origin,scroll:safeScroll(raw.scroll),focus:safeFocus(raw.focus)};
+    if(completed===0 && result.yoramView!=='game')return fallback;
+    if(result.yoramView==='memory'){
+      if(!Number.isInteger(raw.index) || raw.index<0 || raw.index>=completed){result.yoramView='album';result.scroll=0;result.focus=null;}
+      else result.index=raw.index;
     }
+    return result;
+  }
+  function rememberView(){
+    if(restoringView)return;
+    const active=document.querySelector('.screen.active').id;
+    if(active==='screen-album' || active==='screen-memory'){
+      navigation.scroll=safeScroll(window.scrollY);
+      const focus=safeFocus(document.activeElement.id);
+      if(focus)navigation.focus=focus;
+      history.replaceState(navigation,'');
+    }
+  }
+  function showAlbum(event){
+    if(state.busy)return;
+    const origin={screen:document.querySelector('.screen.active').id,chapter:state.levelIndex,opener:safeFocus((event?.currentTarget || document.activeElement).id),scroll:safeScroll(window.scrollY)};
+    navigation=validatedNavigation({navVersion:1,yoramView:'game',origin:origin,scroll:origin.scroll,focus:origin.opener});
+    history.replaceState(navigation,'');
+    navigation={...navigation,yoramView:'album',scroll:0,focus:null};
+    history.pushState(navigation,'');
+    renderAlbum();show('screen-album');
+  }
+  function renderAlbum(){
+    el('album-summary').textContent = completed + ' מתוך 10 פרקים באלבום';
+    el('album-entries').replaceChildren(...LEVELS.map(function(lv,i){
+      const b=document.createElement('button'); b.type='button'; b.className='album-entry'; b.id='album-entry-'+i; b.disabled=i>=completed;
+      b.innerHTML=(i<completed ? '<img src="assets/scenes/chapter-'+String(i+1).padStart(2,'0')+'.jpg" alt="">' : '<span class="locked-mark" aria-hidden="true">'+String(i+1).padStart(2,'0')+'</span>') + '<span>'+lv.name+'</span><span class="album-status">'+(i<completed?'לפתיחת הפרק':'ייפתח בהמשך המסע')+'</span>';
+      b.addEventListener('click',function(){ showMemory(i); }); return b;
+    }));
+  }
+  function showMemory(i, push = true){
+    if (!Number.isInteger(i) || i<0 || i>=completed || state.busy) return;
+    if(push){
+      rememberView();navigation.focus='album-entry-'+i;history.replaceState(navigation,'');
+      navigation={...navigation,yoramView:'memory',index:i,scroll:0,focus:null};history.pushState(navigation,'');
+    }
+    el('memory-page').dataset.layout=motifs[i];
+    el('memory-keepsake').innerHTML=keepsakeMarkup(i,LEVELS[i].count,true);
+    el('memory-name').textContent=LEVELS[i].name;
+    el('memory-text').textContent=LEVELS[i].card;
+    el('memory-scene').src='assets/scenes/chapter-'+String(i+1).padStart(2,'0')+'.jpg';
+    show('screen-memory'); document.body.dataset.chapter=String(i+1);
+  }
+  function restoreNavigation(raw){
+    navigation=validatedNavigation(raw);restoringView=true;
+    if(navigation.yoramView==='memory')showMemory(navigation.index,false);
+    else if(navigation.yoramView==='album'){renderAlbum();show('screen-album');}
+    else{
+      const screen=navigation.origin.screen;
+      if(screen==='screen-board'){
+        // An ordinary return keeps its live selection and hint. Only a new
+        // document needs pure rendering of the hydrated saved board.
+        if(grid.children.length===E.ROWS*E.COLS)show('screen-board');
+        else renderBoardScreen();
+      }
+      else if(screen==='screen-card')showHeroCard();
+      else if(screen==='screen-finale')showFinale();
+      else{refreshStartButton();show('screen-home');}
+      navigation.scroll=navigation.origin.scroll;navigation.focus=navigation.origin.opener;
+    }
+    const focus=el(navigation.focus);
+    if(focus && focus.closest('.screen.active') && !focus.disabled)focus.focus({preventScroll:true});
+    window.scrollTo(0,navigation.scroll);
+    history.replaceState(navigation,'');restoringView=false;
   }
 
   // ---- wiring ----
   el('btn-start').addEventListener('click', function(){
     const p = loadProgress();
-    if (p && (p.levelIndex > 0 || p.collected > 0 || p.board)){
-      state.levelIndex = p.levelIndex;
-      state.collected = p.collected;
-      const validBoard = Array.isArray(p.board) && p.board.length === E.ROWS && p.board.every(function(row){ return Array.isArray(row) && row.length === E.COLS && row.every(function(t){ return E.TYPES.includes(t); }); });
-      state.pending = !!(validBoard && p.pending);
-      state.cascadeSeen = state.pending && Array.isArray(p.cascadeSeen) ? p.cascadeSeen.slice(0,128) : [];
-      state.board = validBoard && (state.pending || (!E.hasMatch(p.board) && E.findMove(p.board))) ? p.board : null;
+    if (p){
+      hydrateProgress(p);
       showIntro();
     } else {
       clearProgress();
@@ -998,15 +868,33 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
   el('btn-hint').addEventListener('click', hint);
   el('btn-next').addEventListener('click', advance);
   el('btn-replay').addEventListener('click', function(){
-    clearProgress();
-    state.levelIndex = 0; state.collected = 0; state.board = null; state.pending = false;
+    if (state.busy) return;
+    state.levelIndex = 0; state.collected = 0; state.board = null; state.pending = false; state.selected = null; state.cascadeSeen = [];
+    saveProgress();
     showIntro();
+  });
+  document.querySelectorAll('.album-open').forEach(function(b){b.addEventListener('click',showAlbum);});
+  el('btn-album-back').addEventListener('click',function(){rememberView();history.back();});
+  el('btn-memory-back').addEventListener('click',function(){rememberView();history.back();});
+  history.scrollRestoration='manual';
+  window.addEventListener('pagehide',rememberView);
+  window.addEventListener('scroll',rememberView,{passive:true});
+  window.addEventListener('popstate',function(event){
+    // A browser traversal cannot cancel an accepted move. Finish it first;
+    // history hydration itself never invokes the resolver.
+    if(state.busy){
+      const arrived=event.state;
+      const wait=setInterval(function(){if(!state.busy){clearInterval(wait);restoreNavigation(arrived);}},30);
+      return;
+    }
+    restoreNavigation(event.state);
   });
   document.querySelectorAll('.btn-home').forEach(function(b){ b.addEventListener('click', goHome); });
 
   // ---- expose for tests ----
   globalThis.__GAME = {
     LEVELS: LEVELS, E: E, state: state,
+    journey: function(){return Object.freeze({completed:completed, chapter:state.levelIndex, collected:Math.min(state.collected,level().count), total:level().count});},
     level: level, emojiFor: emojiFor, targetEmoji: targetEmoji,
     makeBoard: E.makeBoard, findMove: E.findMove, findMatches: E.findMatches,
     resolveBoard: E.resolveBoard, collapseAndRefill: E.collapseAndRefill,
@@ -1015,7 +903,13 @@ body[data-chapter] .cell.selected{box-shadow:inset 0 0 0 3px #fff7aa,0 0 0 3px #
   };
 
   // ---- boot ----
+  const initialProgress=loadProgress();
+  hydrateProgress(initialProgress);
   refreshStartButton();
+  // Existing game reloads still enter through Continue. Only a provenance-bearing
+  // album visit restores a view; never erase that entry before validating it.
+  if(history.state?.navVersion===1)restoreNavigation(history.state);
+  else history.replaceState(navigation,'');
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     navigator.serviceWorker.register('./sw.js').catch(function(){});
   }
