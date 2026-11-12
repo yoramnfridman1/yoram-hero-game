@@ -10,6 +10,10 @@
 </head>
 <body>
 <div id="app">
+  <aside id="update-notice" hidden aria-label="עדכון למשחק" style="padding:16px;border:1px solid currentColor;border-radius:8px;margin-bottom:16px">
+    <p id="update-message" role="status">יש עדכון למשחק. אפשר להמשיך לשחק ולעדכן כשנוח לך.</p>
+    <button id="btn-update" class="btn btn-ghost" type="button">שמירה ועדכון</button>
+  </aside>
   <section id="screen-home" class="screen active">
     <p class="eyebrow">עשרה פרקים. סיפור אחד שלך.</p>
     <div class="cover">
@@ -351,7 +355,7 @@
 
   // ---- progress ----
   function saveProgress(){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ version:2, completed:completed, levelIndex:state.levelIndex, collected:state.collected, board:state.board, pending:state.pending, cascadeSeen:state.cascadeSeen })); }catch(e){}
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ version:2, completed:completed, levelIndex:state.levelIndex, collected:state.collected, board:state.board, pending:state.pending, cascadeSeen:state.cascadeSeen })); return true; }catch(e){ return false; }
   }
   function loadProgress(){
     try{
@@ -806,7 +810,50 @@
   if(history.state?.navVersion===1)restoreNavigation(history.state);
   else history.replaceState(navigation,'');
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-    navigator.serviceWorker.register('./sw.js').catch(function(){});
+    // A new worker does not replace the code in an already-open document.
+    // Compare versions, not just controller changes (first install is not an update).
+    const documentCache='yoram-hero-visible-update-v1';
+    let registration=null,checking=false,versionRequest=0;
+    function checkVersion(){
+      const worker=navigator.serviceWorker.controller;
+      if(!worker)return;
+      const request=++versionRequest,channel=new MessageChannel();
+      const timeout=setTimeout(function(){channel.port1.close();},3000);
+      channel.port1.onmessage=function(event){
+        clearTimeout(timeout);channel.port1.close();
+        if(request!==versionRequest || worker!==navigator.serviceWorker.controller)return;
+        const cache=event.data?.cache;
+        if(typeof cache==='string' && cache.startsWith('yoram-hero-'))el('update-notice').hidden=cache===documentCache;
+      };
+      worker.postMessage({type:'GAME_VERSION'},[channel.port2]);
+    }
+    async function checkForUpdate(){
+      if(!registration || checking || document.hidden)return;
+      checking=true;
+      try{await registration.update();}catch(error){/* Offline play stays available. */}
+      finally{checking=false;checkVersion();}
+    }
+    el('btn-update').addEventListener('click',function(){
+      if(state.busy || state.pending){
+        el('update-message').textContent='המהלך עדיין מסתיים. אפשר לעדכן אחריו.';
+        return;
+      }
+      if(!saveProgress()){
+        el('update-message').textContent='לא הצלחנו לשמור. המשחק נשאר פתוח; אפשר לנסות שוב.';
+        return;
+      }
+      rememberView();
+      const screen=document.querySelector('.screen.active').id;
+      if(['screen-board','screen-card','screen-finale'].includes(screen)){
+        history.replaceState({navVersion:1,yoramView:'game',origin:{screen:screen,chapter:state.levelIndex,opener:null,scroll:safeScroll(window.scrollY)},scroll:0,focus:null},'');
+      }
+      location.reload();
+    });
+    navigator.serviceWorker.addEventListener('controllerchange',checkVersion);
+    navigator.serviceWorker.register('./sw.js').then(function(r){registration=r;checkVersion();}).catch(function(){});
+    window.addEventListener('focus',checkForUpdate);
+    document.addEventListener('visibilitychange',function(){if(!document.hidden)checkForUpdate();});
+    setInterval(checkForUpdate,60000);
   }
 })();
 </script>
