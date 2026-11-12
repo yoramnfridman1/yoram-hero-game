@@ -1,4 +1,4 @@
-const CACHE = 'yoram-hero-orange-seating-v3';
+const CACHE = 'yoram-hero-biography-v4';
 const COUNTS = [8,10,12,12,12,15,15,18,18,20];
 const ASSETS = ['./', './index.html', './assets/yoram-full-body-cutout.png', './assets/yoram-portrait-cutout.png', './assets/blender/game.css',
   ...['cover','ball','shield','plane','heart','faith',...['apple','grape','orange','strawberry','peach','pineapple','banana','cherry','kiwi','watermelon'].map(n=>'fruit-'+n)].map(n=>'./assets/blender/'+n+'.webp'),
