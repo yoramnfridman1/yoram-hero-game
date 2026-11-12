@@ -48,8 +48,8 @@
   <section id="screen-card" class="screen">
     <nav class="page-nav"><button class="btn-home" type="button" aria-label="בית">בית</button><span class="eyebrow">נוסף לאלבום שלך</span></nav>
     <article class="reward-page keepsake" id="reward-page">
-      <header class="reward-heading"><div class="portrait"><img src="assets/yoram-portrait-cutout.png" alt="יורם"><div id="card-fallback" class="portrait-fallback">יורם</div></div><div><p class="card-title" id="card-number"></p><h2 class="chapter-name" id="card-chapter"></h2></div></header>
-      <div class="reward-art"><img class="chapter-scene" id="card-scene" src="assets/blender/world-1-0.webp" alt="איור סמלי לפרק"><div id="card-keepsake"></div></div>
+      <header class="reward-heading"><div><p class="card-title" id="card-number"></p><h2 class="chapter-name" id="card-chapter"></h2></div></header>
+      <div class="reward-art"><img class="chapter-scene" id="card-scene" alt="איור סמלי לפרק"><div id="card-keepsake"></div></div>
       <p class="card-text" id="card-text"></p><div id="reward-mark" hidden></div><div class="chapter-progress" id="chapter-progress" aria-hidden="true"></div>
       <div class="reward-actions"><button id="btn-next" class="btn" type="button">לשלב הבא</button><button id="btn-album-card" class="btn btn-ghost album-open" type="button">האלבום שלך</button></div>
     </article>
@@ -57,7 +57,7 @@
   <section id="screen-finale" class="screen">
     <nav class="page-nav"><button class="btn-home" type="button" aria-label="בית">בית</button><span class="eyebrow">כל עשרת הפרקים, יחד</span></nav>
     <div class="finale-heading"><div><h2>הגיבור שלנו</h2><p class="finale-text" id="finale-text"></p></div><figure class="hero-figure"><img src="assets/yoram-full-body-cutout.png" alt="יורם"><div class="figure-fallback" id="finale-fallback">יורם</div></figure></div>
-    <img class="ending-art" src="assets/blender/ending.webp" alt="אלבום פתוח של עשרת הפרקים"><div id="finale-keepsake"></div><div id="finale-montage" class="finale-montage" aria-label="עשרת פרקי המסע"></div>
+    <img class="ending-art" alt="איור לפרק המסע בעולם"><div id="finale-keepsake"></div><div id="finale-montage" class="finale-montage" aria-label="עשרת פרקי המסע"></div>
     <p>הסיפור שלך נשאר כאן. אפשר לפתוח כל פרק, מתי שרוצים.</p>
     <div class="finale-actions"><button id="btn-album-finale" class="btn album-open" type="button">פותחים את האלבום</button><button id="btn-replay" class="btn btn-ghost" type="button">שחק שוב</button></div>
     <p class="symbol-note">משחק חוזר לא מוחק את האלבום.</p>
@@ -68,7 +68,7 @@
   </section>
   <section id="screen-memory" class="screen">
     <nav class="page-nav"><button id="btn-memory-back" class="btn btn-ghost" type="button">חזרה לאלבום</button></nav>
-    <article id="memory-page" class="reward-page"><header class="reward-heading"><div class="portrait"><img src="assets/yoram-portrait-cutout.png" alt="יורם"></div><h2 id="memory-name"></h2></header><div class="reward-art"><img id="memory-scene" class="chapter-scene" alt="איור סמלי לפרק"><div id="memory-keepsake"></div></div><p id="memory-text" class="card-text"></p></article>
+    <article id="memory-page" class="reward-page"><header class="reward-heading"><h2 id="memory-name"></h2></header><div class="reward-art"><img id="memory-scene" class="chapter-scene" alt="איור סמלי לפרק"><div id="memory-keepsake"></div></div><p id="memory-text" class="card-text"></p></article>
   </section>
 </div>
 <div id="confetti"></div>
@@ -275,14 +275,16 @@
   // A locally embedded illustration is visible while chapter art loads and if it fails.
   const sceneFallback = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420"><rect width="800" height="420" fill="#f6e5c9"/><circle cx="620" cy="90" r="48" fill="#f3c96b"/><path d="M0 305 Q190 155 400 305 Q600 160 800 285 V420 H0Z" fill="#c4d5b0"/><path d="M0 355 Q215 235 420 355 Q600 275 800 335 V420 H0Z" fill="#9eb98c"/><path d="M400 290 C355 250 300 300 400 365 C500 300 445 250 400 290Z" fill="#c95b4d"/></svg>');
   function prepareScenes(){
-    document.querySelectorAll('img[src*="assets/blender/world-"],img.chapter-scene').forEach(function(image){
+    document.querySelectorAll('img[src*="assets/blender/world-"],img.chapter-scene,img.ending-art').forEach(function(image){
       image.style.backgroundImage='url("'+sceneFallback+'")';
       image.style.backgroundSize='cover';
     });
   }
   document.addEventListener('error',function(event){
     const image=event.target;
-    if(image instanceof HTMLImageElement && /assets\/blender\/(world-|reward-)/.test(image.getAttribute('src')||'')) image.src=sceneFallback;
+    if(!(image instanceof HTMLImageElement))return;
+    if(image.dataset.fallback && !image.src.startsWith('data:')) image.src=image.dataset.fallback;
+    else if(/assets\/(blender\/(world-|reward-)|album\/)/.test(image.getAttribute('src')||'')) image.src=sceneFallback;
   },true);
   prepareScenes();
   const grid = el('grid');
@@ -301,10 +303,12 @@
   const fruitSymbols = {'🍎':'apple','🍇':'grape','🍊':'orange','🍓':'strawberry','🍑':'peach','🍍':'pineapple','🍌':'banana','🍒':'cherry','🥝':'kiwi','🍉':'watermelon'};
   function candy(t){
     const sprite=t==='fruit'?'fruit-'+fruitSymbols[level().fruit]:t;
-    return '<img class="candy-art" src="assets/blender/'+sprite+'.webp" alt="" aria-hidden="true" draggable="false">';
+    const fallback='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50" y="76" text-anchor="middle" font-size="76">'+emojiFor(t,level())+'</text></svg>');
+    return '<img class="candy-art" src="assets/blender/'+sprite+'.webp" data-fallback="'+fallback+'" alt="" aria-hidden="true" draggable="false">';
   }
   const motifs=['roots','football','doors','foundation','morning','shelter','father','gathering','grandpa','travel'];
   const keepsakeLines=['כל לב מצמיח ענף בעץ השורשים.','כל כדור מצרף חלק לצעיף האדום.','כל ארבעה פירות פותחים דלת; בדרך אליה, הסימן שלידה מתמלא.','כל מגן מצרף אבן לקשת שנבנית.','כל אור פותח עוד חלק בחלון הבוקר.','כל מגן מוסיף קורה לגג המגן.','כל לב מצרף קורה לספסל שבאיור.','כל לב מצרף פרט לשולחן המשפחתי.','כל פרי מצטרף לשתי קערות הפירות.','כל מטוס ממשיך את הדרך שבמפה.'];
+  function albumSource(index){return 'assets/album/chapter-'+String(index+1).padStart(2,'0')+'.webp';}
   function worldSource(index,amount){return 'assets/blender/world-'+(index+1)+'-'+Math.min(LEVELS[index].count,Math.max(0,amount))+'.webp';}
   function keepsakeMarkup(index,amount,complete){
     const lv=LEVELS[index],earned=Math.min(lv.count,Math.max(0,amount)),partial=index===2?earned%4:0;
@@ -314,13 +318,12 @@
     return '<div class="world-view" data-object="'+motifs[index]+'" data-earned="'+earned+'" data-partial="'+partial+'" data-complete="'+(earned===lv.count)+'" role="img" aria-label="איור סמלי: '+earned+' מתוך '+lv.count+' פרטים שנאספו"><img '+(complete?'':'id="board-scene" ')+'src="'+worldSource(index,earned)+'" alt="">'+cue+labels+'</div>';
   }
   function rewardKeepsakeMarkup(index){
-    if(index===2)return keepsakeMarkup(index,LEVELS[index].count,true);
     const people=index===6?['שי','גלי']:index===8?['מילי','ג׳יימי']:[];
     return people.length?'<div class="reward-names">'+people.map(name=>'<span>'+name+'</span>').join('')+'</div>':'';
   }
   function preloadChapter(index){
     const paths=Array.from({length:LEVELS[index].count+1},(_,n)=>worldSource(index,n));
-    paths.push('assets/blender/reward-'+(index+1)+'.webp','assets/blender/fruit-'+fruitSymbols[LEVELS[index].fruit]+'.webp');
+    paths.push(albumSource(index),'assets/blender/fruit-'+fruitSymbols[LEVELS[index].fruit]+'.webp');
     for(const src of paths){const image=new Image();image.src=src;image.decode().catch(()=>{});}
   }
   function updateKeepsake(){
@@ -592,7 +595,7 @@
   }
 
   function showHeroCard(){
-    el('card-scene').src='assets/blender/reward-'+(state.levelIndex+1)+'.webp';
+    el('card-scene').src=albumSource(state.levelIndex);
     el('reward-page').dataset.layout=motifs[state.levelIndex];
     el('card-keepsake').innerHTML=rewardKeepsakeMarkup(state.levelIndex);
     el('card-number').textContent='פרק '+(state.levelIndex+1)+' · יורם הגיבור';
@@ -610,8 +613,9 @@
 
   function showFinale(){
     el('finale-text').textContent = LEVELS[LEVELS.length-1].card;
-    el('finale-keepsake').innerHTML=keepsakeMarkup(9,20,true);
-    el('finale-montage').replaceChildren(...LEVELS.map(function(lv,i){const b=document.createElement('button');b.type='button';b.className='finale-memory';b.id='finale-memory-'+i;b.setAttribute('aria-label',lv.name);b.innerHTML='<img src="assets/blender/reward-'+(i+1)+'.webp" alt=""><span>'+String(i+1).padStart(2,'0')+'</span>';b.addEventListener('click',function(event){showAlbum(event);showMemory(i);});return b;}));
+    el('finale-keepsake').replaceChildren();
+    document.querySelector('.ending-art').src=albumSource(9);
+    el('finale-montage').replaceChildren(...LEVELS.map(function(lv,i){const b=document.createElement('button');b.type='button';b.className='finale-memory';b.id='finale-memory-'+i;b.setAttribute('aria-label',lv.name);b.innerHTML='<img src="'+albumSource(i)+'" alt=""><span>'+String(i+1).padStart(2,'0')+'</span>';b.addEventListener('click',function(event){showAlbum(event);showMemory(i);});return b;}));
     show('screen-finale');
 
   }
@@ -703,7 +707,7 @@
     el('album-summary').textContent = completed + ' מתוך 10 פרקים באלבום';
     el('album-entries').replaceChildren(...LEVELS.map(function(lv,i){
       const b=document.createElement('button'); b.type='button'; b.className='album-entry'; b.id='album-entry-'+i; b.disabled=i>=completed;
-      b.innerHTML=(i<completed ? '<img src="assets/blender/reward-'+(i+1)+'.webp" alt="">' : '<span class="locked-mark" aria-hidden="true">'+String(i+1).padStart(2,'0')+'</span>') + '<span>'+lv.name+'</span><span class="album-status">'+(i<completed?'לפתיחת הפרק':'ייפתח בהמשך המסע')+'</span>';
+      b.innerHTML=(i<completed ? '<img src="'+albumSource(i)+'" alt="">' : '<span class="locked-mark" aria-hidden="true">'+String(i+1).padStart(2,'0')+'</span>') + '<span>'+lv.name+'</span><span class="album-status">'+(i<completed?'לפתיחת הפרק':'ייפתח בהמשך המסע')+'</span>';
       b.addEventListener('click',function(){ showMemory(i); }); return b;
     }));
   }
@@ -717,7 +721,7 @@
     el('memory-keepsake').innerHTML=rewardKeepsakeMarkup(i);
     el('memory-name').textContent=LEVELS[i].name;
     el('memory-text').textContent=LEVELS[i].card;
-    el('memory-scene').src='assets/blender/reward-'+(i+1)+'.webp';
+    el('memory-scene').src=albumSource(i);
     show('screen-memory'); document.body.dataset.chapter=String(i+1);
   }
   function restoreNavigation(raw){

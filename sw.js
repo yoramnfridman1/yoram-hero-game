@@ -1,8 +1,8 @@
-const CACHE = 'yoram-hero-blender-r3-v1';
+const CACHE = 'yoram-hero-orange-seating-v3';
 const COUNTS = [8,10,12,12,12,15,15,18,18,20];
 const ASSETS = ['./', './index.html', './assets/yoram-full-body-cutout.png', './assets/yoram-portrait-cutout.png', './assets/blender/game.css',
-  ...['cover','ending','ball','shield','plane','heart','faith',...['apple','grape','orange','strawberry','peach','pineapple','banana','cherry','kiwi','watermelon'].map(n=>'fruit-'+n)].map(n=>'./assets/blender/'+n+'.webp'),
-  ...COUNTS.flatMap((count,i)=>[...Array.from({length:count+1},(_,n)=>'./assets/blender/world-'+(i+1)+'-'+n+'.webp'),'./assets/blender/reward-'+(i+1)+'.webp'])];
+  ...['cover','ball','shield','plane','heart','faith',...['apple','grape','orange','strawberry','peach','pineapple','banana','cherry','kiwi','watermelon'].map(n=>'fruit-'+n)].map(n=>'./assets/blender/'+n+'.webp'),
+  ...COUNTS.flatMap((count,i)=>[...Array.from({length:count+1},(_,n)=>'./assets/blender/world-'+(i+1)+'-'+n+'.webp'),'./assets/album/chapter-'+String(i+1).padStart(2,'0')+'.webp'])];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
