@@ -6,84 +6,9 @@
 <meta name="theme-color" content="#fff7ec">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='8' y='5' width='48' height='54' rx='3' fill='%23923e33'/%3E%3Cpath d='M45 5v54M17 20h20M17 29h20' stroke='%23f6f1e6' stroke-width='2'/%3E%3C/svg%3E">
 <title>יורם הגיבור — המסע של יורם פרידמן</title>
-<style>
-/* A playable paper album. One token system, no legacy overrides. */
-:root{--paper:#f6f1e6;--page:#fffcf5;--ink:#302f29;--muted:#665f52;--line:#c9bdab;--accent:#923e33;--olive:#64734a;--gold:#ae8542;--soft:#e8dfcf}
-*{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:Arial,'Arial Hebrew',sans-serif;font-size:18px;line-height:1.5;background:var(--paper);color:var(--ink);-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}button{font:inherit;touch-action:manipulation}button:not(:disabled){cursor:pointer}[hidden]{display:none!important}h1,h2,h3,p{margin:0}h1,h2,h3{font-family:'Times New Roman',serif;line-height:1.12;font-weight:700}h1{font-size:60px;letter-spacing:-1px}h2,h3{font-size:32px}h1:focus,h2:focus{outline:none}button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px}img{max-width:100%}#app{min-height:100svh}.screen{display:none;position:relative;width:100%;max-width:1000px;margin:auto;padding:20px 16px 32px}.screen.active{display:flex;flex-direction:column;gap:16px}.btn{min-height:54px;border:1px solid var(--accent);border-radius:5px;padding:12px 24px;background:var(--accent);color:#fffdf7;font-weight:700;line-height:1.25;transition:transform .15s}.btn:active{transform:translateY(1px)}.btn-ghost{color:var(--ink);background:transparent;border-color:var(--line)}.btn-home{min-width:52px;min-height:52px;padding:8px 12px;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:4px;font-size:18px}.btn:disabled,.btn-home:disabled{opacity:.5;cursor:default}.page-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%}.page-nav .btn{min-width:0;padding-inline:14px}.eyebrow,.level-label{font-size:18px;color:var(--muted)}.subtitle{font-size:21px;color:var(--muted)}.accent-red{color:var(--accent)}.rule{height:1px;background:var(--line);width:100%}body[data-chapter="2"]{--olive:#923e33}body[data-chapter="5"]{--olive:#a37a31}
-.candy-symbols{position:absolute;width:0;height:0;overflow:hidden}
-/* The cover pairs the man with the title, instead of putting him on a pedestal. */
-#screen-home{max-width:760px;min-height:100svh;justify-content:center;padding:28px 24px;gap:20px}.cover{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:8px;border-block:1px solid var(--line);padding:24px 0;background:var(--page)}.cover-type{padding:4px 12px;text-align:right}.cover-type h1{font-size:clamp(44px,12vw,72px)}.cover-type .subtitle{margin-top:14px}.hero-figure{margin:0;align-self:end;text-align:center}.hero-figure img{display:block;width:auto;max-width:100%;height:290px;object-fit:contain;margin:auto}.cover-bottom{display:flex;justify-content:space-between;color:var(--muted);font-size:18px}.cover-actions{display:flex;flex-direction:column;gap:10px}.cover-actions .btn{width:100%}.figure-fallback,.portrait-fallback{display:none;min-height:100px;align-items:center;justify-content:center}.symbol-note{font-size:18px;color:var(--muted)}
-/* Intro is a chapter leaf. */
-#screen-intro{max-width:660px}.intro-leaf{background:var(--page);padding:18px;border:1px solid var(--line);display:flex;flex-direction:column;gap:16px}.intro-art{position:relative}.intro-art img{display:block;width:100%;aspect-ratio:800/420;object-fit:cover;filter:saturate(.72)}.intro-badge{position:absolute;left:12px;bottom:12px;width:60px;height:60px;background:var(--page);border:1px solid var(--line);padding:6px;border-radius:4px}.intro-line{font-size:20px}.intro-goal{display:flex;gap:12px;align-items:center;padding-top:12px;border-top:1px solid var(--line)}.intro-goal .candy-art{width:44px;height:44px;flex:none}.intro-leaf .btn{width:100%}
-/* Playing page: growing keepsake on one side, familiar board on the other. */
-#screen-board{max-width:980px;padding:10px 8px 24px;gap:8px}.board-heading{display:flex;gap:12px;align-items:center}.board-heading-copy{flex:1;min-width:0}.board-name{font-size:28px}.board-avatar{width:46px;height:52px;object-fit:contain;border-bottom:1px solid var(--line)}.play-spread{display:grid;grid-template-columns:1fr;gap:10px}.story-side{display:flex;flex-direction:column;gap:6px}.keepsake-line{font-size:18px;color:var(--muted);line-height:1.25}.keepsake-view{position:relative;display:grid;grid-template-columns:1fr 1.4fr;min-height:100px;border-block:1px solid var(--line);background:var(--page);overflow:hidden}.keepsake-view img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;filter:saturate(.65);opacity:.17}.keepsake-view .scene-window{position:relative;min-width:0;overflow:hidden}.keepsake-view .scene-window img{opacity:var(--reveal,.2);transition:opacity .24s}.keepsake-view .motif-svg{display:block;width:100%;height:100px;align-self:center;color:var(--olive)}.motif-base{fill:none;stroke:#a89b82;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}.motif-mark{fill:#f4eddf;stroke:#ad9e87;stroke-width:1.1;transition:fill .24s,stroke .24s}.motif-mark[data-earned="true"]{fill:var(--olive);stroke:var(--olive)}.motif-svg text{fill:var(--ink);font-family:Arial,sans-serif;font-size:19px;stroke:none}.motif-svg .label{font-size:16px}.play-side{width:100%;max-width:350px;justify-self:center;display:flex;flex-direction:column;gap:8px}.counter{font-size:20px;display:flex;align-items:center;justify-content:center;gap:5px;min-height:36px;line-height:1.25;flex-wrap:wrap}.counter b{color:var(--accent);font-size:22px}.counter .tgt{width:30px;height:30px;display:inline-block}.board-frame{position:relative;background:#e0d5c3;border:1px solid #a99c85;border-radius:6px;padding:5px;box-shadow:0 3px 0 #c0b29c}.board-frame.red{border-color:var(--accent);box-shadow:0 3px 0 var(--accent)}.board{direction:ltr;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px}.cell{position:relative;aspect-ratio:1;min-width:0;min-height:52px;border:1px solid #d1c4af;border-radius:5px;background:var(--page);padding:5px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 1px #5a483d28;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:transform .2s,opacity .24s}.candy-art{display:block;pointer-events:none;width:100%;height:100%;filter:drop-shadow(0 1px 0 #584b3626)}.cell.selected{outline:3px solid var(--accent);outline-offset:-3px;background:#f3ded0;z-index:3}.cell.selected:after{content:'';position:absolute;bottom:2px;width:6px;height:6px;background:var(--accent);border-radius:50%}.cell.hint{outline:3px solid var(--ink);outline-offset:-3px;box-shadow:inset 0 0 0 5px #e6d6ac;z-index:2;animation:hintpulse .28s}.cell.swap-motion{transform:translate(var(--dx),var(--dy));z-index:4}.cell.pop{animation:pop .24s forwards}.cell.fall-in{animation:candy-drop .25s}.cell.power-row::after,.cell.power-column::after{content:'↔';position:absolute;inset:1px;display:grid;place-items:center;background:#fff9ddcf;color:#733326;font-size:32px;font-weight:700;border:2px solid #8b4b31}.cell.power-column::after{content:'↕'}.board-actions{display:flex;gap:8px}.board-actions .btn{flex:1;min-width:0}.guide{font-size:18px;line-height:1.4}.guide summary{min-height:44px;padding:8px 0;cursor:pointer}.guide p{padding:0 0 8px}.feedback-line{position:relative;min-height:27px;color:var(--muted);text-align:center;font-size:18px}#match-feedback{color:var(--accent);font-weight:700}.collected-pulse{animation:counter-bounce .25s}
-/* SVG user units shrink with the short-phone strip: keep personal names readable. */
-@media(max-width:719px){#board-keepsake .motif-svg text{font-size:25px}}
-/* Reward leaves: motifs, text and images change staging, not just colour. */
-#screen-card,#screen-memory{max-width:760px}.reward-page{display:grid;gap:14px;background:var(--page);border:1px solid var(--line);padding:20px}.reward-heading{display:flex;gap:14px;align-items:center}.portrait img{display:block;width:64px;height:76px;object-fit:contain;flex:none}.card-title{font-size:18px;color:var(--muted)}.chapter-name{font-size:30px}.card-text,.finale-text{font-size:22px;line-height:1.55}.reward-art{position:relative}.chapter-scene{display:block;width:100%;aspect-ratio:800/420;object-fit:cover;filter:saturate(.72)}.reward-art .keepsake-view{grid-template-columns:1fr;border:0;min-height:105px}.reward-art .scene-window{display:none}.reward-art .motif-svg{height:120px}.reward-actions{display:flex;flex-direction:column;gap:10px}.chapter-progress{display:flex;gap:5px;direction:rtl}.chapter-progress span{height:3px;flex:1;background:var(--soft)}.chapter-progress .done{background:var(--olive)}
-.reward-page[data-layout="roots"] .reward-art{display:grid;grid-template-columns:1fr 1fr;align-items:center}.reward-page[data-layout="roots"] .chapter-scene{aspect-ratio:1;object-position:25%}.reward-page[data-layout="football"]{border-top:8px solid var(--accent)}.reward-page[data-layout="football"] .reward-art{border-bottom:4px double var(--accent)}.reward-page[data-layout="football"] .chapter-scene{aspect-ratio:2.5}.reward-page[data-layout="doors"] .chapter-scene{aspect-ratio:2.5}.reward-page[data-layout="doors"] .keepsake-view{border-block:1px dashed var(--line)}.reward-page[data-layout="foundation"] .reward-art{border-bottom:3px solid #a38a67}.reward-page[data-layout="foundation"] .chapter-scene{aspect-ratio:1.6;object-position:center 30%}.reward-page[data-layout="morning"] .reward-art{max-width:310px;justify-self:center;width:100%;border:1px solid var(--gold);border-radius:130px 130px 0 0;overflow:hidden}.reward-page[data-layout="morning"] .chapter-scene{aspect-ratio:1.8}.reward-page[data-layout="shelter"] .reward-art{border-radius:80px 80px 0 0;overflow:hidden}.reward-page[data-layout="shelter"] .chapter-scene{aspect-ratio:1.5;object-position:70%}.reward-page[data-layout="father"] .chapter-scene{aspect-ratio:1.5;object-position:center top}.reward-page[data-layout="gathering"] .reward-art{padding:10px;background:#eee5d5}.reward-page[data-layout="gathering"] .chapter-scene{aspect-ratio:2.6}.reward-page[data-layout="gathering"] .keepsake-view{background:transparent}.reward-page[data-layout="grandpa"] .reward-art{border:7px solid #fff;box-shadow:0 2px 5px #69574624;transform:rotate(-1deg)}.reward-page[data-layout="grandpa"] .chapter-scene{aspect-ratio:1.5;object-position:center top}.reward-page[data-layout="travel"] .chapter-scene{aspect-ratio:1.6}
-/* Collected objects sit on the illustrated page, rather than in a second chart. */
-.reward-page:is([data-layout="football"],[data-layout="doors"],[data-layout="gathering"]) .reward-art>div{position:relative;margin:-18px 12px 0;background:var(--page);border:1px solid var(--line);padding:4px 8px;box-shadow:0 3px 5px #59493612}
-.reward-page[data-layout="football"] .reward-art{border:0}
-.reward-page[data-layout="football"] .reward-art>div{transform:rotate(-2deg);margin-inline:18px}
-.reward-page[data-layout="football"] .keepsake-view{background:transparent}
-.reward-page[data-layout="doors"] .keepsake-view{border:0}
-.reward-page[data-layout="gathering"] .reward-art>div{margin-inline:5px;transform:rotate(1deg)}
-.cell[data-type="fruit"] .candy-art,.intro-badge .candy-art{filter:saturate(.72)}
-/* Earned objects occupy the foreground of their own scene. */
-[data-motif="foundation"] .motif-mark[data-earned="true"]{fill:#b39a77;stroke:#826e53}
-[data-motif="shelter"] .motif-mark[data-earned="true"]{fill:#9d6150;stroke:#9d6150}
-[data-motif="father"] .motif-mark[data-earned="true"]{fill:#94744c;stroke:#735d41}
-[data-motif="grandpa"] .motif-mark[data-earned="true"]>g{fill:var(--fruit-ink);stroke:#736344}
-[data-motif="travel"] .motif-mark[data-earned="true"]{stroke:#923e33;fill:none}
-.keepsake-view:is([data-object="foundation"],[data-object="shelter"],[data-object="father"],[data-object="grandpa"],[data-object="travel"]){display:block}
-.keepsake-view:is([data-object="foundation"],[data-object="shelter"],[data-object="father"],[data-object="grandpa"],[data-object="travel"]) .scene-window{position:absolute;inset:0;min-height:0}
-.keepsake-view:is([data-object="foundation"],[data-object="shelter"],[data-object="father"],[data-object="grandpa"],[data-object="travel"]) .scene-window img{opacity:calc(var(--reveal)*.5)}
-.keepsake-view:is([data-object="foundation"],[data-object="shelter"],[data-object="father"],[data-object="grandpa"],[data-object="travel"]) .motif-svg{position:relative;background:linear-gradient(0deg,#fffcf5e8,transparent)}
-.reward-page:is([data-layout="foundation"],[data-layout="shelter"],[data-layout="father"],[data-layout="grandpa"],[data-layout="travel"]) .reward-art>div{position:absolute;bottom:0;inset-inline:0}
-.reward-page:is([data-layout="foundation"],[data-layout="shelter"],[data-layout="father"],[data-layout="grandpa"],[data-layout="travel"]) .keepsake-view{background:transparent}
-.reward-page:is([data-layout="foundation"],[data-layout="shelter"],[data-layout="father"],[data-layout="grandpa"],[data-layout="travel"]) .motif-svg{height:auto;aspect-ratio:240/110;background:linear-gradient(0deg,#fffcf5 0%,#fffcf5c9 65%,transparent)}
-.reward-page[data-layout="foundation"] .motif-svg{width:100%;transform:translateY(6px)}
-.reward-page[data-layout="travel"] .motif-svg{width:83%;margin-inline:auto;transform:rotate(-4deg)}
-/* The ending opens onto everything earned, with no requirement to replay. */
-#screen-finale{max-width:900px}.finale-heading{display:grid;grid-template-columns:1fr 92px;gap:16px;align-items:center;padding-block:14px;border-block:1px solid var(--line)}.finale-heading .hero-figure img{height:170px}.finale-heading h2{font-size:40px}.finale-heading .finale-text{font-size:21px;margin-top:12px}.finale-montage{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.finale-memory{min-width:0;min-height:66px;border:1px solid var(--line);padding:3px;background:var(--page);color:var(--ink)}.finale-memory img{display:block;width:100%;aspect-ratio:1;object-fit:cover;filter:saturate(.65)}.finale-memory span{display:block;font-size:18px}.finale-actions{display:flex;flex-direction:column;gap:10px}
-/* Earned album index keeps unearned chapters visibly locked. */
-#screen-album{max-width:900px}.album-entries{display:grid;grid-template-columns:1fr 1fr;gap:14px}.album-entry{display:flex;flex-direction:column;align-items:stretch;gap:7px;text-align:right;font-size:18px;line-height:1.3;background:var(--page);border:1px solid var(--line);padding:8px;color:var(--ink)}.album-entry img,.locked-mark{width:100%;aspect-ratio:1.7;object-fit:cover;filter:saturate(.7)}.locked-mark{display:grid;place-items:center;color:var(--muted);font-family:Georgia,serif;font-size:32px;background:var(--soft)}.album-entry:disabled{background:transparent;color:var(--muted)}.album-status{font-size:18px;color:var(--muted)}#confetti{display:none}
-@keyframes pop{to{transform:scale(.65);opacity:0}}@keyframes candy-drop{from{transform:translateY(var(--fall-distance))}to{transform:translateY(0)}}@keyframes hintpulse{50%{background:#ead9ad}}@keyframes counter-bounce{50%{transform:translateY(-2px)}}
-@media(min-width:720px){.screen{padding-top:30px}.play-spread{grid-template-columns:minmax(0,1fr) 374px;gap:36px;align-items:center;direction:rtl}.story-side{gap:16px}.story-side .keepsake-view{display:flex;flex-direction:column-reverse;min-height:420px;justify-content:space-between}.story-side .scene-window{min-height:220px}.story-side .motif-svg{height:200px}.board-heading{margin-bottom:14px}.board-name{font-size:36px}.reward-art .motif-svg{height:180px}.reward-page{padding:28px}.reward-actions{flex-direction:row}.reward-actions .btn{flex:1}.album-entries{grid-template-columns:repeat(3,1fr)}.cover{padding:40px 20px}.hero-figure img{height:380px}.cover-actions{flex-direction:row}.finale-actions{flex-direction:row}.finale-actions .btn{flex:1}}
-@media(max-width:374px){#screen-board{padding-inline:5px}.board{gap:2px}.board-frame{padding:4px}.cell{padding:4px}.screen{padding-inline:12px}.reward-page{padding:14px}.cover-type{padding-inline:6px}.hero-figure img{height:250px}}
-@media(max-width:719px) and (max-height:740px){#board-keepsake .keepsake-view{min-height:82px}#board-keepsake .motif-svg{height:82px}.play-spread{grid-template-areas:'keepsake' 'play' 'caption'}.story-side{display:contents}#board-keepsake{grid-area:keepsake}.play-side{grid-area:play}.keepsake-line{grid-area:caption}}
-#finale-keepsake .keepsake-view{min-height:150px}#finale-keepsake .motif-svg{height:150px}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-</style>
+<link rel="stylesheet" href="assets/blender/game.css">
 </head>
 <body>
-<svg class="candy-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
-<!-- WebKit resolves external symbol paint references against this document. Keep these identical to fruit-symbols.svg. -->
-<radialGradient id="fruit-grad-red" cx="32%" cy="23%" r="76%"><stop stop-color="#ffaba1"/><stop offset=".34" stop-color="#ed4548"/><stop offset=".76" stop-color="#bf172d"/><stop offset="1" stop-color="#781329"/></radialGradient>
-<radialGradient id="fruit-grad-orange" cx="31%" cy="22%" r="78%"><stop stop-color="#fff1a2"/><stop offset=".32" stop-color="#ffbc39"/><stop offset=".76" stop-color="#ee7b14"/><stop offset="1" stop-color="#ad4010"/></radialGradient>
-<radialGradient id="fruit-grad-purple" cx="30%" cy="20%" r="80%"><stop stop-color="#e7b4ed"/><stop offset=".34" stop-color="#a850b5"/><stop offset=".8" stop-color="#6b2583"/><stop offset="1" stop-color="#421350"/></radialGradient>
-<radialGradient id="fruit-grad-peach" cx="27%" cy="19%" r="79%"><stop stop-color="#fff1bb"/><stop offset=".36" stop-color="#ffbd82"/><stop offset=".72" stop-color="#f17c74"/><stop offset="1" stop-color="#c24953"/></radialGradient>
-<radialGradient id="fruit-grad-yellow" cx="30%" cy="18%" r="86%"><stop stop-color="#fff5b1"/><stop offset=".42" stop-color="#f8cf4c"/><stop offset=".8" stop-color="#d99623"/><stop offset="1" stop-color="#9a5e16"/></radialGradient>
-<radialGradient id="fruit-grad-kiwi" cx="35%" cy="25%" r="74%"><stop stop-color="#edf3af"/><stop offset=".43" stop-color="#a5d359"/><stop offset=".8" stop-color="#6da73d"/><stop offset="1" stop-color="#3c6f2e"/></radialGradient>
-<linearGradient id="fruit-grad-leaf" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a5cf68"/><stop offset=".48" stop-color="#4d963f"/><stop offset="1" stop-color="#25602d"/></linearGradient>
-<linearGradient id="fruit-grad-rind" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#78b64b"/><stop offset="1" stop-color="#276338"/></linearGradient>
-<radialGradient id="ruby" cx="30%" cy="20%"><stop stop-color="#ffb6a6"/><stop offset=".42" stop-color="#ef4e50"/><stop offset="1" stop-color="#a51d36"/></radialGradient>
-<radialGradient id="orange" cx="30%" cy="20%"><stop stop-color="#fff2a7"/><stop offset=".45" stop-color="#ffbd35"/><stop offset="1" stop-color="#d66b0b"/></radialGradient>
-<radialGradient id="blue" cx="30%" cy="20%"><stop stop-color="#bdf4ff"/><stop offset=".48" stop-color="#51b9d7"/><stop offset="1" stop-color="#247092"/></radialGradient>
-<radialGradient id="green" cx="30%" cy="20%"><stop stop-color="#e0ffa6"/><stop offset=".48" stop-color="#87c75a"/><stop offset="1" stop-color="#408b46"/></radialGradient>
-<radialGradient id="purple" cx="30%" cy="20%"><stop stop-color="#f6d4ff"/><stop offset=".48" stop-color="#ba80cb"/><stop offset="1" stop-color="#79508d"/></radialGradient>
-<radialGradient id="gold" cx="30%" cy="20%"><stop stop-color="#fff5af"/><stop offset=".5" stop-color="#eebd45"/><stop offset="1" stop-color="#b87920"/></radialGradient>
-<radialGradient id="ball-glaze" cx="30%" cy="23%" r="78%"><stop stop-color="#fff"/><stop offset=".52" stop-color="#fff9e7"/><stop offset=".84" stop-color="#d2c5ae"/><stop offset="1" stop-color="#796a61"/></radialGradient>
-<radialGradient id="amber-glaze" cx="32%" cy="18%" r="80%"><stop stop-color="#fff9be"/><stop offset=".35" stop-color="#ffd247"/><stop offset=".75" stop-color="#db7c13"/><stop offset="1" stop-color="#8a390c"/></radialGradient>
-<radialGradient id="mint-glaze" cx="27%" cy="20%" r="80%"><stop stop-color="#dcffdf"/><stop offset=".36" stop-color="#60d3aa"/><stop offset=".78" stop-color="#168f76"/><stop offset="1" stop-color="#075747"/></radialGradient>
-<symbol id="candy-heart" viewBox="0 0 64 64"><path d="M32 54C23 46 7 35 7 22C7 10 22 7 32 20C42 7 57 10 57 22C57 35 41 46 32 54Z" fill="#aa554b" stroke="#743d36" stroke-width="2"/><path d="M14 22Q16 14 23 17" fill="none" stroke="#e8bcb0" stroke-width="2"/></symbol>
-<symbol id="candy-fruit" viewBox="0 0 64 64"><circle cx="32" cy="35" r="25" fill="url(#orange)"/><path d="M32 13 Q31 5 41 5 Q41 13 32 15" fill="#4c9b51"/></symbol>
-<symbol id="candy-ball" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="#fffaf1" stroke="#655c4e" stroke-width="2"/><path d="M32 18l11 8-4 13H25l-4-13z" fill="#342c27"/><path d="M27 7h10l-5 11M8 24l13 2M13 47l12-8M51 47L39 39M56 24l-13 2M32 58V47" stroke="#342c27" stroke-width="3" fill="none"/></symbol>
-<symbol id="candy-shield" viewBox="0 0 64 64"><path d="M32 6L54 15 50 37Q46 49 32 57Q18 49 14 37L10 15Z" fill="#7395a0" stroke="#3f626c" stroke-width="2"/><path d="M23 31l7 7 13-16" fill="none" stroke="#fffaf1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-<symbol id="candy-plane" viewBox="0 0 64 64"><path d="M29 9Q32 2 35 9V24L56 35V40L35 34V47L43 53V57L32 53 21 57V53L29 47V34L8 40V35L29 24Z" fill="#648b78" stroke="#355b4c" stroke-width="2" stroke-linejoin="round"/></symbol>
-<symbol id="candy-faith" viewBox="0 0 64 64"><path d="M23 29H41V54H23Z" fill="#d6b56e" stroke="#8c703c" stroke-width="2"/><path d="M32 28V22" stroke="#534735" stroke-width="2"/><path d="M32 5Q20 20 32 23Q44 20 32 5Z" fill="#bc7b3a"/><path d="M28 34V48" stroke="#fff4d2" stroke-width="3"/></symbol>
-</defs></svg>
 <div id="app">
   <section id="screen-home" class="screen active">
     <p class="eyebrow">עשרה פרקים. סיפור אחד שלך.</p>
@@ -91,6 +16,7 @@
       <div class="cover-type"><h1>יורם<br><span class="accent-red">הגיבור</span></h1><p class="subtitle">המסע של<br>יורם פרידמן</p></div>
       <figure class="hero-figure"><img src="assets/yoram-full-body-cutout.png" alt="יורם" onerror="this.style.display='none';document.getElementById('home-fallback').style.display='flex'"><div class="figure-fallback" id="home-fallback">יורם הגיבור</div></figure>
     </div>
+    <img class="cover-art" src="assets/blender/cover.webp" alt="אלבום מסע מאויר">
     <div class="cover-bottom"><span>באהבה, מהמשפחה</span><span>בקצב שלך</span></div>
     <div class="cover-actions"><button id="btn-start" class="btn" type="button">מתחילים</button><button id="btn-album-home" class="btn btn-ghost album-open" type="button" hidden>האלבום שלך</button></div>
     <p class="symbol-note">מחברים סמלים, ובכל פרק מצטרפת מזכרת לאלבום.</p>
@@ -98,7 +24,7 @@
   <section id="screen-intro" class="screen">
     <nav class="page-nav"><button class="btn-home" type="button" aria-label="בית">בית</button><p id="intro-number" class="eyebrow"></p></nav>
     <div class="intro-leaf">
-      <div class="intro-art"><img id="intro-scene" src="assets/scenes/chapter-01.jpg" alt="איור סמלי לפרק"><div class="intro-badge" id="intro-badge"></div></div>
+      <div class="intro-art"><img id="intro-scene" src="assets/blender/world-1-0.webp" alt="איור סמלי לפרק"><div class="intro-badge" id="intro-badge"></div></div>
       <h2 id="intro-name"></h2><p class="intro-line" id="intro-line"></p>
       <p class="intro-goal" id="intro-goal"></p><p id="intro-keepsake-line"></p>
       <button id="btn-play" class="btn" type="button">שחק</button>
@@ -112,7 +38,7 @@
       <div class="play-side">
         <p class="counter" id="counter" aria-live="polite"></p>
         <div class="board-frame" id="board-frame"><div class="board" id="grid"></div></div>
-        <div class="board-actions"><button id="btn-hint" class="btn btn-ghost" type="button">רמז</button><button id="btn-album-board" class="btn btn-ghost album-open" type="button">אלבום</button></div>
+        <button id="btn-view-reward" class="btn" type="button" hidden>למזכרת שלך</button><div class="board-actions"><button id="btn-hint" class="btn btn-ghost" type="button">רמז</button><button id="btn-album-board" class="btn btn-ghost album-open" type="button">אלבום</button></div>
         <p class="guide">נוגעים בסמל ואחריו בשכן שלו, כדי ליצור שורה של 3 זהים.</p>
         <details class="guide"><summary>על ארבעה סמלים ועל הרמז</summary><p>ארבעה זהים יוצרים חץ שמנקה מיד שורה או טור. החץ אינו נשמר למהלך הבא. אפשר לבקש רמז בכל פעם.</p></details>
         <div class="feedback-line" role="status"><span id="match-feedback"></span></div>
@@ -123,7 +49,7 @@
     <nav class="page-nav"><button class="btn-home" type="button" aria-label="בית">בית</button><span class="eyebrow">נוסף לאלבום שלך</span></nav>
     <article class="reward-page keepsake" id="reward-page">
       <header class="reward-heading"><div class="portrait"><img src="assets/yoram-portrait-cutout.png" alt="יורם"><div id="card-fallback" class="portrait-fallback">יורם</div></div><div><p class="card-title" id="card-number"></p><h2 class="chapter-name" id="card-chapter"></h2></div></header>
-      <div class="reward-art"><img class="chapter-scene" id="card-scene" src="assets/scenes/chapter-01.jpg" alt="איור סמלי לפרק"><div id="card-keepsake"></div></div>
+      <div class="reward-art"><img class="chapter-scene" id="card-scene" src="assets/blender/world-1-0.webp" alt="איור סמלי לפרק"><div id="card-keepsake"></div></div>
       <p class="card-text" id="card-text"></p><div id="reward-mark" hidden></div><div class="chapter-progress" id="chapter-progress" aria-hidden="true"></div>
       <div class="reward-actions"><button id="btn-next" class="btn" type="button">לשלב הבא</button><button id="btn-album-card" class="btn btn-ghost album-open" type="button">האלבום שלך</button></div>
     </article>
@@ -131,7 +57,7 @@
   <section id="screen-finale" class="screen">
     <nav class="page-nav"><button class="btn-home" type="button" aria-label="בית">בית</button><span class="eyebrow">כל עשרת הפרקים, יחד</span></nav>
     <div class="finale-heading"><div><h2>הגיבור שלנו</h2><p class="finale-text" id="finale-text"></p></div><figure class="hero-figure"><img src="assets/yoram-full-body-cutout.png" alt="יורם"><div class="figure-fallback" id="finale-fallback">יורם</div></figure></div>
-    <div id="finale-keepsake"></div><div id="finale-montage" class="finale-montage" aria-label="עשרת פרקי המסע"></div>
+    <img class="ending-art" src="assets/blender/ending.webp" alt="אלבום פתוח של עשרת הפרקים"><div id="finale-keepsake"></div><div id="finale-montage" class="finale-montage" aria-label="עשרת פרקי המסע"></div>
     <p>הסיפור שלך נשאר כאן. אפשר לפתוח כל פרק, מתי שרוצים.</p>
     <div class="finale-actions"><button id="btn-album-finale" class="btn album-open" type="button">פותחים את האלבום</button><button id="btn-replay" class="btn btn-ghost" type="button">שחק שוב</button></div>
     <p class="symbol-note">משחק חוזר לא מוחק את האלבום.</p>
@@ -349,14 +275,14 @@
   // A locally embedded illustration is visible while chapter art loads and if it fails.
   const sceneFallback = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420"><rect width="800" height="420" fill="#f6e5c9"/><circle cx="620" cy="90" r="48" fill="#f3c96b"/><path d="M0 305 Q190 155 400 305 Q600 160 800 285 V420 H0Z" fill="#c4d5b0"/><path d="M0 355 Q215 235 420 355 Q600 275 800 335 V420 H0Z" fill="#9eb98c"/><path d="M400 290 C355 250 300 300 400 365 C500 300 445 250 400 290Z" fill="#c95b4d"/></svg>');
   function prepareScenes(){
-    document.querySelectorAll('img[src*="assets/scenes/"]').forEach(function(image){
+    document.querySelectorAll('img[src*="assets/blender/world-"],img.chapter-scene').forEach(function(image){
       image.style.backgroundImage='url("'+sceneFallback+'")';
       image.style.backgroundSize='cover';
     });
   }
   document.addEventListener('error',function(event){
     const image=event.target;
-    if(image instanceof HTMLImageElement && image.getAttribute('src')?.includes('assets/scenes/')) image.src=sceneFallback;
+    if(image instanceof HTMLImageElement && /assets\/blender\/(world-|reward-)/.test(image.getAttribute('src')||'')) image.src=sceneFallback;
   },true);
   prepareScenes();
   const grid = el('grid');
@@ -374,87 +300,28 @@
   const chapterIntros = ['הסיפור מתחיל עם אמא שרה.', 'הקבוצה שלך: הפועל חיפה 🔴⚽', 'בגיל 26 התחיל המסע מדלת לדלת.', 'סיפור על מה שבנית במו ידיך.', 'פותחים את הבוקר באמונה.', 'סיפור על הדאגה למשפחות.', 'פרק על אבא של שי וגלי.', 'פרק על המשפחה הגדולה שלך.', 'סבא יורם ומילי וג׳יימי.', 'המסע בעולם של הגיבור שלנו.'];
   const fruitSymbols = {'🍎':'apple','🍇':'grape','🍊':'orange','🍓':'strawberry','🍑':'peach','🍍':'pineapple','🍌':'banana','🍒':'cherry','🥝':'kiwi','🍉':'watermelon'};
   function candy(t){
-    const symbol = t === 'fruit' ? 'assets/fruit-symbols.svg#fruit-'+fruitSymbols[level().fruit] : '#candy-'+t;
-    return '<svg class="candy-art" aria-hidden="true" viewBox="0 0 64 64"><use href="'+symbol+'" xlink:href="'+symbol+'"></use></svg>';
+    const sprite=t==='fruit'?'fruit-'+fruitSymbols[level().fruit]:t;
+    return '<img class="candy-art" src="assets/blender/'+sprite+'.webp" alt="" aria-hidden="true" draggable="false">';
   }
-
-  // Each collected target adds one ink mark to an original symbolic keepsake.
-  // These are graphic metaphors, never a claim to depict an actual place.
-  const motifs = ['roots','football','doors','foundation','morning','shelter','father','gathering','grandpa','travel'];
-  const keepsakeLines = ['כל לב מוסיף עלה לעץ השורשים.', 'כל כדור מוסיף פס לצעיף האדום.', 'כל פרי מוסיף דלת לדרך.', 'כל מגן מוסיף אבן לבסיס.', 'כל אור מוסיף קרן לבוקר.', 'כל מגן מוסיף חלק לגג המגן.', 'כל לב מוסיף קורה לספסל שבאיור.', 'כל לב מוסיף רקמה לשולחן המשפחתי.', 'כל פרי מצטרף לקערות של מילי וג׳יימי.', 'כל מטוס מוסיף קטע לדרך שבמפה.'];
-  function keepsakeMarkup(index, amount, complete){
-    const lv=LEVELS[index], earned=Math.min(lv.count,Math.max(0,amount));
-    let base='', foreground='', marks=[];
-    const mark=function(shape,i){return '<g class="motif-mark" data-earned="'+(i<earned)+'">'+shape+'</g>';};
-    if(index===0){
-      base='<path d="M120 87V42 M120 68L88 49 M120 58L149 36 M120 45L105 26 M120 83L104 94 M120 83L140 94"/>';
-      const points=[[79,42],[96,51],[99,22],[114,31],[131,24],[150,29],[141,49],[162,45]];
-      marks=points.map(function(p,i){return mark('<ellipse cx="'+p[0]+'" cy="'+p[1]+'" rx="12" ry="6" transform="rotate('+ (i%2?32:-32)+' '+p.join(' ')+')"/>',i);});
-    }else if(index===1){
-      base='<path d="M77 28L106 35 87 94 59 85Z M130 34L155 26 182 85 154 98Z" fill="#eadcc9" stroke="#9a5d4a"/><path d="M77 13Q117-2 155 20L148 43Q112 25 78 40Z" fill="#a45447" stroke="#834638"/><path d="M81 19Q116 9 150 25 M79 33Q115 19 148 36" stroke="#e6bfab" stroke-width="1.2"/><path d="M61 87l-3 9M67 89l-3 9M73 91l-3 9M79 93l-3 9M85 95l-3 9 M155 100l4 8M161 97l4 8M168 94l4 8M175 91l4 8M181 88l4 8" stroke="#923e33" stroke-width="2"/>';
-      for(let i=0;i<10;i++){
-        const n=Math.floor(i/2),left=i%2===0,x=left?76-n*3.3:136+n*4.4,y=left?41+n*9:42+n*9;
-        const shape=left ? 'M'+x+' '+y+'l26 8-2 6-26-8z' : 'M'+x+' '+y+'l24-9 3 6-24 10z';
-        marks.push(mark('<path d="'+shape+'"/><path d="M'+(x+3)+' '+(y+2)+'l'+(left?'19 6':'18-6')+'" fill="none" stroke="#f4e8d6" stroke-width=".65" opacity=".6"/>',i));
-      }
-    }else if(index===2){
-      base='<path stroke-dasharray="2 4" d="M17 48H217Q234 48 234 57T217 105H17" stroke="#b49e78"/>';
-      for(let i=0;i<12;i++){
-        const x=15+(i<6?i:11-i)*36,y=i<6?7:62;
-        base+='<path d="M'+x+' '+(y+36)+'v-32q12-8 24 0v32 M'+(x-2)+' '+(y+37)+'h28 M'+(x-3)+' '+(y+40)+'h30" stroke="#9f8b70"/>';
-        marks.push(mark('<path d="M'+(x+3)+' '+(y+6)+'h18v30h-18z"/><path d="M'+(x+6)+' '+(y+10)+'h12v9h-12z M'+(x+6)+' '+(y+23)+'h12v9h-12z" fill="none" stroke="#e9dfc8" stroke-width=".85"/><circle cx="'+(x+18)+'" cy="'+(y+21)+'" r="1.4" fill="#b78d42" stroke="#775d30" stroke-width=".4"/>',i));
-      }
-    }else if(index===3){
-      base='<path d="M12 99Q118 94 228 99" stroke="#82735d" stroke-width="2"/>';
-      // Laid from the ground up. Unequal lengths break the vertical mortar joints.
-      const joints=[[18,65,123,174,222],[18,91,140,185,222],[18,55,112,161,222]];
-      for(let i=0;i<12;i++){
-        const row=Math.floor(i/4),col=i%4,x=joints[row][col]+1,w=joints[row][col+1]-x-2,y=75-row*25;
-        marks.push(mark('<path d="M'+(x+3)+' '+y+'l'+(w-6)+' -1 3 4-1 17-'+(w-4)+' 1-3-4z"/><path d="M'+(x+5)+' '+(y+4)+'l'+(w-11)+' -1 M'+(x+6)+' '+(y+17)+'l'+(w-13)+' 1" fill="none" stroke="#fff9e7" stroke-width="1" opacity=".55"/>',i));
-      }
-    }else if(index===4){
-      base='<path d="M35 91H205 M77 91a43 43 0 0 1 86 0 M113 91V66 M126 91V66"/>';
-      for(let i=0;i<12;i++){const a=Math.PI+i*Math.PI/11,x=120+Math.cos(a)*59,y=91+Math.sin(a)*59,x2=120+Math.cos(a)*78,y2=91+Math.sin(a)*78;marks.push(mark('<path d="M'+x+' '+y+'L'+x2+' '+y2+'" stroke-width="5"/>',i));}
-    }else if(index===5){
-      base='<path d="M25 50V99H215V50" stroke-width="3"/><path d="M41 74l23-18 23 18v24H41z M97 69l23-18 23 18v29H97z M153 74l23-18 23 18v24h-46z" fill="#fffcf5" stroke="#8b836c"/><path d="M59 98V82h10v16 M115 98V77h10v21 M171 98V82h10v16" stroke="#7e755f"/>';
-      const roofY=x=>10+Math.abs(120-x)*.32;
-      for(let i=0;i<15;i++){
-        const x=15+i*14,x2=x+14,y=roofY(x),y2=roofY(x2);
-        const peak=i===7?'L120 10':'';
-        marks.push(mark('<path d="M'+x+' '+y+peak+'L'+x2+' '+y2+'V'+(y2+12)+(i===7?'L120 22':'')+'L'+x+' '+(y+12)+'Z"/>',i));
-      }
-      foreground='<path d="M15 55.6L120 22 225 55.6" fill="none" stroke="#74674f" stroke-width="1.5"/>';
-    }else if(index===6){
-      base='<path d="M36 18V98 M204 18V98 M27 78l-5 24 M213 78l5 24 M24 82H216" stroke="#6b6552" stroke-width="4"/>';
-      for(let i=0;i<15;i++){
-        if(i<5)marks.push(mark('<rect x="30" y="'+(17+i*8)+'" width="180" height="6.5" rx="1.2"/>',i));
-        else{const x=30+(i-5)*18;marks.push(mark('<path d="M'+x+' 62h17l'+((x-120)/16)+' 17h-19z"/>',i));}
-      }
-      foreground='<path d="M16 57h28v8H16z M196 57h28v8h-28z" fill="#867452" stroke="#68593f"/><g fill="#fff8e9" stroke="#a39478"><rect x="46" y="22" width="58" height="32" rx="2"/><rect x="136" y="22" width="58" height="32" rx="2"/></g><text x="75" y="46" text-anchor="middle">שי</text><text x="165" y="46" text-anchor="middle">גלי</text>';
-    }else if(index===7){
-      base='<rect x="25" y="21" width="190" height="68" rx="32"/><ellipse cx="120" cy="55" rx="43" ry="20"/><path d="M87 55H153 M120 40V70"/>';
-      for(let i=0;i<18;i++){let a=i*Math.PI*2/18,x=120+Math.cos(a)*82,y=55+Math.sin(a)*25;marks.push(mark('<path d="M'+(x-3)+' '+y+'l3-4 3 4-3 4z"/>',i));}
-    }else if(index===8){
-      base='<ellipse cx="60" cy="67" rx="46" ry="12" fill="#d8c6a3"/><ellipse cx="180" cy="67" rx="46" ry="12" fill="#d8c6a3"/>';
-      const fruitPlaces=[[28,57],[48,61],[69,62],[89,57],[37,40],[59,43],[80,39],[49,24],[70,23]];
-      for(let i=0;i<18;i++){
-        const p=fruitPlaces[i%9],x=p[0]+(i<9?0:120),y=p[1],kind=i%3;
-        const shape=kind===0 ? '<path d="M0-6C-14-15-15 8-3 10Q0 8 3 10C15 8 14-15 0-6Z"/>' : kind===1 ? '<path d="M-4-9Q-9-1-10 3C-13 16 13 16 10 3Q5-3 4-9Z"/>' : '<circle cy="2" r="10"/>';
-        marks.push(mark('<g transform="translate('+x+' '+y+')" style="--fruit-ink:'+['#a65443','#8b954d','#cb943c'][kind]+'">'+shape+'<path d="M0-7q-2-6 2-8 M1-10q6-5 8-1q-3 4-8 1" fill="none" stroke="#646b40" stroke-width="1.4"/><path d="M-6 0q-2 4 1 6" fill="none" stroke="#fff7e1" stroke-width="1"/></g>',i));
-      }
-      foreground='<path d="M14 65Q60 78 106 65Q100 91 60 91Q20 91 14 65Z M134 65Q180 78 226 65Q220 91 180 91Q140 91 134 65Z" fill="#c38e6b" stroke="#815b45" stroke-width="1.5"/><path d="M22 72Q60 83 98 72 M142 72Q180 83 218 72" fill="none" stroke="#f5e5c7" stroke-width="2"/><g fill="#fff8e9" stroke="#a39478" stroke-width=".7"><rect x="25" y="61" width="70" height="32" rx="3"/><rect x="145" y="61" width="70" height="32" rx="3"/></g><text x="60" y="85" text-anchor="middle">מילי</text><text x="180" y="85" text-anchor="middle">ג׳יימי</text>';
-    }else{
-      base='<path d="M10 18L80 8 158 20 230 9V91L158 103 80 91 10 102Z" fill="#fff7e6" stroke="#98866b"/><path d="M80 8V91 M158 20V103" stroke="#cfbea0"/><path d="M22 30l18-7 14 9-7 15-21 3z M95 20l31 7 9 21-13 12-23-9z M171 57l21-19 23 8-2 24-28 12z" fill="#d8dfc5" stroke="#b1bb98"/><path d="M18 87q16-9 33-6 M174 25l23-3" stroke="#d1c2a2"/>';
-      const routePoint=n=>[24+n*9.5,60-Math.sin(n/20*Math.PI*2.3)*23];
-      for(let i=0;i<20;i++){
-        const a=routePoint(i),b=routePoint(i+1);
-        marks.push(mark('<path d="M'+a.join(' ')+'L'+b.join(' ')+'" fill="none" stroke-width="3.5"/>',i));
-      }
-      const point=routePoint(earned);
-      foreground='<g transform="translate('+(point[0]-9)+' '+(point[1]-9)+') rotate(35 9 9)"><path d="M8 0h2v7l8 5v2l-8-3v5l3 2v1l-4-1-4 1v-1l3-2v-5l-8 3v-2l8-5z" fill="#923e33" stroke="#fff8e9" stroke-width=".7"/></g>';
-    }
-    const image='assets/scenes/chapter-'+String(index+1).padStart(2,'0')+'.jpg';
-    return '<div class="keepsake-view" data-object="'+motifs[index]+'" style="--reveal:'+(0.25+0.75*earned/lv.count).toFixed(3)+'"><div class="scene-window"><img '+(complete?'':'id="board-scene" ')+'src="'+image+'" alt=""></div><svg class="motif-svg" data-motif="'+motifs[index]+'" viewBox="0 0 240 110" role="img" aria-label="'+earned+' מתוך '+lv.count+' פרטים במזכרת"><g class="motif-base">'+base+'</g>'+marks.join('')+foreground+'</svg></div>';
+  const motifs=['roots','football','doors','foundation','morning','shelter','father','gathering','grandpa','travel'];
+  const keepsakeLines=['כל לב מצמיח ענף בעץ השורשים.','כל כדור מצרף חלק לצעיף האדום.','כל ארבעה פירות פותחים דלת; בדרך אליה, הסימן שלידה מתמלא.','כל מגן מצרף אבן לקשת שנבנית.','כל אור פותח עוד חלק בחלון הבוקר.','כל מגן מוסיף קורה לגג המגן.','כל לב מצרף קורה לספסל שבאיור.','כל לב מצרף פרט לשולחן המשפחתי.','כל פרי מצטרף לשתי קערות הפירות.','כל מטוס ממשיך את הדרך שבמפה.'];
+  function worldSource(index,amount){return 'assets/blender/world-'+(index+1)+'-'+Math.min(LEVELS[index].count,Math.max(0,amount))+'.webp';}
+  function keepsakeMarkup(index,amount,complete){
+    const lv=LEVELS[index],earned=Math.min(lv.count,Math.max(0,amount)),partial=index===2?earned%4:0;
+    const people=index===6?['שי','גלי']:index===8?['מילי','ג׳יימי']:[];
+    const labels=people.length?'<div class="world-names">'+people.map(name=>'<span>'+name+'</span>').join('')+'</div>':'';
+    const cue=partial?'<span class="door-progress" style="--cue-x:'+([27,50,73][Math.floor(earned/4)])+'%" aria-label="'+partial+' מתוך 4 בדרך לדלת הבאה">'+partial+' / 4</span>':'';
+    return '<div class="world-view" data-object="'+motifs[index]+'" data-earned="'+earned+'" data-partial="'+partial+'" data-complete="'+(earned===lv.count)+'" role="img" aria-label="איור סמלי: '+earned+' מתוך '+lv.count+' פרטים שנאספו"><img '+(complete?'':'id="board-scene" ')+'src="'+worldSource(index,earned)+'" alt="">'+cue+labels+'</div>';
+  }
+  function rewardKeepsakeMarkup(index){
+    if(index===2)return keepsakeMarkup(index,LEVELS[index].count,true);
+    const people=index===6?['שי','גלי']:index===8?['מילי','ג׳יימי']:[];
+    return people.length?'<div class="reward-names">'+people.map(name=>'<span>'+name+'</span>').join('')+'</div>':'';
+  }
+  function preloadChapter(index){
+    const paths=Array.from({length:LEVELS[index].count+1},(_,n)=>worldSource(index,n));
+    paths.push('assets/blender/reward-'+(index+1)+'.webp','assets/blender/fruit-'+fruitSymbols[LEVELS[index].fruit]+'.webp');
+    for(const src of paths){const image=new Image();image.src=src;image.decode().catch(()=>{});}
   }
   function updateKeepsake(){
     el('board-keepsake').innerHTML=keepsakeMarkup(state.levelIndex,state.collected,false);
@@ -656,17 +523,25 @@
   function finishLevel(){
     state.collected = level().count;
     completed = Math.max(completed, state.levelIndex + 1);
-    state.busy = false;
     state.pending = false;
     saveProgress();
-    if (state.levelIndex === LEVELS.length-1){ showFinale(); }
-    else { showHeroCard(); }
+    const reveal=function(){
+      if(reveal.done)return;reveal.done=true;state.busy=false;
+      el('btn-view-reward').hidden=true;el('btn-view-reward').onclick=null;
+      if(state.levelIndex===LEVELS.length-1)showFinale();else showHeroCard();
+    };
+    if(el('screen-board').classList.contains('active')){
+      state.busy=true;updateCounter();el('btn-view-reward').hidden=false;
+      el('btn-view-reward').onclick=reveal;
+      // A static, skippable look at the exact earned pose, not a long animation.
+      el('board-scene').decode().catch(()=>{}).then(()=>setTimeout(reveal,900));
+    }else reveal();
   }
 
   // ---- level screens ----
   function showIntro(){
     const lv = level();
-    el('intro-scene').src = 'assets/scenes/chapter-'+String(state.levelIndex+1).padStart(2,'0')+'.jpg';
+    el('intro-scene').src=worldSource(state.levelIndex,0);preloadChapter(state.levelIndex);
     el('intro-number').textContent='פרק '+(state.levelIndex+1)+' מתוך 10';
     el('intro-goal').innerHTML=candy(lv.target)+'<span>אוספים '+lv.count+' '+goalNames[lv.target]+'</span>';
     el('intro-keepsake-line').textContent=keepsakeLines[state.levelIndex];
@@ -678,18 +553,34 @@
     show('screen-intro');
   }
 
-  function showBoard(){
+  async function showBoard(){
     const lv = level();
     el('btn-album-board').hidden = completed === 0;
     if (state.collected >= lv.count){ finishLevel(); return; }
     if (!state.board) state.board = E.makeBoard(lv.target);
     state.selected = null; state.busy = state.pending;
     saveProgress();
-    renderBoardScreen();
+    renderBoardScreen(false);
+    const play=el('btn-play');play.disabled=true;state.busy=true;delete play.dataset.loadError;
+    const label=play.textContent;play.textContent='טוענים את הסמלים…';
+    try{
+      await Promise.all([...grid.querySelectorAll('img'),el('board-scene')].map(async function(image){
+        try{await image.decode();}
+        catch(first){
+          // The error event may have just replaced a failed world with its local
+          // fallback. Decode that actual inserted image, not a separate preload.
+          await new Promise(resolve=>setTimeout(resolve,0));
+          try{await image.decode();}catch(error){throw new Error(image.getAttribute('src')+': '+error.message);}
+        }
+      }));
+      show('screen-board');
+    }
+    catch(error){play.dataset.loadError=error.name+': '+error.message;play.textContent='מנסים לטעון שוב';return;}
+    finally{play.disabled=false;state.busy=!!state.pending;if(el('screen-board').classList.contains('active'))play.textContent=label;}
     if (state.pending) setTimeout(cascadeStep, 0);
   }
   // Pure view hydration: browsing history must not save, generate or resolve play.
-  function renderBoardScreen(){
+  function renderBoardScreen(showNow=true){
     const lv=level();
     el('btn-album-board').hidden=completed===0;
     el('level-label').textContent = 'שלב ' + (state.levelIndex+1) + ' מתוך ' + LEVELS.length;
@@ -697,13 +588,13 @@
     el('board-frame').classList.toggle('red', !!lv.red);
     updateCounter();
     renderBoard();
-    show('screen-board');
+    if(showNow)show('screen-board');
   }
 
   function showHeroCard(){
-    el('card-scene').src = 'assets/scenes/chapter-' + String(state.levelIndex + 1).padStart(2,'0') + '.jpg';
+    el('card-scene').src='assets/blender/reward-'+(state.levelIndex+1)+'.webp';
     el('reward-page').dataset.layout=motifs[state.levelIndex];
-    el('card-keepsake').innerHTML=keepsakeMarkup(state.levelIndex,level().count,true);
+    el('card-keepsake').innerHTML=rewardKeepsakeMarkup(state.levelIndex);
     el('card-number').textContent='פרק '+(state.levelIndex+1)+' · יורם הגיבור';
     el('card-text').textContent = level().card;
     el('card-chapter').textContent = level().name;
@@ -720,7 +611,7 @@
   function showFinale(){
     el('finale-text').textContent = LEVELS[LEVELS.length-1].card;
     el('finale-keepsake').innerHTML=keepsakeMarkup(9,20,true);
-    el('finale-montage').replaceChildren(...LEVELS.map(function(lv,i){const b=document.createElement('button');b.type='button';b.className='finale-memory';b.id='finale-memory-'+i;b.setAttribute('aria-label',lv.name);b.innerHTML='<img src="assets/scenes/chapter-'+String(i+1).padStart(2,'0')+'.jpg" alt=""><span>'+String(i+1).padStart(2,'0')+'</span>';b.addEventListener('click',function(event){showAlbum(event);showMemory(i);});return b;}));
+    el('finale-montage').replaceChildren(...LEVELS.map(function(lv,i){const b=document.createElement('button');b.type='button';b.className='finale-memory';b.id='finale-memory-'+i;b.setAttribute('aria-label',lv.name);b.innerHTML='<img src="assets/blender/reward-'+(i+1)+'.webp" alt=""><span>'+String(i+1).padStart(2,'0')+'</span>';b.addEventListener('click',function(event){showAlbum(event);showMemory(i);});return b;}));
     show('screen-finale');
 
   }
@@ -812,7 +703,7 @@
     el('album-summary').textContent = completed + ' מתוך 10 פרקים באלבום';
     el('album-entries').replaceChildren(...LEVELS.map(function(lv,i){
       const b=document.createElement('button'); b.type='button'; b.className='album-entry'; b.id='album-entry-'+i; b.disabled=i>=completed;
-      b.innerHTML=(i<completed ? '<img src="assets/scenes/chapter-'+String(i+1).padStart(2,'0')+'.jpg" alt="">' : '<span class="locked-mark" aria-hidden="true">'+String(i+1).padStart(2,'0')+'</span>') + '<span>'+lv.name+'</span><span class="album-status">'+(i<completed?'לפתיחת הפרק':'ייפתח בהמשך המסע')+'</span>';
+      b.innerHTML=(i<completed ? '<img src="assets/blender/reward-'+(i+1)+'.webp" alt="">' : '<span class="locked-mark" aria-hidden="true">'+String(i+1).padStart(2,'0')+'</span>') + '<span>'+lv.name+'</span><span class="album-status">'+(i<completed?'לפתיחת הפרק':'ייפתח בהמשך המסע')+'</span>';
       b.addEventListener('click',function(){ showMemory(i); }); return b;
     }));
   }
@@ -823,10 +714,10 @@
       navigation={...navigation,yoramView:'memory',index:i,scroll:0,focus:null};history.pushState(navigation,'');
     }
     el('memory-page').dataset.layout=motifs[i];
-    el('memory-keepsake').innerHTML=keepsakeMarkup(i,LEVELS[i].count,true);
+    el('memory-keepsake').innerHTML=rewardKeepsakeMarkup(i);
     el('memory-name').textContent=LEVELS[i].name;
     el('memory-text').textContent=LEVELS[i].card;
-    el('memory-scene').src='assets/scenes/chapter-'+String(i+1).padStart(2,'0')+'.jpg';
+    el('memory-scene').src='assets/blender/reward-'+(i+1)+'.webp';
     show('screen-memory'); document.body.dataset.chapter=String(i+1);
   }
   function restoreNavigation(raw){
