@@ -10,17 +10,15 @@
 </head>
 <body>
 <div id="app">
+  <aside id="history-notice" hidden role="status"><p id="history-message">החזרה בדפדפן מוגבלת כרגע. אפשר להמשיך ולחזור בעזרת הכפתורים במשחק.</p><button id="btn-history-retry" class="btn btn-ghost" type="button">חידוש החזרה בדפדפן</button></aside>
   <aside id="update-notice" hidden aria-label="עדכון למשחק" style="padding:16px;border:1px solid currentColor;border-radius:8px;margin-bottom:16px">
     <p id="update-message" role="status">יש עדכון למשחק. אפשר להמשיך לשחק ולעדכן כשנוח לך.</p>
     <button id="btn-update" class="btn btn-ghost" type="button">שמירה ועדכון</button>
   </aside>
   <section id="screen-home" class="screen active">
     <p class="eyebrow">עשרה פרקים. סיפור אחד שלך.</p>
-    <div class="cover">
-      <div class="cover-type"><h1>יורם<br><span class="accent-red">הגיבור</span></h1><p class="subtitle">המסע של<br>יורם פרידמן</p></div>
-      <figure class="hero-figure"><img src="assets/yoram-full-body-cutout.png" alt="יורם" onerror="this.style.display='none';document.getElementById('home-fallback').style.display='flex'"><div class="figure-fallback" id="home-fallback">יורם הגיבור</div></figure>
-    </div>
-    <img class="cover-art" src="assets/blender/cover.webp" alt="אלבום מסע מאויר">
+    <header class="cover-type"><h1>יורם <span class="accent-red">הגיבור</span></h1><p class="subtitle">המסע של יורם פרידמן</p></header>
+    <figure class="cover"><img class="cover-art" src="assets/album/chapter-10.webp" alt="יורם באיור המסע בעולם — איור השער"></figure>
     <div class="cover-bottom"><span>באהבה, מהמשפחה</span><span>בקצב שלך</span></div>
     <div class="cover-actions"><button id="btn-start" class="btn" type="button">מתחילים</button><button id="btn-album-home" class="btn btn-ghost album-open" type="button" hidden>האלבום שלך</button></div>
     <p class="symbol-note">מחברים סמלים, ובכל פרק מצטרפת מזכרת לאלבום.</p>
@@ -28,19 +26,19 @@
   <section id="screen-intro" class="screen">
     <nav class="page-nav"><button class="btn-home" type="button" aria-label="בית">בית</button><p id="intro-number" class="eyebrow"></p></nav>
     <div class="intro-leaf">
+      <header class="intro-heading"><h2 id="intro-name"></h2><p class="intro-line" id="intro-line"></p></header>
       <div class="intro-art"><img id="intro-scene" src="assets/blender/world-1-0.webp" alt="איור סמלי לפרק"><div class="intro-badge" id="intro-badge"></div></div>
-      <h2 id="intro-name"></h2><p class="intro-line" id="intro-line"></p>
       <p class="intro-goal" id="intro-goal"></p><p id="intro-keepsake-line"></p>
-      <button id="btn-play" class="btn" type="button">שחק</button>
+      <p id="intro-rule" class="guide">נוגעים בסמל ואחריו בשכן שלו, כדי ליצור שורה של 3 זהים.</p>
+      <button id="btn-play" class="btn" type="button" aria-describedby="intro-rule">שחק</button>
     </div>
     <p class="symbol-note">האיורים מלווים את הסיפור; הם אינם תמונות של המקומות או המשפחה.</p>
   </section>
   <section id="screen-board" class="screen">
-    <div class="board-heading"><button class="btn-home" type="button" aria-label="בית">בית</button><div class="board-heading-copy"><p class="level-label" id="level-label"></p><h2 class="board-name" id="board-name"></h2></div><img class="board-avatar" src="assets/yoram-portrait-cutout.png" alt="יורם"></div>
+    <div class="board-heading"><button class="btn-home" type="button" aria-label="בית">בית</button><div class="board-heading-copy"><p class="level-label" id="level-label"></p><h2 class="board-name" id="board-name"></h2></div></div>
     <div class="play-spread">
-      <aside class="story-side" aria-label="המזכרת של הפרק"><div id="board-keepsake"></div><p id="keepsake-line" class="keepsake-line"></p></aside>
+      <aside class="story-side" aria-label="המזכרת והיעד של הפרק"><p class="counter" id="counter" aria-live="polite"></p><p id="keepsake-line" class="keepsake-line"></p><div id="board-keepsake"></div></aside>
       <div class="play-side">
-        <p class="counter" id="counter" aria-live="polite"></p>
         <div class="board-frame" id="board-frame"><div class="board" id="grid"></div></div>
         <button id="btn-view-reward" class="btn" type="button" hidden>למזכרת שלך</button><div class="board-actions"><button id="btn-hint" class="btn btn-ghost" type="button">רמז</button><button id="btn-album-board" class="btn btn-ghost album-open" type="button">אלבום</button></div>
         <p class="guide">נוגעים בסמל ואחריו בשכן שלו, כדי ליצור שורה של 3 זהים.</p>
@@ -52,17 +50,18 @@
   <section id="screen-card" class="screen">
     <nav class="page-nav"><button class="btn-home" type="button" aria-label="בית">בית</button><span class="eyebrow">נוסף לאלבום שלך</span></nav>
     <article class="reward-page keepsake" id="reward-page">
-      <header class="reward-heading"><div><p class="card-title" id="card-number"></p><h2 class="chapter-name" id="card-chapter"></h2></div></header>
       <div class="reward-art"><img class="chapter-scene" id="card-scene" alt="איור סמלי לפרק"><div id="card-keepsake"></div></div>
-      <p class="card-text" id="card-text"></p><div id="reward-mark" hidden></div><div class="chapter-progress" id="chapter-progress" aria-hidden="true"></div>
+      <header class="reward-heading"><div><p class="card-title" id="card-number"></p><h2 class="chapter-name" id="card-chapter"></h2></div></header>
+      <p class="card-text" id="card-text"></p><div id="reward-mark" hidden></div><div class="chapter-progress" id="chapter-progress" aria-hidden="true" hidden></div>
       <div class="reward-actions"><button id="btn-next" class="btn" type="button">לשלב הבא</button><button id="btn-album-card" class="btn btn-ghost album-open" type="button">האלבום שלך</button></div>
     </article>
   </section>
   <section id="screen-finale" class="screen">
     <nav class="page-nav"><button class="btn-home" type="button" aria-label="בית">בית</button><span class="eyebrow">כל עשרת הפרקים, יחד</span></nav>
-    <div class="finale-heading"><div><h2>הגיבור שלנו</h2><p class="finale-text" id="finale-text"></p></div><figure class="hero-figure"><img src="assets/yoram-full-body-cutout.png" alt="יורם"><div class="figure-fallback" id="finale-fallback">יורם</div></figure></div>
-    <img class="ending-art" alt="איור לפרק המסע בעולם"><div id="finale-keepsake"></div><div id="finale-montage" class="finale-montage" aria-label="עשרת פרקי המסע"></div>
+    <header class="finale-heading"><h2>הגיבור שלנו</h2></header>
+    <img class="ending-art" hidden alt="איור לפרק המסע בעולם"><p class="finale-text" id="finale-text"></p><div id="finale-keepsake"></div>
     <p>הסיפור שלך נשאר כאן. אפשר לפתוח כל פרק, מתי שרוצים.</p>
+    <div id="finale-montage" class="finale-montage" aria-label="עשרת פרקי המסע"></div>
     <div class="finale-actions"><button id="btn-album-finale" class="btn album-open" type="button">פותחים את האלבום</button><button id="btn-replay" class="btn btn-ghost" type="button">שחק שוב</button></div>
     <p class="symbol-note">משחק חוזר לא מוחק את האלבום.</p>
   </section>
@@ -278,26 +277,113 @@
   const el = function(id){ return document.getElementById(id); };
   // A locally embedded illustration is visible while chapter art loads and if it fails.
   const sceneFallback = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420"><rect width="800" height="420" fill="#f6e5c9"/><circle cx="620" cy="90" r="48" fill="#f3c96b"/><path d="M0 305 Q190 155 400 305 Q600 160 800 285 V420 H0Z" fill="#c4d5b0"/><path d="M0 355 Q215 235 420 355 Q600 275 800 335 V420 H0Z" fill="#9eb98c"/><path d="M400 290 C355 250 300 300 400 365 C500 300 445 250 400 290Z" fill="#c95b4d"/></svg>');
-  function prepareScenes(){
-    document.querySelectorAll('img[src*="assets/blender/world-"],img.chapter-scene,img.ending-art').forEach(function(image){
-      image.style.backgroundImage='url("'+sceneFallback+'")';
-      image.style.backgroundSize='cover';
+  const imageReadiness=new WeakMap();
+  function imageReady(image){
+    const source=image.getAttribute('src');
+    if(!source)return Promise.resolve();
+    const prior=imageReadiness.get(image);
+    if(prior && (source===prior.source || source===prior.fallback))return prior.ready;
+    const fallback=image.dataset.fallback || sceneFallback;
+    const job={source:source,fallback:fallback,ready:null};
+    imageReadiness.set(image,job);
+    const placeholder=image.cloneNode(false);
+    placeholder.src=fallback;
+    imageReadiness.set(placeholder,job);
+    const current=()=>imageReadiness.get(image)===job && imageReadiness.get(placeholder)===job &&
+      [source,fallback].includes(image.getAttribute('src')) && placeholder.getAttribute('src')===fallback;
+    // Preserve the original element's one request. At the deadline a local
+    // image takes its place; late decode may replace only that same placeholder.
+    image.style.backgroundImage=image.complete && image.naturalWidth ? 'none' : 'url("'+fallback+'")';
+    image.style.backgroundSize=image.dataset.fallback?'contain':'cover';
+    image.style.backgroundRepeat='no-repeat';image.style.backgroundPosition='center';
+    const decoded=(async function(){
+      try{await image.decode();}
+      catch(error){
+        if(!current())return;
+        // WebKit can reject decode before dispatching the error event, including
+        // after the original image was detached at the readiness deadline.
+        recoverImage(image);
+        try{await image.decode();}catch(error){return;}
+      }
+      if(!current())return;
+      image.style.backgroundImage='none';
+      if(placeholder.isConnected)placeholder.replaceWith(image);
+    })();
+    job.ready=new Promise(function(resolve){
+      const timer=setTimeout(function(){
+        if(current() && image.isConnected)image.replaceWith(placeholder);
+        resolve();
+      },1500);
+      decoded.then(function(){clearTimeout(timer);resolve();});
     });
+    return job.ready;
   }
-  document.addEventListener('error',function(event){
-    const image=event.target;
-    if(!(image instanceof HTMLImageElement))return;
-    if(image.dataset.fallback && !image.src.startsWith('data:')) image.src=image.dataset.fallback;
-    else if(/assets\/(blender\/(world-|reward-)|album\/)/.test(image.getAttribute('src')||'')) image.src=sceneFallback;
+  function prepareScenes(){
+    document.querySelectorAll('img[src]').forEach(imageReady);
+  }
+  document.addEventListener('load',function(event){
+    if(event.target instanceof HTMLImageElement) event.target.style.backgroundImage='none';
   },true);
+  function recoverImage(image){
+    if(!(image instanceof HTMLImageElement) || image.src.startsWith('data:'))return;
+    if(image.dataset.fallback)image.src=image.dataset.fallback;
+    else if(/assets\/(blender\/(world-|reward-)|album\/)/.test(image.getAttribute('src')||''))image.src=sceneFallback;
+  }
+  document.addEventListener('error',function(event){recoverImage(event.target);},true);
   prepareScenes();
   const grid = el('grid');
 
-  const state = { levelIndex:0, collected:0, board:null, selected:null, busy:false, started:false, pending:false, cascadeSeen:[] };
+  const state = { levelIndex:0, collected:0, board:null, selected:null, busy:false, started:false, pending:false, cascadeSeen:[], completionStage:null };
 
   let completed = 0, restoringView = false;
   const homeOrigin = function(){return {screen:'screen-home',chapter:null,opener:'btn-album-home',scroll:0};};
   let navigation = {navVersion:1,yoramView:'game',origin:homeOrigin(),scroll:0,focus:null};
+  // Native history is a bounded transport, not the view's source of truth.
+  // A per-tab journal retains scroll/focus and refused pushes. Under an API
+  // refusal in-game Back remains usable; browser traversal can only visit entries
+  // the browser actually accepted. No automatic retry queue or phantom entries.
+  const VIEW_KEY='yoram-view-v2';
+  let viewTimer=0, historyWrites=[], historyBlockedUntil=0, virtualBack=[], traversalTimer=0, pendingTraversal=null;
+  let entryId=history.state?.entryId || 'unwritten';
+  let viewJournal={};
+  try{const saved=JSON.parse(sessionStorage.getItem(VIEW_KEY));if(saved && saved.entries && typeof saved.entries==='object')viewJournal=saved.entries;
+    if(saved?.anchor===entryId && Array.isArray(saved.back))virtualBack=saved.back.slice(-32);
+  }catch(error){/* Per-tab storage is optional; live navigation remains available. */}
+  function copyView(view){return JSON.parse(JSON.stringify(view));}
+  function journalView(){
+    viewJournal[entryId]=copyView(navigation);
+    const keys=Object.keys(viewJournal);for(const key of keys.slice(0,Math.max(0,keys.length-64)))delete viewJournal[key];
+    try{sessionStorage.setItem(VIEW_KEY,JSON.stringify({entries:viewJournal,anchor:entryId,back:virtualBack}));}catch(error){
+      el('history-notice').hidden=false;
+      el('history-message').textContent='הדפדפן לא מאפשר לשמור את מקום הקריאה. אפשר להמשיך ולחזור בעזרת הכפתורים במשחק.';
+    }
+  }
+  function writeHistory(mode='replace',previous=null){
+    clearTimeout(viewTimer);viewTimer=0;
+    const now=Date.now();historyWrites=historyWrites.filter(t=>now-t<10000);
+    const proposed=mode==='push'?'entry-'+now+'-'+Math.random():entryId;
+    let accepted=false;
+    if(now>=historyBlockedUntil && historyWrites.length<60 && virtualBack.length===0){
+      try{historyWrites.push(now);history[mode==='push'?'pushState':'replaceState']({...navigation,entryId:proposed},'');accepted=true;entryId=proposed;}
+      catch(error){historyBlockedUntil=now+11000;}
+    }
+    if(!accepted){
+      if(mode==='push' && previous)virtualBack.push(copyView(previous));
+      virtualBack=virtualBack.slice(-32);
+      el('history-notice').hidden=false;
+    }
+    journalView();return accepted;
+  }
+  function backView(){
+    rememberView();
+    if(virtualBack.length){const previous=virtualBack.pop();restoreNavigation(previous);journalView();}
+    else history.back();
+  }
+  function rememberedNavigation(raw){
+    // Unstamped/invalid entries must never inherit an unrelated journal record.
+    if(!raw && entryId==='unwritten' && virtualBack.length)return viewJournal[entryId];
+    return raw?.entryId && Object.hasOwn(viewJournal,raw.entryId) ? viewJournal[raw.entryId] : raw;
+  }
   function level(){ return LEVELS[state.levelIndex]; }
   function emojiFor(t, lv){ return t === 'fruit' ? lv.fruit : EMOJI[t]; }
   function targetEmoji(lv){ return lv.target === 'fruit' ? lv.fruit : EMOJI[lv.target]; }
@@ -318,7 +404,7 @@
     const lv=LEVELS[index],earned=Math.min(lv.count,Math.max(0,amount)),partial=index===2?earned%4:0;
     const people=index===6?['שי','גלי']:index===8?['מילי','ג׳יימי']:[];
     const labels=people.length?'<div class="world-names">'+people.map(name=>'<span>'+name+'</span>').join('')+'</div>':'';
-    const cue=partial?'<span class="door-progress" style="--cue-x:'+([27,50,73][Math.floor(earned/4)])+'%" aria-label="'+partial+' מתוך 4 בדרך לדלת הבאה">'+partial+' / 4</span>':'';
+    const cue=partial?'<span class="door-progress" style="--cue-x:'+([27,50,73][Math.floor(earned/4)])+'%" aria-label="'+partial+' מתוך 4 בדרך לדלת הבאה">'+partial+' / 4 לדלת</span>':'';
     return '<div class="world-view" data-object="'+motifs[index]+'" data-earned="'+earned+'" data-partial="'+partial+'" data-complete="'+(earned===lv.count)+'" role="img" aria-label="איור סמלי: '+earned+' מתוך '+lv.count+' פרטים שנאספו"><img '+(complete?'':'id="board-scene" ')+'src="'+worldSource(index,earned)+'" alt="">'+cue+labels+'</div>';
   }
   function rewardKeepsakeMarkup(index){
@@ -338,12 +424,13 @@
 
   // ---- screens ----
   function show(id){
+    cancelBoardLoad();
     document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
     el('confetti').replaceChildren();
     el(id).classList.add('active');
     if(!restoringView && id!=='screen-album' && id!=='screen-memory'){
       navigation={navVersion:1,yoramView:'game',origin:homeOrigin(),scroll:0,focus:null};
-      history.replaceState(navigation,'');
+      writeHistory();
     }
     prepareScenes();
     if (id === 'screen-home') delete document.body.dataset.chapter;
@@ -355,7 +442,7 @@
 
   // ---- progress ----
   function saveProgress(){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ version:2, completed:completed, levelIndex:state.levelIndex, collected:state.collected, board:state.board, pending:state.pending, cascadeSeen:state.cascadeSeen })); return true; }catch(e){ return false; }
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ version:2, completed:completed, levelIndex:state.levelIndex, collected:state.collected, board:state.board, pending:state.pending, cascadeSeen:state.cascadeSeen, ...(state.completionStage?{completionStage:state.completionStage}:{}) })); return true; }catch(e){ return false; }
   }
   function loadProgress(){
     try{
@@ -413,6 +500,7 @@
         grid.appendChild(cell);
       }
     }
+    prepareScenes();
   }
 
   function updateCounter(){
@@ -424,7 +512,7 @@
 
   // ---- input ----
   function onCellTap(r,c){
-    if (state.busy) return;
+    if (state.busy || state.collected>=level().count) return;
     grid.querySelectorAll('.hint').forEach(function(cell){cell.classList.remove('hint');});
     const sel = state.selected;
     if (!sel){ state.selected = {r:r,c:c}; markSelected(r,c,true); return; }
@@ -528,21 +616,19 @@
   }
 
   function finishLevel(){
-    state.collected = level().count;
-    completed = Math.max(completed, state.levelIndex + 1);
-    state.pending = false;
-    saveProgress();
-    const reveal=function(){
-      if(reveal.done)return;reveal.done=true;state.busy=false;
-      el('btn-view-reward').hidden=true;el('btn-view-reward').onclick=null;
-      if(state.levelIndex===LEVELS.length-1)showFinale();else showHeroCard();
-    };
-    if(el('screen-board').classList.contains('active')){
-      state.busy=true;updateCounter();el('btn-view-reward').hidden=false;
-      el('btn-view-reward').onclick=reveal;
-      // A static, skippable look at the exact earned pose, not a long animation.
-      el('board-scene').decode().catch(()=>{}).then(()=>setTimeout(reveal,900));
-    }else reveal();
+    state.collected=level().count;
+    completed=Math.max(completed,state.levelIndex+1);
+    state.pending=false;state.busy=false;state.selected=null;state.cascadeSeen=[];
+    state.completionStage='world';
+    saveProgress();renderBoardScreen();
+    navigation={navVersion:1,yoramView:'game',origin:{screen:'screen-board',chapter:state.levelIndex,opener:'btn-view-reward',scroll:0},scroll:0,focus:null};
+    writeHistory();
+    el('btn-view-reward').focus({preventScroll:true});
+  }
+  function continueReward(){
+    if(state.busy || state.collected<level().count)return;
+    state.completionStage='reward';saveProgress();
+    if(state.levelIndex===LEVELS.length-1)showFinale();else showHeroCard();
   }
 
   // ---- level screens ----
@@ -560,30 +646,34 @@
     show('screen-intro');
   }
 
+  let boardLoad=null;
+  function cancelBoardLoad(){
+    if(!boardLoad)return;
+    el('btn-play').disabled=false;el('btn-play').textContent=boardLoad.label;
+    boardLoad=null;
+  }
   async function showBoard(){
+    if(boardLoad || state.busy)return;
     const lv = level();
     el('btn-album-board').hidden = completed === 0;
-    if (state.collected >= lv.count){ finishLevel(); return; }
+    if (state.collected >= lv.count){
+      if(state.completionStage==='reward'){if(state.levelIndex===9)showFinale();else showHeroCard();}
+      else finishLevel();
+      return;
+    }
     if (!state.board) state.board = E.makeBoard(lv.target);
-    state.selected = null; state.busy = state.pending;
+    state.selected = null;
     saveProgress();
     renderBoardScreen(false);
-    const play=el('btn-play');play.disabled=true;state.busy=true;delete play.dataset.loadError;
-    const label=play.textContent;play.textContent='טוענים את הסמלים…';
-    try{
-      await Promise.all([...grid.querySelectorAll('img'),el('board-scene')].map(async function(image){
-        try{await image.decode();}
-        catch(first){
-          // The error event may have just replaced a failed world with its local
-          // fallback. Decode that actual inserted image, not a separate preload.
-          await new Promise(resolve=>setTimeout(resolve,0));
-          try{await image.decode();}catch(error){throw new Error(image.getAttribute('src')+': '+error.message);}
-        }
-      }));
-      show('screen-board');
-    }
-    catch(error){play.dataset.loadError=error.name+': '+error.message;play.textContent='מנסים לטעון שוב';return;}
-    finally{play.disabled=false;state.busy=!!state.pending;if(el('screen-board').classList.contains('active'))play.textContent=label;}
+    const play=el('btn-play'),attempt={label:play.textContent};
+    boardLoad=attempt;play.disabled=true;play.textContent='טוענים את הסמלים…';
+    // Loading is not an accepted turn. Home/history may cancel it even when
+    // an earlier saved turn is waiting to resume; pending stays saved unchanged.
+    await Promise.all([...grid.querySelectorAll('img'),el('board-scene')].map(imageReady));
+    if(boardLoad!==attempt)return;
+    cancelBoardLoad();
+    show('screen-board');
+    state.busy=!!state.pending;
     if (state.pending) setTimeout(cascadeStep, 0);
   }
   // Pure view hydration: browsing history must not save, generate or resolve play.
@@ -594,7 +684,11 @@
     el('board-name').textContent = lv.name;
     el('board-frame').classList.toggle('red', !!lv.red);
     updateCounter();
-    renderBoard();
+    const earned=state.collected>=lv.count;
+    el('screen-board').classList.toggle('world-complete',earned);
+    el('board-frame').hidden=earned;el('btn-hint').hidden=earned;
+    el('btn-view-reward').hidden=!earned;
+    if(state.board)renderBoard();else grid.replaceChildren();
     if(showNow)show('screen-board');
   }
 
@@ -619,14 +713,16 @@
     el('finale-text').textContent = LEVELS[LEVELS.length-1].card;
     el('finale-keepsake').replaceChildren();
     document.querySelector('.ending-art').src=albumSource(9);
-    el('finale-montage').replaceChildren(...LEVELS.map(function(lv,i){const b=document.createElement('button');b.type='button';b.className='finale-memory';b.id='finale-memory-'+i;b.setAttribute('aria-label',lv.name);b.innerHTML='<img src="'+albumSource(i)+'" alt=""><span>'+String(i+1).padStart(2,'0')+'</span>';b.addEventListener('click',function(event){showAlbum(event);showMemory(i);});return b;}));
+    const paintings=LEVELS.map(function(lv,i){const b=document.createElement('button');b.type='button';b.className='finale-memory';b.id='finale-memory-'+i;b.setAttribute('aria-label',lv.name);b.innerHTML='<img src="'+albumSource(i)+'" alt=""><span>'+String(i+1).padStart(2,'0')+' · '+lv.name+'</span>';b.addEventListener('click',function(event){showAlbum(event);showMemory(i);});return b;});
+    const collection=document.createElement('div');collection.className='finale-collection';collection.append(...paintings.slice(0,9));
+    el('finale-montage').replaceChildren(collection,paintings[9]);
     show('screen-finale');
 
   }
 
   function advance(){
     state.levelIndex++;
-    state.collected = 0;
+    state.collected = 0;state.completionStage=null;
     state.board = null;
     state.pending = false;
     saveProgress();
@@ -640,7 +736,7 @@
   }
 
   function hint(){
-    if (state.busy) return;
+    if (state.busy || state.collected>=level().count) return;
     let mv = E.findMove(state.board);
     if (!mv){
       state.board = E.shuffleBoard(level().target);
@@ -658,6 +754,7 @@
   function hydrateProgress(p){
     if(!p) return;
     state.levelIndex=p.levelIndex; completed=p.completed; state.collected=p.collected;
+    state.completionStage=p.collected>=LEVELS[p.levelIndex].count ? (p.completionStage==='reward'?'reward':'world') : null;
     const valid=validBoard(p.board);
     state.pending=!!(valid && p.pending);
     state.cascadeSeen=state.pending && Array.isArray(p.cascadeSeen) ? p.cascadeSeen.slice(0,128) : [];
@@ -665,7 +762,7 @@
   }
   function safeScroll(value){return Number.isFinite(value) && value>=0 && value<=1000000 ? value : 0;}
   function safeFocus(value){
-    return typeof value==='string' && /^(btn-album-(home|board|card|finale)|album-entry-[0-9]|finale-memory-[0-9])$/.test(value) ? value : null;
+    return typeof value==='string' && /^(btn-view-reward|btn-album-(home|board|card|finale)|album-entry-[0-9]|finale-memory-[0-9])$/.test(value) ? value : null;
   }
   function validatedNavigation(raw){
     const fallback={navVersion:1,yoramView:'game',origin:homeOrigin(),scroll:0,focus:null};
@@ -674,9 +771,9 @@
     if(!o || !['screen-home','screen-board','screen-card','screen-finale'].includes(o.screen))return fallback;
     let origin=homeOrigin();
     const same=o.chapter===state.levelIndex;
-    const stable=state.board && !state.pending && !E.hasMatch(state.board) && E.findMove(state.board);
+    const stable=!state.pending && ((state.collected>=level().count && state.completionStage==='world') || (state.board && !E.hasMatch(state.board) && E.findMove(state.board)));
     const allowed=o.screen==='screen-home' || (same && (
-      (o.screen==='screen-board' && stable && state.collected<level().count) ||
+      (o.screen==='screen-board' && stable) ||
       (o.screen==='screen-card' && state.levelIndex<9 && state.collected>=level().count && completed>state.levelIndex) ||
       (o.screen==='screen-finale' && state.levelIndex===9 && state.collected>=level().count && completed===10)));
     if(allowed)origin={screen:o.screen,chapter:o.screen==='screen-home'?null:o.chapter,opener:safeFocus(o.opener),scroll:safeScroll(o.scroll)};
@@ -695,16 +792,17 @@
       navigation.scroll=safeScroll(window.scrollY);
       const focus=safeFocus(document.activeElement.id);
       if(focus)navigation.focus=focus;
-      history.replaceState(navigation,'');
+      journalView();
     }
   }
   function showAlbum(event){
     if(state.busy)return;
     const origin={screen:document.querySelector('.screen.active').id,chapter:state.levelIndex,opener:safeFocus((event?.currentTarget || document.activeElement).id),scroll:safeScroll(window.scrollY)};
     navigation=validatedNavigation({navVersion:1,yoramView:'game',origin:origin,scroll:origin.scroll,focus:origin.opener});
-    history.replaceState(navigation,'');
+    writeHistory();
+    const previous=copyView(navigation);
     navigation={...navigation,yoramView:'album',scroll:0,focus:null};
-    history.pushState(navigation,'');
+    writeHistory('push',previous);
     renderAlbum();show('screen-album');
   }
   function renderAlbum(){
@@ -718,8 +816,9 @@
   function showMemory(i, push = true){
     if (!Number.isInteger(i) || i<0 || i>=completed || state.busy) return;
     if(push){
-      rememberView();navigation.focus='album-entry-'+i;history.replaceState(navigation,'');
-      navigation={...navigation,yoramView:'memory',index:i,scroll:0,focus:null};history.pushState(navigation,'');
+      rememberView();navigation.focus='album-entry-'+i;writeHistory();
+      const previous=copyView(navigation);
+      navigation={...navigation,yoramView:'memory',index:i,scroll:0,focus:null};writeHistory('push',previous);
     }
     el('memory-page').dataset.layout=motifs[i];
     el('memory-keepsake').innerHTML=rewardKeepsakeMarkup(i);
@@ -730,6 +829,7 @@
   }
   function restoreNavigation(raw){
     navigation=validatedNavigation(raw);restoringView=true;
+    try{
     if(navigation.yoramView==='memory')showMemory(navigation.index,false);
     else if(navigation.yoramView==='album'){renderAlbum();show('screen-album');}
     else{
@@ -748,7 +848,8 @@
     const focus=el(navigation.focus);
     if(focus && focus.closest('.screen.active') && !focus.disabled)focus.focus({preventScroll:true});
     window.scrollTo(0,navigation.scroll);
-    history.replaceState(navigation,'');restoringView=false;
+    writeHistory();
+    }finally{restoringView=false;}
   }
 
   // ---- wiring ----
@@ -764,29 +865,47 @@
     }
   });
   el('btn-play').addEventListener('click', showBoard);
+  el('btn-view-reward').addEventListener('click',continueReward);
   el('btn-hint').addEventListener('click', hint);
   el('btn-next').addEventListener('click', advance);
   el('btn-replay').addEventListener('click', function(){
     if (state.busy) return;
-    state.levelIndex = 0; state.collected = 0; state.board = null; state.pending = false; state.selected = null; state.cascadeSeen = [];
+    state.levelIndex = 0; state.collected = 0; state.board = null; state.pending = false; state.selected = null; state.cascadeSeen = [];state.completionStage=null;
     saveProgress();
     showIntro();
   });
   document.querySelectorAll('.album-open').forEach(function(b){b.addEventListener('click',showAlbum);});
-  el('btn-album-back').addEventListener('click',function(){rememberView();history.back();});
-  el('btn-memory-back').addEventListener('click',function(){rememberView();history.back();});
+  el('btn-album-back').addEventListener('click',backView);
+  el('btn-memory-back').addEventListener('click',backView);
   history.scrollRestoration='manual';
-  window.addEventListener('pagehide',rememberView);
-  window.addEventListener('scroll',rememberView,{passive:true});
+  window.addEventListener('pagehide',function(){rememberView();writeHistory();});
+  window.addEventListener('scroll',function(){
+    if(restoringView)return;rememberView();clearTimeout(viewTimer);
+    viewTimer=setTimeout(function(){writeHistory();},700);
+  },{passive:true});
+  el('btn-history-retry').addEventListener('click',function(){
+    if(Date.now()<historyBlockedUntil)return;
+    const current=copyView(navigation),trail=virtualBack.slice();
+    if(historyWrites.filter(t=>Date.now()-t<10000).length+trail.length+1>60)return;
+    virtualBack=[];
+    if(!trail.length){if(writeHistory())el('history-notice').hidden=true;return;}
+    navigation=trail[0];
+    if(!writeHistory()){navigation=current;virtualBack=trail;journalView();return;}
+    let previous=copyView(navigation);
+    for(const view of [...trail.slice(1),current]){navigation=view;writeHistory('push',previous);previous=copyView(view);}
+    if(!virtualBack.length)el('history-notice').hidden=true;
+    journalView();
+  });
   window.addEventListener('popstate',function(event){
+    clearTimeout(viewTimer);virtualBack=[];entryId=event.state?.entryId || 'entry-'+Date.now()+'-'+Math.random();
     // A browser traversal cannot cancel an accepted move. Finish it first;
     // history hydration itself never invokes the resolver.
     if(state.busy){
-      const arrived=event.state;
-      const wait=setInterval(function(){if(!state.busy){clearInterval(wait);restoreNavigation(arrived);}},30);
+      pendingTraversal=event.state;
+      if(!traversalTimer)traversalTimer=setInterval(function(){if(!state.busy){clearInterval(traversalTimer);traversalTimer=0;restoreNavigation(rememberedNavigation(pendingTraversal));pendingTraversal=null;}},30);
       return;
     }
-    restoreNavigation(event.state);
+    restoreNavigation(rememberedNavigation(event.state));
   });
   document.querySelectorAll('.btn-home').forEach(function(b){ b.addEventListener('click', goHome); });
 
@@ -807,12 +926,12 @@
   refreshStartButton();
   // Existing game reloads still enter through Continue. Only a provenance-bearing
   // album visit restores a view; never erase that entry before validating it.
-  if(history.state?.navVersion===1)restoreNavigation(history.state);
-  else history.replaceState(navigation,'');
+  if(history.state?.navVersion===1 || (!history.state && virtualBack.length))restoreNavigation(rememberedNavigation(history.state));
+  else writeHistory();
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     // A new worker does not replace the code in an already-open document.
     // Compare versions, not just controller changes (first install is not an update).
-    const documentCache='yoram-hero-visible-update-v1';
+    const documentCache='yoram-hero-adult-folio-v3';
     let registration=null,checking=false,versionRequest=0;
     function checkVersion(){
       const worker=navigator.serviceWorker.controller;
@@ -845,7 +964,7 @@
       rememberView();
       const screen=document.querySelector('.screen.active').id;
       if(['screen-board','screen-card','screen-finale'].includes(screen)){
-        history.replaceState({navVersion:1,yoramView:'game',origin:{screen:screen,chapter:state.levelIndex,opener:null,scroll:safeScroll(window.scrollY)},scroll:0,focus:null},'');
+        navigation={navVersion:1,yoramView:'game',origin:{screen:screen,chapter:state.levelIndex,opener:null,scroll:safeScroll(window.scrollY)},scroll:0,focus:null};writeHistory();
       }
       location.reload();
     });
